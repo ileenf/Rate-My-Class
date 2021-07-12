@@ -33,17 +33,20 @@ Allows users to rate and write reviews on the classes they took. User can browse
 * User can see the detailed view for a class and write a review
 * User can write a review for a class
 * User can view the classes they reviewed in their profile
-* User can filter classes by category, professor, prereqs, college
+* User can filter classes using tags (stored in database)
+* post picture of course material
 
 **Optional Nice-to-have Stories**
 
 * User can save a list of favorited classes
 * User can input all the classes they've taken and be shown only the classes they have prereqs for
-* Users can sort by rating 
+* Users can sort by rating, department, etc 
 * Date and username is displayed on the reviews
 * Ratings show up as star symbols
 * like, dislike, save reviews
 * recently searched, datetime posted
+* filter for search
+* filter review comments for curse words
 
 ### 2. Screen Archetypes
 
