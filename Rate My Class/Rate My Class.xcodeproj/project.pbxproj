@@ -9,26 +9,30 @@
 /* Begin PBXBuildFile section */
 		A10A492F269CF2A60017DB2C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A10A492E269CF2A60017DB2C /* AppDelegate.m */; };
 		A10A4932269CF2A60017DB2C /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A10A4931269CF2A60017DB2C /* SceneDelegate.m */; };
-		A10A4935269CF2A60017DB2C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A10A4934269CF2A60017DB2C /* ViewController.m */; };
 		A10A4938269CF2A60017DB2C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A10A4936269CF2A60017DB2C /* Main.storyboard */; };
 		A10A493A269CF2A70017DB2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A10A4939269CF2A70017DB2C /* Assets.xcassets */; };
 		A10A493D269CF2A70017DB2C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A10A493B269CF2A70017DB2C /* LaunchScreen.storyboard */; };
 		A10A4940269CF2A70017DB2C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A10A493F269CF2A70017DB2C /* main.m */; };
+		A19D8868269CFA8400F181F1 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D8867269CFA8400F181F1 /* LoginViewController.m */; };
+		FCD1B68A57E4B30DA538662E /* Pods_Rate_My_Class.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC31B60569A0FA2B310A6759 /* Pods_Rate_My_Class.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A200FE3CD2805425FC69C95 /* Pods-Rate My Class.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rate My Class.release.xcconfig"; path = "Target Support Files/Pods-Rate My Class/Pods-Rate My Class.release.xcconfig"; sourceTree = "<group>"; };
 		A10A492A269CF2A60017DB2C /* Rate My Class.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rate My Class.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A10A492D269CF2A60017DB2C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A10A492E269CF2A60017DB2C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		A10A4930269CF2A60017DB2C /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		A10A4931269CF2A60017DB2C /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
-		A10A4933269CF2A60017DB2C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		A10A4934269CF2A60017DB2C /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		A10A4937269CF2A60017DB2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A10A4939269CF2A70017DB2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A10A493C269CF2A70017DB2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A10A493E269CF2A70017DB2C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A10A493F269CF2A70017DB2C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A19D8866269CFA8400F181F1 /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		A19D8867269CFA8400F181F1 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		AC31B60569A0FA2B310A6759 /* Pods_Rate_My_Class.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rate_My_Class.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FCC875CB21DF3376DB9CCED9 /* Pods-Rate My Class.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rate My Class.debug.xcconfig"; path = "Target Support Files/Pods-Rate My Class/Pods-Rate My Class.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,17 +40,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCD1B68A57E4B30DA538662E /* Pods_Rate_My_Class.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B609C6C120AE3916F58B9CD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AC31B60569A0FA2B310A6759 /* Pods_Rate_My_Class.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A10A4921269CF2A60017DB2C = {
 			isa = PBXGroup;
 			children = (
 				A10A492C269CF2A60017DB2C /* Rate My Class */,
 				A10A492B269CF2A60017DB2C /* Products */,
+				B62F3BB4B2987E378E49E5BE /* Pods */,
+				4B609C6C120AE3916F58B9CD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -61,12 +76,11 @@
 		A10A492C269CF2A60017DB2C /* Rate My Class */ = {
 			isa = PBXGroup;
 			children = (
+				A19D8865269CFA6200F181F1 /* View Controllers */,
 				A10A492D269CF2A60017DB2C /* AppDelegate.h */,
 				A10A492E269CF2A60017DB2C /* AppDelegate.m */,
 				A10A4930269CF2A60017DB2C /* SceneDelegate.h */,
 				A10A4931269CF2A60017DB2C /* SceneDelegate.m */,
-				A10A4933269CF2A60017DB2C /* ViewController.h */,
-				A10A4934269CF2A60017DB2C /* ViewController.m */,
 				A10A4936269CF2A60017DB2C /* Main.storyboard */,
 				A10A4939269CF2A70017DB2C /* Assets.xcassets */,
 				A10A493B269CF2A70017DB2C /* LaunchScreen.storyboard */,
@@ -76,6 +90,25 @@
 			path = "Rate My Class";
 			sourceTree = "<group>";
 		};
+		A19D8865269CFA6200F181F1 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A19D8866269CFA8400F181F1 /* LoginViewController.h */,
+				A19D8867269CFA8400F181F1 /* LoginViewController.m */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		B62F3BB4B2987E378E49E5BE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FCC875CB21DF3376DB9CCED9 /* Pods-Rate My Class.debug.xcconfig */,
+				3A200FE3CD2805425FC69C95 /* Pods-Rate My Class.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -83,9 +116,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A10A4943269CF2A70017DB2C /* Build configuration list for PBXNativeTarget "Rate My Class" */;
 			buildPhases = (
+				F383DA382C25D1D6601EE2CB /* [CP] Check Pods Manifest.lock */,
 				A10A4926269CF2A60017DB2C /* Sources */,
 				A10A4927269CF2A60017DB2C /* Frameworks */,
 				A10A4928269CF2A60017DB2C /* Resources */,
+				DD79A4FA4D0AED4989B7CB69 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -140,12 +175,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		DD79A4FA4D0AED4989B7CB69 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Rate My Class/Pods-Rate My Class-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Rate My Class/Pods-Rate My Class-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Rate My Class/Pods-Rate My Class-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F383DA382C25D1D6601EE2CB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Rate My Class-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		A10A4926269CF2A60017DB2C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A10A4935269CF2A60017DB2C /* ViewController.m in Sources */,
+				A19D8868269CFA8400F181F1 /* LoginViewController.m in Sources */,
 				A10A492F269CF2A60017DB2C /* AppDelegate.m in Sources */,
 				A10A4940269CF2A70017DB2C /* main.m in Sources */,
 				A10A4932269CF2A60017DB2C /* SceneDelegate.m in Sources */,
@@ -288,6 +365,7 @@
 		};
 		A10A4944269CF2A70017DB2C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FCC875CB21DF3376DB9CCED9 /* Pods-Rate My Class.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -306,6 +384,7 @@
 		};
 		A10A4945269CF2A70017DB2C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A200FE3CD2805425FC69C95 /* Pods-Rate My Class.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
