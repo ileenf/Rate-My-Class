@@ -55,8 +55,6 @@ Allows users to rate and write reviews on the classes they took. User can browse
 * Stream
    * User can scroll through feed seeing classes with ratings
    * User can click on a class to see the details view
-* Creation
-   * User can rate and write a review for a class
 * Profile screen
    * User can see account information 
    * User can view their reviews
