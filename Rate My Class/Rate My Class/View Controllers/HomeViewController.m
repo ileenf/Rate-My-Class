@@ -28,7 +28,7 @@
     self.tableView.delegate = self;
     
     self.tableView.rowHeight = 70;
-    
+
     self.classes = [[NSMutableArray alloc] init];
     
     [self enableRefreshing];
@@ -75,7 +75,7 @@
     ClassCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ClassCell"];
     ClassModel *class = [[ClassModel alloc] initWithDictionary:self.classes[indexPath.row]];
     cell.className.text = class.code;
-        
+            
     return cell;
 }
 

@@ -211,7 +211,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Rate"/>
                                 <connections>
-                                    <segue destination="W1K-Vq-BEU" kind="show" identifier="ComposeSegue" id="Mc6-WW-4I0"/>
+                                    <segue destination="W1K-Vq-BEU" kind="presentation" identifier="ComposeSegue" modalPresentationStyle="fullScreen" id="Mc6-WW-4I0"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YQO-y5-jtL">
@@ -368,14 +368,20 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W66-6K-2Vk">
-                                <rect key="frame" x="20" y="8" width="48" height="30"/>
+                                <rect key="frame" x="20" y="44" width="48" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <action selector="cancelReview:" destination="W1K-Vq-BEU" eventType="touchUpInside" id="53q-44-93r"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LES-fU-lAa">
-                                <rect key="frame" x="345" y="8" width="49" height="30"/>
+                                <rect key="frame" x="331" y="44" width="49" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Submit"/>
+                                <connections>
+                                    <action selector="submitReview:" destination="W1K-Vq-BEU" eventType="touchUpInside" id="isU-L1-IKc"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6MW-kj-dFd"/>
@@ -384,7 +390,7 @@
                     <navigationItem key="navigationItem" id="HXC-Bd-kD1">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="jkP-Ku-qah">
                             <connections>
-                                <action selector="cancelReview:" destination="W1K-Vq-BEU" id="Vv3-zN-fwv"/>
+                                <action selector="cancel:" destination="W1K-Vq-BEU" id="4tC-el-FQw"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Submit" id="kWh-VX-Vin">

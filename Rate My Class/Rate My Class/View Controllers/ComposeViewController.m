@@ -24,15 +24,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }
+
 - (IBAction)cancelReview:(id)sender {
     [self dismissViewControllerAnimated:true completion:nil];
-
 }
 
 - (IBAction)submitReview:(id)sender {
     [ReviewModel postReview:self.ratingField.text withDifficulty:self.difficultyField.text withCode: self.classCode withComment:self.commentView.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             self.commentView.text = @"";
+            NSLog(@"hello");
             [self dismissViewControllerAnimated:true completion:nil];
         }
     }];
