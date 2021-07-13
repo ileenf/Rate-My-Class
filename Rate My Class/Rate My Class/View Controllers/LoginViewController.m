@@ -21,54 +21,54 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
+
 - (IBAction)handleLogin:(id)sender {
     NSString *username = self.usernameLoginField.text;
-        NSString *password = self.passwordLoginField.text;
+    NSString *password = self.passwordLoginField.text;
     
     if ([self.usernameLoginField.text isEqual:@""] || [self.passwordLoginField.text isEqual:@""]) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Login Failed"
-                                                                                   message:@"Bad or missing username/password"
-                                                                            preferredStyle:(UIAlertControllerStyleAlert)];
+                                                                       message:@"Bad or missing username/password"
+                                                                preferredStyle:(UIAlertControllerStyleAlert)];
         UIAlertAction *TryAgainAction = [UIAlertAction actionWithTitle:@"Try Again"
-                                                            style:UIAlertActionStyleCancel
-                                                          handler:^(UIAlertAction * _Nonnull action) {
-                                                          }];
+                                                                 style:UIAlertActionStyleCancel
+                                                               handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
         [alert addAction:TryAgainAction];
         
-        [self presentViewController:alert animated:YES completion:^{
-        }];
+        [self presentViewController:alert animated:YES completion:^{}];
     }
         
-        [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser * user, NSError *  error) {
-            if (error != nil) {
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Login Failed"
-                                                                                           message:@"Invalid username/password"
-                                                                                    preferredStyle:(UIAlertControllerStyleAlert)];
-                UIAlertAction *TryAgainAction = [UIAlertAction actionWithTitle:@"Try Again"
-                                                                    style:UIAlertActionStyleCancel
-                                                                  handler:^(UIAlertAction * _Nonnull action) {
-                                                                  }];
-                [alert addAction:TryAgainAction];
-                
-                [self presentViewController:alert animated:YES completion:^{
-                }];
-            } else {
-                [self performSegueWithIdentifier:@"LoginSegue" sender:nil];
-                
-            }
-        }];
+    [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser * user, NSError *  error) {
+        if (error != nil) {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Login Failed"
+                                                                           message:@"Invalid username/password"
+                                                                    preferredStyle:(UIAlertControllerStyleAlert)];
+            UIAlertAction *TryAgainAction = [UIAlertAction actionWithTitle:@"Try Again"
+                                                                     style:UIAlertActionStyleCancel
+                                                                   handler:^(UIAlertAction * _Nonnull action) {
+                                                              }];
+            [alert addAction:TryAgainAction];
+            
+            [self presentViewController:alert animated:YES completion:^{
+            }];
+        } else {
+            [self performSegueWithIdentifier:@"LoginSegue" sender:nil];
+        }
+    }];
 }
 
 - (IBAction)handleSignUp:(id)sender {
     PFUser *newUser = [PFUser user];
         
-        newUser.username = self.usernameSignupField.text;
-        newUser.password = self.passwordSignupField.text;
+    newUser.username = self.usernameSignupField.text;
+    newUser.password = self.passwordSignupField.text;
     
     if ([self.usernameSignupField.text isEqual:@""] || [self.passwordSignupField.text isEqual:@""]) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Sign up Failed"
-                                                                                   message:@"Bad or missing username/password"
-                                                                            preferredStyle:(UIAlertControllerStyleAlert)];
+                                                                       message:@"Bad or missing username/password"
+                                                                preferredStyle:(UIAlertControllerStyleAlert)];
         UIAlertAction *TryAgainAction = [UIAlertAction actionWithTitle:@"Try Again"
                                                             style:UIAlertActionStyleCancel
                                                           handler:^(UIAlertAction * _Nonnull action) {
@@ -82,12 +82,13 @@
         [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * error) {
             if (error != nil) {
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Sign up Failed"
-                                                                                           message:@"Already existing username/password"
-                                                                                    preferredStyle:(UIAlertControllerStyleAlert)];
+                                                                               message:@"Already existing username/password"
+                                                                        preferredStyle:(UIAlertControllerStyleAlert)];
                 UIAlertAction *TryAgainAction = [UIAlertAction actionWithTitle:@"Try Again"
-                                                                    style:UIAlertActionStyleCancel
-                                                                  handler:^(UIAlertAction * _Nonnull action) {
-                                                                  }];
+                                                                         style:UIAlertActionStyleCancel
+                                                                       handler:^(UIAlertAction * _Nonnull action) {
+                    
+                }];
                 [alert addAction:TryAgainAction];
                 
                 [self presentViewController:alert animated:YES completion:^{

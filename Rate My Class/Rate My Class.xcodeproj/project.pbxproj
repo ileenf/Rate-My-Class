@@ -18,6 +18,8 @@
 		A19D886E269D028400F181F1 /* ClassAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D886D269D028400F181F1 /* ClassAPIManager.m */; };
 		A19D8877269D086000F181F1 /* ClassCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D8876269D086000F181F1 /* ClassCell.m */; };
 		A19D887D269D0A1200F181F1 /* ClassModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D887C269D0A1200F181F1 /* ClassModel.m */; };
+		A19D8880269DF56D00F181F1 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D887F269DF56D00F181F1 /* DetailsViewController.m */; };
+		A19D8883269DFFE200F181F1 /* ReviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D8882269DFFE200F181F1 /* ReviewCell.m */; };
 		FCD1B68A57E4B30DA538662E /* Pods_Rate_My_Class.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC31B60569A0FA2B310A6759 /* Pods_Rate_My_Class.framework */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +45,10 @@
 		A19D8876269D086000F181F1 /* ClassCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClassCell.m; sourceTree = "<group>"; };
 		A19D887B269D0A1200F181F1 /* ClassModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClassModel.h; sourceTree = "<group>"; };
 		A19D887C269D0A1200F181F1 /* ClassModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClassModel.m; sourceTree = "<group>"; };
+		A19D887E269DF56D00F181F1 /* DetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
+		A19D887F269DF56D00F181F1 /* DetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
+		A19D8881269DFFE200F181F1 /* ReviewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReviewCell.h; sourceTree = "<group>"; };
+		A19D8882269DFFE200F181F1 /* ReviewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReviewCell.m; sourceTree = "<group>"; };
 		AC31B60569A0FA2B310A6759 /* Pods_Rate_My_Class.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rate_My_Class.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCC875CB21DF3376DB9CCED9 /* Pods-Rate My Class.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rate My Class.debug.xcconfig"; path = "Target Support Files/Pods-Rate My Class/Pods-Rate My Class.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -112,6 +118,8 @@
 				A19D8867269CFA8400F181F1 /* LoginViewController.m */,
 				A19D8869269D00FA00F181F1 /* HomeViewController.h */,
 				A19D886A269D00FA00F181F1 /* HomeViewController.m */,
+				A19D887E269DF56D00F181F1 /* DetailsViewController.h */,
+				A19D887F269DF56D00F181F1 /* DetailsViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -130,6 +138,8 @@
 			children = (
 				A19D8875269D086000F181F1 /* ClassCell.h */,
 				A19D8876269D086000F181F1 /* ClassCell.m */,
+				A19D8881269DFFE200F181F1 /* ReviewCell.h */,
+				A19D8882269DFFE200F181F1 /* ReviewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -271,7 +281,9 @@
 				A10A4940269CF2A70017DB2C /* main.m in Sources */,
 				A19D886B269D00FA00F181F1 /* HomeViewController.m in Sources */,
 				A10A4932269CF2A60017DB2C /* SceneDelegate.m in Sources */,
+				A19D8883269DFFE200F181F1 /* ReviewCell.m in Sources */,
 				A19D8877269D086000F181F1 /* ClassCell.m in Sources */,
+				A19D8880269DF56D00F181F1 /* DetailsViewController.m in Sources */,
 				A19D887D269D0A1200F181F1 /* ClassModel.m in Sources */,
 				A19D886E269D028400F181F1 /* ClassAPIManager.m in Sources */,
 			);

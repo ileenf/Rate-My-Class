@@ -17,10 +17,17 @@
 
 @implementation ClassAPIManager
 
+- (id)init {
+    self = [super init];
+
+    self.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+
+    return self;
+}
+
 - (void)fetchCurrentClasses:(void(^)(NSArray *classes, NSError *error))completion {
     NSURL *url = [NSURL URLWithString:@"https://api.peterportal.org/rest/v0/courses/all"];
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error != nil) {
             NSLog(@"%@", [error localizedDescription]);
@@ -37,7 +44,7 @@
 
             //NSArray *classes = [ClassModel classesWithDictionaries:dataDictionary];
 
-            //completion(classes, nil);
+            completion(dataDictionary, nil);
         }
     }];
     [task resume];
