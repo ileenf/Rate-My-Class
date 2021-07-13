@@ -15,6 +15,7 @@
 
 @property (nonatomic, strong) NSMutableArray *classes;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -30,7 +31,16 @@
     
     self.classes = [[NSMutableArray alloc] init];
     
+    [self enableRefreshing];
     [self fetchClasses];
+}
+
+-(void)enableRefreshing {
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    
+    [self.refreshControl addTarget:self action:@selector(fetchClasses) forControlEvents:UIControlEventValueChanged];
+    
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
 }
 
 - (void)fetchClasses {
@@ -43,6 +53,7 @@
             self.classes = classes;
             [self.tableView reloadData];
         }
+        [self.refreshControl endRefreshing];
     }];
 }
 

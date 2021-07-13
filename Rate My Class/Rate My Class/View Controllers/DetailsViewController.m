@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *classCode;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *reviews;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -31,9 +32,17 @@
     self.tableView.rowHeight = 170;
     self.classCode.text = self.classObj.code;
     
+    [self enableRefreshing];
     [self loadReviews];
 }
 
+-(void)enableRefreshing {
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    
+    [self.refreshControl addTarget:self action:@selector(loadReviews) forControlEvents:UIControlEventValueChanged];
+    
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
+}
 
 #pragma mark - Navigation
 
@@ -48,8 +57,6 @@
 -(NSMutableArray *)getCurrentClassReviews:(NSArray *)allClassReviews {
     NSMutableArray *currClassReviews = [NSMutableArray array];
     for (ClassModel *class in allClassReviews) {
-        NSLog(@"%@", class.code);
-        NSLog(@"%@", self.classCode.text);
         if ([class.code isEqualToString:self.classCode.text]){
             [currClassReviews addObject:class];
         }
@@ -69,6 +76,7 @@
             self.reviews = [self getCurrentClassReviews:objects];
             [self.tableView reloadData];
         }
+        [self.refreshControl endRefreshing];
     }];
 }
 
