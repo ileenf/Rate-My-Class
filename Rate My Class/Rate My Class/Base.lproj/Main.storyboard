@@ -211,7 +211,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Rate"/>
                                 <connections>
-                                    <segue destination="7Kh-sm-zOd" kind="presentation" identifier="ComposeSegue" id="rol-wl-Mwk"/>
+                                    <segue destination="W1K-Vq-BEU" kind="show" identifier="ComposeSegue" id="Mc6-WW-4I0"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YQO-y5-jtL">
@@ -323,7 +323,7 @@
             <objects>
                 <viewController id="W1K-Vq-BEU" customClass="ComposeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gfp-r7-4V8">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Rating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HpE-Jz-OZ3">
@@ -367,6 +367,16 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W66-6K-2Vk">
+                                <rect key="frame" x="20" y="8" width="48" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Cancel"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LES-fU-lAa">
+                                <rect key="frame" x="345" y="8" width="49" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Submit"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6MW-kj-dFd"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -374,12 +384,12 @@
                     <navigationItem key="navigationItem" id="HXC-Bd-kD1">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="jkP-Ku-qah">
                             <connections>
-                                <action selector="cancelReview:" destination="W1K-Vq-BEU" id="PAf-q1-7eY"/>
+                                <action selector="cancelReview:" destination="W1K-Vq-BEU" id="Vv3-zN-fwv"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Submit" id="kWh-VX-Vin">
                             <connections>
-                                <action selector="submitReview:" destination="W1K-Vq-BEU" id="Hle-a9-Ogo"/>
+                                <action selector="submitReview:" destination="W1K-Vq-BEU" id="76z-eT-AEy"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -391,7 +401,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uqA-Zd-OqR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3995.652173913044" y="1668.75"/>
+            <point key="canvasLocation" x="3183" y="1669"/>
         </scene>
         <!--Classes-->
         <scene sceneID="nVQ-E6-55Y">
@@ -411,24 +421,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lx5-ge-ZG5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1121.7391304347827" y="912.72321428571422"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="cqP-xH-hXY">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7Kh-sm-zOd" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ZON-EF-6Ek">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="W1K-Vq-BEU" kind="relationship" relationship="rootViewController" id="j9k-a3-Kc2"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zWf-A5-Vs5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3087" y="1669"/>
         </scene>
     </scenes>
     <resources>

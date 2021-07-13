@@ -6,6 +6,7 @@
 //
 
 #import "DetailsViewController.h"
+#import "ComposeViewController.h"
 #import "ReviewModel.h"
 #import "ReviewCell.h"
 #import "Parse/Parse.h"
@@ -38,10 +39,24 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"ComposeSegue"]) {
+        ComposeViewController *composeViewController = [segue destinationViewController];
+        composeViewController.classCode = self.classCode.text;
+    }
 }
 
+-(NSMutableArray *)getCurrentClassReviews:(NSArray *)allClassReviews {
+    NSMutableArray *currClassReviews = [NSMutableArray array];
+    for (ClassModel *class in allClassReviews) {
+        NSLog(@"%@", class.code);
+        NSLog(@"%@", self.classCode.text);
+        if ([class.code isEqualToString:self.classCode.text]){
+            [currClassReviews addObject:class];
+        }
+    }
+    
+    return currClassReviews;
+}
 
 -(void)loadReviews {
     PFQuery * query = [PFQuery queryWithClassName:@"Review"];
@@ -51,7 +66,7 @@
     query.limit = 20;
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (error == nil){
-            self.reviews = objects;
+            self.reviews = [self getCurrentClassReviews:objects];
             [self.tableView reloadData];
         }
     }];
@@ -62,9 +77,8 @@
     ReviewModel *review = self.reviews[indexPath.row];
     cell.ratingLabel.text = review.rating;
     cell.difficultyLabel.text = review.difficulty;
-    
-    NSLog(@"%@", review.rating);
-    NSLog(@"%@", review.difficulty);
+    cell.commentsLabel.text = review.comment;
+
     
     return cell;
 }
