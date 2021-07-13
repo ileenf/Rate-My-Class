@@ -63,6 +63,7 @@
             NSArray *dataArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             
             self.classes = dataArray;
+            [self.tableView reloadData];
             
             //NSLog(@"%@", dataDictionary);
 
@@ -84,20 +85,15 @@
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     ClassCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ClassCell"];
     
-    ClassModel *class = self.classes[indexPath.row];
+    ClassModel *class = [[ClassModel alloc] initWithDictionary:self.classes[indexPath.row]];
     
     NSLog(@"%@", class);
     
-    cell.className = class.title;
-    
-    NSLog(@"%@", class.title);
+    cell.className.text = class.code;
     
     //[cell setClass:class];
     
     return cell;
-    
-    
-    
     
 }
 

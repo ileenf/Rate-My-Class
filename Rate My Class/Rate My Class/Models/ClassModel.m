@@ -11,7 +11,7 @@
 
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
-    self.title = dictionary[@"title"];
+    self.code = dictionary[@"id"];
     
     return self;
 }
