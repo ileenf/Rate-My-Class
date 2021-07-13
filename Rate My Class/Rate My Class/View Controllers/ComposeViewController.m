@@ -9,7 +9,7 @@
 #import "ReviewModel.h"
 #import "Parse/Parse.h"
 
-@interface ComposeViewController ()
+@interface ComposeViewController () <UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextView *commentView;
 @property (weak, nonatomic) IBOutlet UITextField *ratingField;
@@ -22,7 +22,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.commentView.delegate = self;
+    self.commentView.text = @"Write a comment...";
+    self.commentView.textColor = [UIColor lightGrayColor];
 }
 
 - (IBAction)cancelReview:(id)sender {
@@ -33,10 +36,23 @@
     [ReviewModel postReview:self.ratingField.text withDifficulty:self.difficultyField.text withCode: self.classCode withComment:self.commentView.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             self.commentView.text = @"";
-            NSLog(@"hello");
             [self dismissViewControllerAnimated:true completion:nil];
         }
     }];
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView{
+    if (textView.textColor == [UIColor lightGrayColor]) {
+        textView.text = nil;
+        textView.textColor = [UIColor blackColor];
+    }
+}
+
+-(void)textViewDidEndEditing:(UITextView *)textView{
+    if ([textView.text isEqualToString:@""]) {
+        textView.text = @"Write a comment...";
+        textView.textColor = [UIColor lightGrayColor];
+    }
 }
 
 /*

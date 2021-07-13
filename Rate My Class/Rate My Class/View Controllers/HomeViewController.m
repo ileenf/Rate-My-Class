@@ -76,6 +76,8 @@
     ClassModel *class = [[ClassModel alloc] initWithDictionary:self.classes[indexPath.row]];
     cell.className.text = class.code;
             
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
     return cell;
 }
 
