@@ -60,7 +60,9 @@
 
         }
         else {
-            NSArray *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            NSArray *dataArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            
+            self.classes = dataArray;
             
             //NSLog(@"%@", dataDictionary);
 
@@ -84,7 +86,11 @@
     
     ClassModel *class = self.classes[indexPath.row];
     
+    NSLog(@"%@", class);
+    
     cell.className = class.title;
+    
+    NSLog(@"%@", class.title);
     
     //[cell setClass:class];
     
