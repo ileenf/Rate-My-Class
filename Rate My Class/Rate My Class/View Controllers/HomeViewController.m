@@ -55,7 +55,7 @@
     if ([[segue identifier] isEqualToString:@"DetailSegue"]) {
         UITableViewCell *tappedCell = sender;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
-        ClassModel *class = self.classes[indexPath.row];
+        ClassModel *class = [[ClassModel alloc] initWithDictionary:self.classes[indexPath.row]];
         
         DetailsViewController *detailsViewController = [segue destinationViewController];
         detailsViewController.classObj = class;

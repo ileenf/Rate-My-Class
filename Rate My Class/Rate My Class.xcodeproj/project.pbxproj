@@ -20,6 +20,7 @@
 		A19D887D269D0A1200F181F1 /* ClassModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D887C269D0A1200F181F1 /* ClassModel.m */; };
 		A19D8880269DF56D00F181F1 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D887F269DF56D00F181F1 /* DetailsViewController.m */; };
 		A19D8883269DFFE200F181F1 /* ReviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D8882269DFFE200F181F1 /* ReviewCell.m */; };
+		A19D8886269E132100F181F1 /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D8885269E132100F181F1 /* ComposeViewController.m */; };
 		FCD1B68A57E4B30DA538662E /* Pods_Rate_My_Class.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC31B60569A0FA2B310A6759 /* Pods_Rate_My_Class.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,8 @@
 		A19D887F269DF56D00F181F1 /* DetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
 		A19D8881269DFFE200F181F1 /* ReviewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReviewCell.h; sourceTree = "<group>"; };
 		A19D8882269DFFE200F181F1 /* ReviewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReviewCell.m; sourceTree = "<group>"; };
+		A19D8884269E132100F181F1 /* ComposeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComposeViewController.h; sourceTree = "<group>"; };
+		A19D8885269E132100F181F1 /* ComposeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ComposeViewController.m; sourceTree = "<group>"; };
 		AC31B60569A0FA2B310A6759 /* Pods_Rate_My_Class.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rate_My_Class.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCC875CB21DF3376DB9CCED9 /* Pods-Rate My Class.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rate My Class.debug.xcconfig"; path = "Target Support Files/Pods-Rate My Class/Pods-Rate My Class.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -120,6 +123,8 @@
 				A19D886A269D00FA00F181F1 /* HomeViewController.m */,
 				A19D887E269DF56D00F181F1 /* DetailsViewController.h */,
 				A19D887F269DF56D00F181F1 /* DetailsViewController.m */,
+				A19D8884269E132100F181F1 /* ComposeViewController.h */,
+				A19D8885269E132100F181F1 /* ComposeViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -284,6 +289,7 @@
 				A19D8883269DFFE200F181F1 /* ReviewCell.m in Sources */,
 				A19D8877269D086000F181F1 /* ClassCell.m in Sources */,
 				A19D8880269DF56D00F181F1 /* DetailsViewController.m in Sources */,
+				A19D8886269E132100F181F1 /* ComposeViewController.m in Sources */,
 				A19D887D269D0A1200F181F1 /* ClassModel.m in Sources */,
 				A19D886E269D028400F181F1 /* ClassAPIManager.m in Sources */,
 			);

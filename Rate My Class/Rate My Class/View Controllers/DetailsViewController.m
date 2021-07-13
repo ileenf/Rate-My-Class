@@ -27,10 +27,8 @@
     
     self.tableView.rowHeight = 170;
     
-    //self.classCode.text = self.class.title;
+    self.classCode.text = self.classObj.code;
 }
-
-
 
 /*
 #pragma mark - Navigation
@@ -43,14 +41,11 @@
 */
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath { 
-      ReviewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ReviewCell"];
-//    ClassModel *class = [[ClassModel alloc] initWithDictionary:self.classes[indexPath.row]];
-//    cell.classCode.text = class.code;
-//
-      return cell;
+    ReviewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ReviewCell"];
+    return cell;
 }
 
-- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section { 
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.reviews.count;
 }
 
