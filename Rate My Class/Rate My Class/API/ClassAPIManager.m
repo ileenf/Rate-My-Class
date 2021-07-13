@@ -1,0 +1,46 @@
+//
+//  ClassAPIManager.m
+//  Rate My Class
+//
+//  Created by Ileen Fan on 7/12/21.
+//
+
+#import "ClassAPIManager.h"
+#import "ClassModel.h"
+
+
+@interface ClassAPIManager()
+
+@property (nonatomic, strong) NSURLSession *session;
+
+@end
+
+@implementation ClassAPIManager
+
+- (void)fetchCurrentClasses:(void(^)(NSArray *classes, NSError *error))completion {
+    NSURL *url = [NSURL URLWithString:@"https://api.peterportal.org/rest/v0/courses/all"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+    NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error != nil) {
+            NSLog(@"%@", [error localizedDescription]);
+
+            // The network request has completed, but failed.
+            // Invoke the completion block with an error.
+            // Think of invoking a block like calling a function with parameters
+            //completion(nil, error);
+        }
+        else {
+            NSArray *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            
+            NSLog(@"%@", dataDictionary);
+
+            //NSArray *classes = [ClassModel classesWithDictionaries:dataDictionary];
+
+            //completion(classes, nil);
+        }
+    }];
+    [task resume];
+}
+
+@end
