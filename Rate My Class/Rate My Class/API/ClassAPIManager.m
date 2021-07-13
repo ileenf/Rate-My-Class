@@ -40,10 +40,6 @@
         else {
             NSArray *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             
-            NSLog(@"%@", dataDictionary);
-
-            //NSArray *classes = [ClassModel classesWithDictionaries:dataDictionary];
-
             completion(dataDictionary, nil);
         }
     }];

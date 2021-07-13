@@ -35,9 +35,7 @@
 
 - (void)fetchClasses {
     ClassAPIManager *manager = [ClassAPIManager new];
-    NSLog(@"in here first");
     [manager fetchCurrentClasses:^(NSArray *classes, NSError *error) {
-        NSLog(@"in here");
 
         if (error){
 

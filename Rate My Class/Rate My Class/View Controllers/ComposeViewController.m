@@ -6,8 +6,15 @@
 //
 
 #import "ComposeViewController.h"
+#import "ReviewModel.h"
+#import "Parse/Parse.h"
 
 @interface ComposeViewController ()
+
+@property (weak, nonatomic) IBOutlet UITextView *commentView;
+@property (weak, nonatomic) IBOutlet UITextField *ratingField;
+@property (weak, nonatomic) IBOutlet UITextField *difficultyField;
+
 
 @end
 
@@ -16,6 +23,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+- (IBAction)cancelReview:(id)sender {
+    [self dismissViewControllerAnimated:true completion:nil];
+}
+
+- (IBAction)submitReview:(id)sender {
+    [ReviewModel postReview:self.ratingField.text withDifficulty:self.difficultyField.text withComment:self.commentView.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            self.commentView.text = @"";
+            [self dismissViewControllerAnimated:true completion:nil];
+        }
+    }];
 }
 
 /*

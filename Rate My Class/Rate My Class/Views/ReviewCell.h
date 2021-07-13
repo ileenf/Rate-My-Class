@@ -11,6 +11,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ReviewCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel *ratingLabel;
+@property (weak, nonatomic) IBOutlet UILabel *commentsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *difficultyLabel;
+
 @end
 
 NS_ASSUME_NONNULL_END
