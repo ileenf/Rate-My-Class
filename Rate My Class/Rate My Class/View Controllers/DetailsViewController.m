@@ -92,11 +92,13 @@
     cell.difficultyLabel.text = review.difficulty;
     cell.commentsLabel.text = review.comment;
     
-    NSLog(@"%@", review.rating);
     self.numberOfReviews = [self.numberOfReviews decimalNumberByAdding: [[NSDecimalNumber alloc] initWithFloat:1]];
-
+    
     [self calculateAverageRating: review.rating];
     [self calculateAverageDifficulty:review.difficulty];
+    
+    NSString *string = [NSString stringWithFormat:@"%@", self.averageRating];
+    [self.delegate sendOverallRating: string path:self.nextPath];
     
     return cell;
 }

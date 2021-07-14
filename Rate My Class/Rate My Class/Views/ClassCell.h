@@ -11,8 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ClassCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *overallRating;
 @property (weak, nonatomic) IBOutlet UILabel *className;
+@property (weak, nonatomic) IBOutlet UILabel *overallRating;
 
 - (void)setClass:(ClassModel *)class;
 

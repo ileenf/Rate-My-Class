@@ -31,11 +31,6 @@
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error != nil) {
             NSLog(@"%@", [error localizedDescription]);
-
-            // The network request has completed, but failed.
-            // Invoke the completion block with an error.
-            // Think of invoking a block like calling a function with parameters
-            //completion(nil, error);
         }
         else {
             NSArray *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];

@@ -11,7 +11,9 @@
 
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
+    
     self.code = dictionary[@"id"];
+    self.averageRating = @"N/A";
     
     return self;
 }

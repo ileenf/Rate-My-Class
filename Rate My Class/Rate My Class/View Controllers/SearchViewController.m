@@ -7,6 +7,7 @@
 
 #import "SearchViewController.h"
 #import "HomeViewController.h"
+#import "ClassModel.h"
 
 @interface SearchViewController () <UISearchBarDelegate>
 

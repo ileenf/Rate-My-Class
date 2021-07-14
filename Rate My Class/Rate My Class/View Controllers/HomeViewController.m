@@ -47,33 +47,43 @@
     [manager fetchCurrentClasses:^(NSArray *classes, NSError *error) {
 
         if (error){
-
         } else {
-            self.classes = classes;
+            self.classes = [ClassModel classesWithDictionaries:classes];
+            
             [self.tableView reloadData];
         }
         [self.refreshControl endRefreshing];
     }];
 }
 
+- (void)sendOverallRating:(NSString *)rating path:(nonnull NSIndexPath *)indexPath{
+    ClassCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    ClassModel *class = self.classes[indexPath.row];
+    class.averageRating = rating;
+    cell.overallRating.text = rating;
+}
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"DetailSegue"]) {
         UITableViewCell *tappedCell = sender;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
-        ClassModel *class = [[ClassModel alloc] initWithDictionary:self.classes[indexPath.row]];
+        ClassModel *class = self.classes[indexPath.row];
         
         DetailsViewController *detailsViewController = [segue destinationViewController];
         detailsViewController.classObj = class;
+        detailsViewController.delegate = self;
+        detailsViewController.nextPath = indexPath;
     }
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     ClassCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ClassCell"];
-    ClassModel *class = [[ClassModel alloc] initWithDictionary:self.classes[indexPath.row]];
+    ClassModel *class = self.classes[indexPath.row];
+
     cell.className.text = class.code;
+    cell.overallRating.text = class.averageRating;
             
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
