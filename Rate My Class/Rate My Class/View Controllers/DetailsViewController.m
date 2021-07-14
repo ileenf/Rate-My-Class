@@ -18,6 +18,13 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *reviews;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (nonatomic, strong) NSDecimalNumber *ratingTotal;
+@property (nonatomic, strong) NSDecimalNumber *numberOfReviews;
+@property (nonatomic, strong) NSDecimalNumber *averageRating;
+@property (nonatomic, strong) NSDecimalNumber *difficultyTotal;
+@property (nonatomic, strong) NSDecimalNumber *averageDifficulty;
+@property (weak, nonatomic) IBOutlet UILabel *overallRatingLabel;
+@property (weak, nonatomic) IBOutlet UILabel *overallDifficultyLabel;
 
 @end
 
@@ -32,6 +39,14 @@
     self.tableView.rowHeight = 170;
     self.classCode.text = self.classObj.code;
     
+    NSLog(@"setting default values");
+    
+    self.ratingTotal = [[NSDecimalNumber alloc] initWithDouble:0.0];
+    self.numberOfReviews = [[NSDecimalNumber alloc] initWithDouble:0.0];
+    self.averageRating = [[NSDecimalNumber alloc] initWithDouble:0.0];;
+    self.difficultyTotal = [[NSDecimalNumber alloc] initWithDouble:0.0];
+    self.averageDifficulty = [[NSDecimalNumber alloc] initWithDouble:0.0];
+
     [self enableRefreshing];
     [self loadReviews];
 }
@@ -54,26 +69,16 @@
     }
 }
 
--(NSMutableArray *)getCurrentClassReviews:(NSArray *)allClassReviews {
-    NSMutableArray *currClassReviews = [NSMutableArray array];
-    for (ClassModel *class in allClassReviews) {
-        if ([class.code isEqualToString:self.classCode.text]){
-            [currClassReviews addObject:class];
-        }
-    }
-    
-    return currClassReviews;
-}
-
 -(void)loadReviews {
     PFQuery * query = [PFQuery queryWithClassName:@"Review"];
+    [query whereKey:@"code" equalTo:self.classCode.text];
     [query orderByDescending:@"createdAt"];
     [query includeKey:@"author"];
     [query includeKey:@"createdAt"];
     query.limit = 20;
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (error == nil){
-            self.reviews = [self getCurrentClassReviews:objects];
+            self.reviews = objects;
             [self.tableView reloadData];
         }
         [self.refreshControl endRefreshing];
@@ -86,13 +91,34 @@
     cell.ratingLabel.text = review.rating;
     cell.difficultyLabel.text = review.difficulty;
     cell.commentsLabel.text = review.comment;
+    
+    NSLog(@"%@", review.rating);
+    self.numberOfReviews = [self.numberOfReviews decimalNumberByAdding: [[NSDecimalNumber alloc] initWithFloat:1]];
 
+    
+    [self calculateAverageRating: review.rating];
+    [self calculateAverageDifficulty:review.difficulty];
     
     return cell;
 }
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.reviews.count;
+}
+
+-(void)calculateAverageRating: (NSString *)reviewRating {
+    NSDecimalNumber *rating = [NSDecimalNumber decimalNumberWithString:reviewRating];
+    self.ratingTotal = [self.ratingTotal decimalNumberByAdding: rating];
+    self.averageRating = [self.ratingTotal decimalNumberByDividingBy:(NSDecimalNumber *) self.numberOfReviews];
+    self.overallRatingLabel.text = [NSString stringWithFormat:@"%@", self.averageRating];
+}
+
+-(void)calculateAverageDifficulty: (NSString *)difficultyRating {
+    NSDecimalNumber *rating = [NSDecimalNumber decimalNumberWithString:difficultyRating];
+    self.difficultyTotal = [self.difficultyTotal decimalNumberByAdding: rating];
+    self.averageDifficulty = [self.difficultyTotal decimalNumberByDividingBy:(NSDecimalNumber *) self.numberOfReviews];
+    self.overallDifficultyLabel.text = [NSString stringWithFormat:@"%@", self.averageDifficulty];
+    NSLog(@"difffff%@", self.averageDifficulty);
 }
 
 @end
