@@ -97,6 +97,9 @@
     [self calculateAverageRating: review.rating];
     [self calculateAverageDifficulty:review.difficulty];
     
+    self.averageRating = [self roundDecimal:self.averageRating];
+    self.averageDifficulty = [self roundDecimal:self.averageDifficulty];
+    
     NSString *string = [NSString stringWithFormat:@"%@", self.averageRating];
     [self.delegate sendOverallRating: string path:self.nextPath];
     
@@ -119,6 +122,19 @@
     self.difficultyTotal = [self.difficultyTotal decimalNumberByAdding: rating];
     self.averageDifficulty = [self.difficultyTotal decimalNumberByDividingBy:(NSDecimalNumber *) self.numberOfReviews];
     self.overallDifficultyLabel.text = [NSString stringWithFormat:@"%@", self.averageDifficulty];
+}
+
+-(NSDecimalNumber *)roundDecimal: (NSDecimalNumber *)amount {
+    NSDecimalNumberHandler *behavior = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain
+                                                                                              scale:2
+                                                                                   raiseOnExactness:NO
+                                                                                    raiseOnOverflow:NO
+                                                                                   raiseOnUnderflow:NO
+                                                                                raiseOnDivideByZero:NO];
+    
+    NSDecimalNumber *roundedNumber = [amount decimalNumberByRoundingAccordingToBehavior:behavior];
+    return roundedNumber;
+    
 }
 
 @end
