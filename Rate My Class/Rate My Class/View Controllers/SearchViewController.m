@@ -8,8 +8,9 @@
 #import "SearchViewController.h"
 #import "HomeViewController.h"
 #import "ClassModel.h"
+#import "SearchCell.h"
 
-@interface SearchViewController () <UISearchBarDelegate>
+@interface SearchViewController () <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSArray *classesToShow;
 @property (nonatomic, strong) NSArray *allClasses;
@@ -24,6 +25,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.searchBar.delegate = self;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
+    self.tableView.rowHeight = 70;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -34,15 +39,18 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     if (searchText.length != 0) {
-        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *evaluatedObject, NSDictionary *bindings) {
-            return [evaluatedObject[@"id"] containsString:searchText];
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(ClassModel *evaluatedObject, NSDictionary *bindings) {
+            return [evaluatedObject.code containsString:searchText];
         }];
 
         self.classesToShow = [self.allClasses filteredArrayUsingPredicate:predicate];
+        //NSLog(@"%@", self.classesToShow);
     } else {
         self.classesToShow = nil;
         [self.view endEditing:YES];
     }
+    
+    [self.tableView reloadData];
 }
 
 /*
@@ -54,5 +62,24 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    SearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchCell"];
+    ClassModel *class = self.classesToShow[indexPath.row];
+    
+    cell.classNameLabel.text = class.code;
+    cell.ratingLabel.text = class.averageRating;
+    
+    NSLog(@"%@", class.code);
+    NSLog(@"%@", class.averageRating);
+    NSLog(@"in here cellforrow");
+    
+    return cell;
+}
+
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.classesToShow.count;
+}
+
 
 @end

@@ -100,6 +100,9 @@
     self.averageRating = [self roundDecimal:self.averageRating];
     self.averageDifficulty = [self roundDecimal:self.averageDifficulty];
     
+    self.overallRatingLabel.text = [NSString stringWithFormat:@"%@", self.averageRating];
+    self.overallDifficultyLabel.text = [NSString stringWithFormat:@"%@", self.averageDifficulty];
+
     NSString *string = [NSString stringWithFormat:@"%@", self.averageRating];
     [self.delegate sendOverallRating: string path:self.nextPath];
     
@@ -114,14 +117,12 @@
     NSDecimalNumber *rating = [NSDecimalNumber decimalNumberWithString:reviewRating];
     self.ratingTotal = [self.ratingTotal decimalNumberByAdding: rating];
     self.averageRating = [self.ratingTotal decimalNumberByDividingBy:(NSDecimalNumber *) self.numberOfReviews];
-    self.overallRatingLabel.text = [NSString stringWithFormat:@"%@", self.averageRating];
 }
 
 -(void)calculateAverageDifficulty: (NSString *)difficultyRating {
     NSDecimalNumber *rating = [NSDecimalNumber decimalNumberWithString:difficultyRating];
     self.difficultyTotal = [self.difficultyTotal decimalNumberByAdding: rating];
     self.averageDifficulty = [self.difficultyTotal decimalNumberByDividingBy:(NSDecimalNumber *) self.numberOfReviews];
-    self.overallDifficultyLabel.text = [NSString stringWithFormat:@"%@", self.averageDifficulty];
 }
 
 -(NSDecimalNumber *)roundDecimal: (NSDecimalNumber *)amount {
