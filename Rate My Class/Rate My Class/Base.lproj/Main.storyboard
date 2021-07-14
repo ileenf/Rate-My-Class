@@ -160,6 +160,7 @@
                                         <connections>
                                             <outlet property="classNameLabel" destination="nKp-mf-3AC" id="ZOz-hx-6zi"/>
                                             <outlet property="ratingLabel" destination="9kC-Gs-OoH" id="2YL-Lm-WRj"/>
+                                            <segue destination="SUZ-lu-31x" kind="show" id="Vaw-ba-92x"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -527,6 +528,9 @@
             <point key="canvasLocation" x="28.985507246376812" y="1703.5714285714284"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Vaw-ba-92x"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

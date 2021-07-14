@@ -44,7 +44,6 @@
         }];
 
         self.classesToShow = [self.allClasses filteredArrayUsingPredicate:predicate];
-        //NSLog(@"%@", self.classesToShow);
     } else {
         self.classesToShow = nil;
         [self.view endEditing:YES];
@@ -69,10 +68,6 @@
     
     cell.classNameLabel.text = class.code;
     cell.ratingLabel.text = class.averageRating;
-    
-    NSLog(@"%@", class.code);
-    NSLog(@"%@", class.averageRating);
-    NSLog(@"in here cellforrow");
     
     return cell;
 }
