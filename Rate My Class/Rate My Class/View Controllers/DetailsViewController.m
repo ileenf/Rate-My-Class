@@ -95,7 +95,6 @@
     NSLog(@"%@", review.rating);
     self.numberOfReviews = [self.numberOfReviews decimalNumberByAdding: [[NSDecimalNumber alloc] initWithFloat:1]];
 
-    
     [self calculateAverageRating: review.rating];
     [self calculateAverageDifficulty:review.difficulty];
     
@@ -118,7 +117,6 @@
     self.difficultyTotal = [self.difficultyTotal decimalNumberByAdding: rating];
     self.averageDifficulty = [self.difficultyTotal decimalNumberByDividingBy:(NSDecimalNumber *) self.numberOfReviews];
     self.overallDifficultyLabel.text = [NSString stringWithFormat:@"%@", self.averageDifficulty];
-    NSLog(@"difffff%@", self.averageDifficulty);
 }
 
 @end

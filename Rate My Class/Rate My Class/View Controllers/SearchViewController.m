@@ -31,18 +31,18 @@
     self.allClasses = homeVC.classes;
 }
 
-//- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-//    if (searchText.length != 0) {
-//        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *evaluatedObject, NSDictionary *bindings) {
-//            return [evaluatedObject[@"id"] containsString:searchText];
-//        }];
-//
-//        self.classesToShow = [self.movies filteredArrayUsingPredicate:predicate];
-//    } else {
-//        self.classesToShow = nil;
-//        [self.view endEditing:YES];
-//    }
-//}
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    if (searchText.length != 0) {
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *evaluatedObject, NSDictionary *bindings) {
+            return [evaluatedObject[@"id"] containsString:searchText];
+        }];
+
+        self.classesToShow = [self.allClasses filteredArrayUsingPredicate:predicate];
+    } else {
+        self.classesToShow = nil;
+        [self.view endEditing:YES];
+    }
+}
 
 /*
 #pragma mark - Navigation
