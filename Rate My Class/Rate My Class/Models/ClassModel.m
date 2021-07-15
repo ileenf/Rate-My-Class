@@ -12,8 +12,8 @@
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     
-    NSString *department = [NSString stringWithFormat:@"%@ ", dictionary[@"department"]];
-    self.code = [department stringByAppendingString:dictionary[@"number"]];
+    NSString *department = [NSString stringWithFormat:@"%@ %@", dictionary[@"department"], dictionary[@"number"]];
+    self.code = department;
     self.averageRating = @"N/A";
     
     return self;

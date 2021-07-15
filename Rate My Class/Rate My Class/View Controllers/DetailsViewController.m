@@ -51,7 +51,7 @@
     [self loadReviews];
 }
 
--(void)enableRefreshing {
+- (void)enableRefreshing {
     self.refreshControl = [[UIRefreshControl alloc] init];
     
     [self.refreshControl addTarget:self action:@selector(loadReviews) forControlEvents:UIControlEventValueChanged];
@@ -59,18 +59,8 @@
     [self.tableView insertSubview:self.refreshControl atIndex:0];
 }
 
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"ComposeSegue"]) {
-        ComposeViewController *composeViewController = [segue destinationViewController];
-        composeViewController.classCode = self.classCode.text;
-    }
-}
-
--(void)loadReviews {
-    PFQuery * query = [PFQuery queryWithClassName:@"Review"];
+- (void)loadReviews {
+    PFQuery *query = [PFQuery queryWithClassName:@"Review"];
     [query whereKey:@"code" equalTo:self.classCode.text];
     [query orderByDescending:@"createdAt"];
     [query includeKey:@"author"];
@@ -113,19 +103,19 @@
     return self.reviews.count;
 }
 
--(void)calculateAverageRating: (NSString *)reviewRating {
+- (void)calculateAverageRating: (NSString *)reviewRating {
     NSDecimalNumber *rating = [NSDecimalNumber decimalNumberWithString:reviewRating];
     self.ratingTotal = [self.ratingTotal decimalNumberByAdding: rating];
     self.averageRating = [self.ratingTotal decimalNumberByDividingBy:(NSDecimalNumber *) self.numberOfReviews];
 }
 
--(void)calculateAverageDifficulty: (NSString *)difficultyRating {
+- (void)calculateAverageDifficulty: (NSString *)difficultyRating {
     NSDecimalNumber *rating = [NSDecimalNumber decimalNumberWithString:difficultyRating];
     self.difficultyTotal = [self.difficultyTotal decimalNumberByAdding: rating];
     self.averageDifficulty = [self.difficultyTotal decimalNumberByDividingBy:(NSDecimalNumber *) self.numberOfReviews];
 }
 
--(NSDecimalNumber *)roundDecimal: (NSDecimalNumber *)amount {
+- (NSDecimalNumber *)roundDecimal: (NSDecimalNumber *)amount {
     NSDecimalNumberHandler *behavior = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain
                                                                                               scale:2
                                                                                    raiseOnExactness:NO
@@ -135,7 +125,15 @@
     
     NSDecimalNumber *roundedNumber = [amount decimalNumberByRoundingAccordingToBehavior:behavior];
     return roundedNumber;
-    
+}
+
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"ComposeSegue"]) {
+        ComposeViewController *composeViewController = [segue destinationViewController];
+        composeViewController.classCode = self.classCode.text;
+    }
 }
 
 @end
