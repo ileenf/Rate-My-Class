@@ -7,6 +7,8 @@
 
 #import "ProfileViewController.h"
 #import "DetailsViewController.h"
+#import "LoginViewController.h"
+#import "SceneDelegate.h"
 #import "Parse/Parse.h"
 #import "ProfileCell.h"
 #import "ReviewModel.h"
@@ -72,6 +74,16 @@
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.profileReviewsArray.count;
+}
+
+- (IBAction)handleLogout:(id)sender {
+    [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
+    }];
+    
+    SceneDelegate *myDelegate = (SceneDelegate *)self.view.window.windowScene.delegate;
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    LoginViewController *loginviewcontroller = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    myDelegate.window.rootViewController = loginviewcontroller;
 }
 
 #pragma mark - Navigation
