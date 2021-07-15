@@ -15,6 +15,7 @@
 
     self.classNameLabel.text = currClass.code;
     self.ratingLabel.text = currClass.averageRating;
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     
 }
 

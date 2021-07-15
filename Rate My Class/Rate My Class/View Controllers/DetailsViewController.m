@@ -81,8 +81,9 @@
     cell.ratingLabel.text = review.rating;
     cell.difficultyLabel.text = review.difficulty;
     cell.commentsLabel.text = review.comment;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    self.numberOfReviews = [self.numberOfReviews decimalNumberByAdding: [[NSDecimalNumber alloc] initWithFloat:1]];
+    self.numberOfReviews = [self.numberOfReviews decimalNumberByAdding:[[NSDecimalNumber alloc] initWithFloat:1]];
     
     [self calculateAverageRating: review.rating];
     [self calculateAverageDifficulty:review.difficulty];
@@ -103,19 +104,19 @@
     return self.reviews.count;
 }
 
-- (void)calculateAverageRating: (NSString *)reviewRating {
+- (void)calculateAverageRating:(NSString *)reviewRating {
     NSDecimalNumber *rating = [NSDecimalNumber decimalNumberWithString:reviewRating];
     self.ratingTotal = [self.ratingTotal decimalNumberByAdding: rating];
     self.averageRating = [self.ratingTotal decimalNumberByDividingBy:(NSDecimalNumber *) self.numberOfReviews];
 }
 
-- (void)calculateAverageDifficulty: (NSString *)difficultyRating {
+- (void)calculateAverageDifficulty:(NSString *)difficultyRating {
     NSDecimalNumber *rating = [NSDecimalNumber decimalNumberWithString:difficultyRating];
     self.difficultyTotal = [self.difficultyTotal decimalNumberByAdding: rating];
     self.averageDifficulty = [self.difficultyTotal decimalNumberByDividingBy:(NSDecimalNumber *) self.numberOfReviews];
 }
 
-- (NSDecimalNumber *)roundDecimal: (NSDecimalNumber *)amount {
+- (NSDecimalNumber *)roundDecimal:(NSDecimalNumber *)amount {
     NSDecimalNumberHandler *behavior = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain
                                                                                               scale:2
                                                                                    raiseOnExactness:NO

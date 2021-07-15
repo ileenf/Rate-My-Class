@@ -16,6 +16,7 @@
     self.classNameLabel.text = review.code;
     self.ratingLabel.text = review.rating;
     self.difficultyLabel.text = review.difficulty;
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 @end

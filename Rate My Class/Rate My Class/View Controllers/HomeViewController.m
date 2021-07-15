@@ -34,7 +34,7 @@
     [self fetchClasses];
 }
 
--(void)enableRefreshing {
+- (void)enableRefreshing {
     self.refreshControl = [[UIRefreshControl alloc] init];
     
     [self.refreshControl addTarget:self action:@selector(fetchClasses) forControlEvents:UIControlEventValueChanged];
