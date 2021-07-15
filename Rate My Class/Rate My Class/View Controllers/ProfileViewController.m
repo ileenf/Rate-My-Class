@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *profileReviewsArray;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -28,7 +29,16 @@
 
     self.tableView.rowHeight = 80;
     
+    [self enableRefreshing];
     [self loadProfileReviews];
+}
+
+- (void)enableRefreshing {
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    
+    [self.refreshControl addTarget:self action:@selector(loadProfileReviews) forControlEvents:UIControlEventValueChanged];
+    
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
 }
 
 - (void)loadProfileReviews {
@@ -42,6 +52,7 @@
         } else {
             NSLog(@"error");
         }
+        [self.refreshControl endRefreshing];
     }];
 }
 
