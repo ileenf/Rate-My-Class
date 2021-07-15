@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ReviewModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *classNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *ratingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *difficultyLabel;
+@property (strong, nonatomic) ReviewModel *review;
 
 @end
 

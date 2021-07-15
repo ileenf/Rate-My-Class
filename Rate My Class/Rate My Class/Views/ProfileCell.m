@@ -6,18 +6,16 @@
 //
 
 #import "ProfileCell.h"
+#import "ReviewModel.h"
 
 @implementation ProfileCell
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+- (void)setReview:(ReviewModel *)review {
+    _review = review;
+    
+    self.classNameLabel.text = review.code;
+    self.ratingLabel.text = review.rating;
+    self.difficultyLabel.text = review.difficulty;
 }
 
 @end

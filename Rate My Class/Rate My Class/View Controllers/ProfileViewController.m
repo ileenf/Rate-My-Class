@@ -49,9 +49,7 @@
     ProfileCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProfileCell" forIndexPath: indexPath];
     ReviewModel *review = self.profileReviewsArray[indexPath.row];
     
-    cell.classNameLabel.text = review.code;
-    cell.ratingLabel.text = review.rating;
-    cell.difficultyLabel.text = review.difficulty;
+    cell.review = review;
     
     return cell;
 }
