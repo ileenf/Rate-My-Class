@@ -36,7 +36,7 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
-    self.tableView.rowHeight = 170;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.classCode.text = self.classObj.code;
     
     NSLog(@"setting default values");
