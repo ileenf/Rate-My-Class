@@ -31,6 +31,9 @@
 
     self.tableView.rowHeight = 80;
     
+    self.user = [PFUser currentUser];
+    self.usernameLabel.text = [NSString stringWithFormat:@"%@", self.user.username];
+    
     [self enableRefreshing];
     [self loadProfileReviews];
 }
