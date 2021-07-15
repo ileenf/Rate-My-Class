@@ -7,6 +7,7 @@
 
 #import "SearchViewController.h"
 #import "HomeViewController.h"
+#import "DetailsViewController.h"
 #import "ClassModel.h"
 #import "SearchCell.h"
 
@@ -66,14 +67,17 @@
     return self.classesToShow.count;
 }
 
-/*
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"DetailsViewSegue"]) {
+        UITableViewCell *tappedCell = sender;
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
+        ClassModel *class = self.classesToShow[indexPath.row];
+        
+        DetailsViewController *detailsViewController = [segue destinationViewController];
+        detailsViewController.classObj = class;
+    }
 }
-*/
 
 @end

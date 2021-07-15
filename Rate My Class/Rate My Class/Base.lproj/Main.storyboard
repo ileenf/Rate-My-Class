@@ -160,7 +160,7 @@
                                         <connections>
                                             <outlet property="classNameLabel" destination="nKp-mf-3AC" id="ZOz-hx-6zi"/>
                                             <outlet property="ratingLabel" destination="9kC-Gs-OoH" id="2YL-Lm-WRj"/>
-                                            <segue destination="SUZ-lu-31x" kind="show" id="nMr-Kr-5Dc"/>
+                                            <segue destination="SUZ-lu-31x" kind="show" identifier="DetailsViewSegue" id="nMr-Kr-5Dc"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -534,7 +534,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A5U-13-o7K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3852.1739130434785" y="1668.75"/>
+            <point key="canvasLocation" x="3090" y="1696"/>
         </scene>
         <!--Compose View Controller-->
         <scene sceneID="toO-zn-heQ">
@@ -625,7 +625,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uqA-Zd-OqR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5002.898550724638" y="1668.75"/>
+            <point key="canvasLocation" x="4042" y="1696"/>
         </scene>
         <!--Classes-->
         <scene sceneID="nVQ-E6-55Y">
@@ -667,7 +667,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="oCO-aL-jc9"/>
+        <segue reference="nMr-Kr-5Dc"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="labelColor">

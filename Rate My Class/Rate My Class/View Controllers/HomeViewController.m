@@ -63,21 +63,6 @@
     cell.overallRating.text = rating;
 }
 
-#pragma mark - Navigation
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"DetailSegue"]) {
-        UITableViewCell *tappedCell = sender;
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
-        ClassModel *class = self.classes[indexPath.row];
-        
-        DetailsViewController *detailsViewController = [segue destinationViewController];
-        detailsViewController.classObj = class;
-        detailsViewController.delegate = self;
-        detailsViewController.nextPath = indexPath;
-    }
-}
-
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     ClassCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ClassCell"];
     ClassModel *class = self.classes[indexPath.row];
@@ -92,6 +77,21 @@
 
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.classes.count;
+}
+
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"DetailSegue"]) {
+        UITableViewCell *tappedCell = sender;
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
+        ClassModel *class = self.classes[indexPath.row];
+        
+        DetailsViewController *detailsViewController = [segue destinationViewController];
+        detailsViewController.classObj = class;
+        detailsViewController.delegate = self;
+        detailsViewController.nextPath = indexPath;
+    }
 }
 
 @end
