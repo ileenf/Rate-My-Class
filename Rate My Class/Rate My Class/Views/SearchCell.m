@@ -6,18 +6,16 @@
 //
 
 #import "SearchCell.h"
+#import "ClassModel.h"
 
 @implementation SearchCell
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
+- (void)setClass:(ClassModel *)currClass {
+    _currClass = currClass;
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+    self.classNameLabel.text = currClass.code;
+    self.ratingLabel.text = currClass.averageRating;
+    
 }
 
 @end

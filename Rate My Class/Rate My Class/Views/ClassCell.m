@@ -10,21 +10,13 @@
 
 @implementation ClassCell
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
+- (void)setClass:(ClassModel *)currClass {
+    _currClass = currClass;
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
-- (void)setClass:(ClassModel *)class {
-//    _class = class;
-//    
-//    self.className = 
+    self.className.text = currClass.code;
+    self.overallRating.text = currClass.averageRating;
+            
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     
 }
 

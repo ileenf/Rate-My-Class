@@ -57,8 +57,7 @@
     SearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchCell"];
     ClassModel *class = self.classesToShow[indexPath.row];
     
-    cell.classNameLabel.text = class.code;
-    cell.ratingLabel.text = class.averageRating;
+    cell.class = class;
     
     return cell;
 }

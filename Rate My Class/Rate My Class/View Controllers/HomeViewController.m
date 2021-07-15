@@ -67,10 +67,7 @@
     ClassCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ClassCell"];
     ClassModel *class = self.classes[indexPath.row];
 
-    cell.className.text = class.code;
-    cell.overallRating.text = class.averageRating;
-            
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.class = class;
 
     return cell;
 }
