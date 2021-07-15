@@ -1,13 +1,13 @@
 //
-//  UserReviewCell.m
+//  ProfileCell.m
 //  Rate My Class
 //
 //  Created by Ileen Fan on 7/15/21.
 //
 
-#import "UserReviewCell.h"
+#import "ProfileCell.h"
 
-@implementation UserReviewCell
+@implementation ProfileCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];

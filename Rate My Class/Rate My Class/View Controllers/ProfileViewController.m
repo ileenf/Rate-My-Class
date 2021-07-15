@@ -6,8 +6,15 @@
 //
 
 #import "ProfileViewController.h"
+#import "Parse/Parse.h"
+#import "ProfileCell.h"
+#import "ReviewModel.h"
 
-@interface ProfileViewController ()
+@interface ProfileViewController () <UITableViewDelegate, UITableViewDataSource>
+
+@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *profileReviewsArray;
 
 @end
 
@@ -15,7 +22,42 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+
+    self.tableView.rowHeight = 80;
+    
+    [self loadProfileReviews];
+}
+
+- (void)loadProfileReviews {
+    PFQuery * query = [PFQuery queryWithClassName:@"Review"];
+    [query orderByDescending:@"createdAt"];
+    [query whereKey:@"author" equalTo:[PFUser currentUser]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (error == nil){
+            self.profileReviewsArray = objects;
+            [self.tableView reloadData];
+        } else {
+            NSLog(@"error");
+        }
+    }];
+}
+
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    ProfileCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProfileCell" forIndexPath: indexPath];
+    ReviewModel *review = self.profileReviewsArray[indexPath.row];
+    
+    cell.classNameLabel.text = review.code;
+    cell.ratingLabel.text = review.rating;
+    cell.difficultyLabel.text = review.difficulty;
+    
+    return cell;
+}
+
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.profileReviewsArray.count;
 }
 
 /*
