@@ -6,9 +6,11 @@
 //
 
 #import "ProfileViewController.h"
+#import "DetailsViewController.h"
 #import "Parse/Parse.h"
 #import "ProfileCell.h"
 #import "ReviewModel.h"
+#import "ClassModel.h"
 
 @interface ProfileViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -69,14 +71,17 @@
     return self.profileReviewsArray.count;
 }
 
-/*
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"ProfileDetailsSegue"]) {
+        UITableViewCell *tappedCell = sender;
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
+        ClassModel *class = self.profileReviewsArray[indexPath.row];
+        
+        DetailsViewController *detailsViewController = [segue destinationViewController];
+        detailsViewController.classObj = class;
+    }
 }
-*/
 
 @end
