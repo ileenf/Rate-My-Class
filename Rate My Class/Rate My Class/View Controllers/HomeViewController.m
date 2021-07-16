@@ -50,17 +50,6 @@
         } else {
             self.classes = [ClassModel classesWithDictionaries:classes];
             
-            NSMutableArray *array = [NSMutableArray array];
-            for (ClassModel *class in self.classes){
-                if (![array containsObject:class.department]) {
-                    [array addObject:class.department];
-                }
-
-                
-            }
-            
-            NSLog(@"this is array of deps.   %@", array);
-            
             [self.tableView reloadData];
         }
         [self.refreshControl endRefreshing];

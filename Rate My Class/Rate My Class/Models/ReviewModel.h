@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *difficulty;
 @property (nonatomic, strong) NSString *code;
 @property (nonatomic, strong) NSNumber *likeCount;
+@property (nonatomic) BOOL liked;
 
 + (void) postReview: (NSNumber * _Nullable)rating withDifficulty: (NSNumber * _Nullable)difficulty withCode: (NSString * _Nullable)code withComment: (NSString * _Nullable)comment withCompletion: (PFBooleanResultBlock  _Nullable)completion;
 

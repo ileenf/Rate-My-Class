@@ -15,6 +15,8 @@
 @dynamic rating;
 @dynamic difficulty;
 @dynamic code;
+@dynamic likeCount;
+@dynamic liked;
 
 + (nonnull NSString *)parseClassName {
     return @"Review";
@@ -28,6 +30,7 @@
     newReview.difficulty = difficulty;
     newReview.code = code;
     newReview.likeCount = @(0);
+    newReview.liked = NO;
  
     [newReview saveInBackgroundWithBlock: completion];
 }

@@ -38,9 +38,7 @@
     
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.classCode.text = self.classObj.code;
-    
-    NSLog(@"setting default values");
-    
+        
     self.ratingTotal = [[NSDecimalNumber alloc] initWithDouble:0.0];
     self.numberOfReviews = [[NSDecimalNumber alloc] initWithDouble:0.0];
     self.averageRating = [[NSDecimalNumber alloc] initWithDouble:0.0];;
@@ -81,6 +79,9 @@
     cell.ratingLabel.text = review.rating;
     cell.difficultyLabel.text = review.difficulty;
     cell.commentsLabel.text = review.comment;
+    cell.likeCountLabel.text = [NSString stringWithFormat:@"%@", review.likeCount];
+    cell.review = review;
+
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     self.numberOfReviews = [self.numberOfReviews decimalNumberByAdding:[[NSDecimalNumber alloc] initWithFloat:1]];
