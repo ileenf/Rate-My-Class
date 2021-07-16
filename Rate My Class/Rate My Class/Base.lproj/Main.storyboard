@@ -684,7 +684,7 @@
         <scene sceneID="nVQ-E6-55Y">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="I02-Jr-Dnv" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Classes" id="g7e-Xc-zkm"/>
+                    <tabBarItem key="tabBarItem" title="Classes" image="feed_tab" id="g7e-Xc-zkm"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Gnt-Ph-B5G">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -703,7 +703,7 @@
         <scene sceneID="aQc-S4-Mxc">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1oQ-34-lMZ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Search" id="93q-Xe-xQS"/>
+                    <tabBarItem key="tabBarItem" title="Search" image="icons8-search-30" id="93q-Xe-xQS"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wjr-iI-9zk">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -722,7 +722,7 @@
         <scene sceneID="Dro-b8-gAh">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="GP3-VU-K6B" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" id="ggW-kr-PlN"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="profile_tab" id="ggW-kr-PlN"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4sS-O0-CoE">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -742,6 +742,9 @@
         <segue reference="nMr-Kr-5Dc"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="feed_tab" width="25" height="25"/>
+        <image name="icons8-search-30" width="30" height="30"/>
+        <image name="profile_tab" width="25" height="25"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

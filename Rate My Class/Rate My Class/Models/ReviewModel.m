@@ -27,6 +27,7 @@
     newReview.rating = rating;
     newReview.difficulty = difficulty;
     newReview.code = code;
+    newReview.likeCount = @(0);
  
     [newReview saveInBackgroundWithBlock: completion];
 }

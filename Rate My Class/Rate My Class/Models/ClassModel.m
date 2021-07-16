@@ -12,9 +12,10 @@
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     
-    NSString *department = [NSString stringWithFormat:@"%@ %@", dictionary[@"department"], dictionary[@"number"]];
-    self.code = department;
+    NSString *formattedCode = [NSString stringWithFormat:@"%@ %@", dictionary[@"department"], dictionary[@"number"]];
+    self.code = formattedCode;
     self.averageRating = @"N/A";
+    self.department = dictionary[@"department_name"];
     
     return self;
 }

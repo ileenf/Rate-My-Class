@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString *code;
 @property (nonatomic, strong) NSString *averageRating;
+@property (nonatomic, strong) NSString *department;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 
