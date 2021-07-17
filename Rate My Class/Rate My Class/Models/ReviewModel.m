@@ -17,6 +17,7 @@
 @dynamic code;
 @dynamic likeCount;
 @dynamic liked;
+@dynamic usersLiked;
 
 + (nonnull NSString *)parseClassName {
     return @"Review";
@@ -31,6 +32,7 @@
     newReview.code = code;
     newReview.likeCount = @(0);
     newReview.liked = NO;
+    newReview.usersLiked = [[NSMutableArray alloc] init];
  
     [newReview saveInBackgroundWithBlock: completion];
 }

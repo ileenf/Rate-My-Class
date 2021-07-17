@@ -73,7 +73,7 @@
     }];
 }
 
-- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath { 
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     ReviewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ReviewCell"];
     ReviewModel *review = self.reviews[indexPath.row];
     cell.ratingLabel.text = review.rating;
@@ -83,7 +83,11 @@
     cell.review = review;
 
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
+
+    if ([review.usersLiked containsObject:[PFUser currentUser].username]) {
+        [cell.likeIcon setSelected: YES];
+    }
+        
     self.numberOfReviews = [self.numberOfReviews decimalNumberByAdding:[[NSDecimalNumber alloc] initWithFloat:1]];
     
     [self calculateAverageRating: review.rating];
