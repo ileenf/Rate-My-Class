@@ -44,9 +44,32 @@
     self.averageRating = [[NSDecimalNumber alloc] initWithDouble:0.0];;
     self.difficultyTotal = [[NSDecimalNumber alloc] initWithDouble:0.0];
     self.averageDifficulty = [[NSDecimalNumber alloc] initWithDouble:0.0];
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
+    tapGesture.numberOfTapsRequired = 2;
+    [self.view addGestureRecognizer:tapGesture];
 
     [self enableRefreshing];
     [self loadReviews];
+}
+
+- (void)handleDoubleTap:(UITapGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateRecognized) {
+        NSIndexPath *tapLocation = self.tableView.indexPathForSelectedRow;
+        ReviewCell *cell = [self.tableView cellForRowAtIndexPath:tapLocation];
+        
+        if (cell.review.liked == NO){
+            cell.review.liked = YES;
+            
+            int value = [cell.review.likeCount intValue];
+            cell.review.likeCount = [NSNumber numberWithInt:value + 1];
+            
+            cell.likeCountLabel.text = [NSString stringWithFormat:@"%@", cell.review.likeCount];
+            
+            [cell.likeIcon setSelected: cell.review.liked];
+            [cell.review saveInBackground];
+        }
+    }
 }
 
 - (void)enableRefreshing {
