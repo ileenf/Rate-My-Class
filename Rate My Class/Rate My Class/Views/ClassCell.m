@@ -6,15 +6,15 @@
 //
 
 #import "ClassCell.h"
-#import "ClassModel.h"
+#import "ClassObject.h"
 
 @implementation ClassCell
 
-- (void)setClass:(ClassModel *)currClass {
+- (void)setClass:(ClassObject *)currClass {
     _currClass = currClass;
 
-    self.className.text = currClass.code;
-    self.overallRating.text = currClass.averageRating;
+    self.className.text = currClass.classCode;
+    self.overallRating.text = currClass.overallRating;
             
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     

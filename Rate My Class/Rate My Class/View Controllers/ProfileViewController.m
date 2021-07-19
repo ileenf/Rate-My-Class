@@ -12,7 +12,7 @@
 #import "Parse/Parse.h"
 #import "ProfileCell.h"
 #import "ReviewModel.h"
-#import "ClassModel.h"
+#import "ClassObject.h"
 
 @interface ProfileViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -92,10 +92,11 @@
     if ([[segue identifier] isEqualToString:@"ProfileDetailsSegue"]) {
         UITableViewCell *tappedCell = sender;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
-        ClassModel *class = self.profileReviewsArray[indexPath.row];
+        ReviewModel *review = self.profileReviewsArray[indexPath.row];
         
         DetailsViewController *detailsViewController = [segue destinationViewController];
-        detailsViewController.classObj = class;
+        detailsViewController.code = review.code;
+        detailsViewController.fromHome = NO;
     }
 }
 

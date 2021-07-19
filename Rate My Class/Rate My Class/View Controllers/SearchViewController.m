@@ -8,8 +8,8 @@
 #import "SearchViewController.h"
 #import "HomeViewController.h"
 #import "DetailsViewController.h"
-#import "ClassModel.h"
 #import "SearchCell.h"
+#import "ClassObject.h"
 
 @interface SearchViewController () <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -40,8 +40,8 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     if (searchText.length != 0) {
-        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(ClassModel *evaluatedObject, NSDictionary *bindings) {
-            return [evaluatedObject.code containsString:searchText];
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(ClassObject *evaluatedObject, NSDictionary *bindings) {
+            return [evaluatedObject.classCode containsString:searchText];
         }];
 
         self.classesToShow = [self.allClasses filteredArrayUsingPredicate:predicate];
@@ -55,7 +55,7 @@
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     SearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchCell"];
-    ClassModel *class = self.classesToShow[indexPath.row];
+    ClassObject *class = self.classesToShow[indexPath.row];
     
     cell.class = class;
     
@@ -72,7 +72,7 @@
     if ([[segue identifier] isEqualToString:@"DetailsViewSegue"]) {
         UITableViewCell *tappedCell = sender;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
-        ClassModel *class = self.classesToShow[indexPath.row];
+        ClassObject *class = self.classesToShow[indexPath.row];
         
         DetailsViewController *detailsViewController = [segue destinationViewController];
         detailsViewController.classObj = class;

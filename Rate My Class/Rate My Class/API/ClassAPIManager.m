@@ -6,7 +6,6 @@
 //
 
 #import "ClassAPIManager.h"
-#import "ClassModel.h"
 #import "ClassObject.h"
 
 

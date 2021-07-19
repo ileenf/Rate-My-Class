@@ -9,7 +9,7 @@
 #import "DetailsViewController.h"
 #import "ClassAPIManager.h"
 #import "ClassCell.h"
-#import "ClassModel.h"
+#import "ClassObject.h"
 
 @interface HomeViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -48,7 +48,7 @@
 
         if (error){
         } else {
-            self.classes = [ClassModel classesWithDictionaries:classes];
+            self.classes = [ClassObject classesWithQueries:classes];
             
             [self.tableView reloadData];
         }
@@ -56,16 +56,9 @@
     }];
 }
 
-- (void)sendOverallRating:(NSString *)rating path:(nonnull NSIndexPath *)indexPath{
-    ClassCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    ClassModel *class = self.classes[indexPath.row];
-    class.averageRating = rating;
-    cell.overallRating.text = rating;
-}
-
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     ClassCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ClassCell"];
-    ClassModel *class = self.classes[indexPath.row];
+    ClassObject *class = self.classes[indexPath.row];
 
     cell.class = class;
 
@@ -82,12 +75,11 @@
     if ([[segue identifier] isEqualToString:@"DetailSegue"]) {
         UITableViewCell *tappedCell = sender;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
-        ClassModel *class = self.classes[indexPath.row];
+        ClassObject *class = self.classes[indexPath.row];
         
         DetailsViewController *detailsViewController = [segue destinationViewController];
         detailsViewController.classObj = class;
-        detailsViewController.delegate = self;
-        detailsViewController.nextPath = indexPath;
+        detailsViewController.fromHome = YES;
     }
 }
 

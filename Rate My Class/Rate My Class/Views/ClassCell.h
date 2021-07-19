@@ -6,16 +6,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ClassModel.h"
+#import "ClassObject.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ClassCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *className;
 @property (weak, nonatomic) IBOutlet UILabel *overallRating;
-@property (strong, nonatomic) ClassModel *currClass;
+@property (strong, nonatomic) ClassObject *currClass;
 
-- (void)setClass:(ClassModel *)currClass;
+- (void)setClass:(ClassObject *)currClass;
 
 @end
 

@@ -16,7 +16,6 @@
         self.tempUsersLiked = [[NSMutableArray alloc] init];
     }
     
-    NSLog(@"%@", self.review.usersLiked);
     if ([self.review.usersLiked containsObject:[PFUser currentUser].username]) {
         int value = [self.review.likeCount intValue];
         self.review.likeCount = [NSNumber numberWithInt:value - 1];

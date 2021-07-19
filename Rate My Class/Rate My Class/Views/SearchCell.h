@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ClassModel.h"
+#import "ClassObject.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,9 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) IBOutlet UILabel *ratingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *classNameLabel;
-@property (strong, nonatomic) ClassModel *currClass;
+@property (strong, nonatomic) ClassObject *currClass;
 
-- (void)setClass:(ClassModel *)currClass;
+- (void)setClass:(ClassObject *)currClass;
 
 @end
 

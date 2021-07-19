@@ -6,15 +6,15 @@
 //
 
 #import "SearchCell.h"
-#import "ClassModel.h"
+#import "ClassObject.h"
 
 @implementation SearchCell
 
-- (void)setClass:(ClassModel *)currClass {
+- (void)setClass:(ClassObject *)currClass {
     _currClass = currClass;
 
-    self.classNameLabel.text = currClass.code;
-    self.ratingLabel.text = currClass.averageRating;
+    self.classNameLabel.text = currClass.classCode;
+    self.ratingLabel.text = currClass.overallRating;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
 }

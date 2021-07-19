@@ -37,7 +37,12 @@
     self.tableView.delegate = self;
     
     self.tableView.rowHeight = UITableViewAutomaticDimension;
-    self.classCode.text = self.classObj.code;
+    
+    if (self.fromHome){
+        self.classCode.text = self.classObj.classCode;
+    } else {
+        self.classCode.text = self.code;
+    }
         
     self.ratingTotal = [[NSDecimalNumber alloc] initWithDouble:0.0];
     self.numberOfReviews = [[NSDecimalNumber alloc] initWithDouble:0.0];
@@ -123,7 +128,6 @@
     self.overallDifficultyLabel.text = [NSString stringWithFormat:@"%@", self.averageDifficulty];
 
     NSString *string = [NSString stringWithFormat:@"%@", self.averageRating];
-    [self.delegate sendOverallRating: string path:self.nextPath];
     
     return cell;
 }
