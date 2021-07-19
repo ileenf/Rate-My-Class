@@ -7,6 +7,7 @@
 
 #import "ClassAPIManager.h"
 #import "ClassModel.h"
+#import "ClassObject.h"
 
 
 @interface ClassAPIManager()
@@ -34,7 +35,6 @@
         }
         else {
             NSArray *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            
             completion(dataDictionary, nil);
         }
     }];

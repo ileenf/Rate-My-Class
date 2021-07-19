@@ -6,6 +6,7 @@
 //
 
 #import "ClassModel.h"
+#import <Parse/Parse.h>
 
 @implementation ClassModel
 

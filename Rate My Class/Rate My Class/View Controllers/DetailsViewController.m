@@ -58,15 +58,15 @@
         NSIndexPath *tapLocation = self.tableView.indexPathForSelectedRow;
         ReviewCell *cell = [self.tableView cellForRowAtIndexPath:tapLocation];
         
-        if (cell.review.liked == NO){
-            cell.review.liked = YES;
+        if (![cell.review.usersLiked containsObject:[PFUser currentUser].username]){
             
             int value = [cell.review.likeCount intValue];
             cell.review.likeCount = [NSNumber numberWithInt:value + 1];
             
             cell.likeCountLabel.text = [NSString stringWithFormat:@"%@", cell.review.likeCount];
             
-            [cell.likeIcon setSelected: cell.review.liked];
+            [cell.review.usersLiked addObject:[PFUser currentUser].username];
+            [cell.likeIcon setSelected: YES];
             [cell.review saveInBackground];
         }
     }

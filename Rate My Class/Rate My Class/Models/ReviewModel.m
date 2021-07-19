@@ -6,7 +6,6 @@
 //
 
 #import "ReviewModel.h"
-#import <Parse/Parse.h>
 
 @implementation ReviewModel
 
