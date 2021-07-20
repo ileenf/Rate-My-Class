@@ -12,10 +12,6 @@
 @implementation ReviewCell
 
 - (IBAction)didTapLike:(id)sender {
-    if (self.review.usersLiked == nil){
-        self.tempUsersLiked = [[NSMutableArray alloc] init];
-    }
-    
     if ([self.review.usersLiked containsObject:[PFUser currentUser].username]) {
         int value = [self.review.likeCount intValue];
         self.review.likeCount = [NSNumber numberWithInt:value - 1];

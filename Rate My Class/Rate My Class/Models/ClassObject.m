@@ -30,14 +30,17 @@
 + (NSMutableArray *)classesWithQueries:(NSMutableArray *)dictionaries {
     NSMutableArray *classes = [NSMutableArray array];
     for (NSDictionary *dictionary in dictionaries){
-        ClassObject *class = [ClassObject createClass:@"N/A" withDifficulty:@"N/A" withCode:[NSString stringWithFormat:@"%@ %@", dictionary[@"department"], dictionary[@"number"]] withDepartment:dictionary[@"department_name"] withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+        ClassObject *class = [ClassObject createClass:@"N/A"
+                                       withDifficulty:@"N/A"
+                                             withCode:[NSString stringWithFormat:@"%@ %@", dictionary[@"department"], dictionary[@"number"]]
+                                       withDepartment:dictionary[@"department_name"] withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         }];
         
         [classes addObject:class];
     }
     
-    [PFObject saveAllInBackground:classes block:^(BOOL succeeded, NSError * _Nullable error) {
-    }];
+//    [PFObject saveAllInBackground:classes block:^(BOOL succeeded, NSError * _Nullable error) {
+//    }];
 
     return classes;
 }

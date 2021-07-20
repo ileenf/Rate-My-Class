@@ -8,10 +8,10 @@
 #import "ClassAPIManager.h"
 #import "ClassObject.h"
 
-
 @interface ClassAPIManager()
 
 @property (nonatomic, strong) NSURLSession *session;
+@property (nonatomic, strong) PFQuery *query;
 
 @end
 
@@ -20,8 +20,9 @@
 - (id)init {
     self = [super init];
 
-    self.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-
+    self.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil
+                                            delegateQueue:[NSOperationQueue mainQueue]];
+    
     return self;
 }
 
@@ -33,8 +34,9 @@
             NSLog(@"%@", [error localizedDescription]);
         }
         else {
-            NSArray *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            completion(dataDictionary, nil);
+            NSMutableArray *dataArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        
+            completion(dataArray, nil);
         }
     }];
     [task resume];

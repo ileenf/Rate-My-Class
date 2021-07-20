@@ -11,12 +11,9 @@
 #import "Parse/Parse.h"
 #import "ClassObject.h"
 
-
-
 @interface TagsViewController ()
 
 @property (nonatomic, strong) TTGTextTagCollectionView *tagCollectionView;
-@property (nonatomic, strong) NSArray *classes;
 @property (nonatomic, strong) NSMutableArray *departments;
 
 @end
@@ -27,28 +24,31 @@
     [super viewDidLoad];
     
     [self fetchDepartments];
-    [self createTagsView];
 }
 
 - (void)fetchDepartments {
     PFQuery *query = [PFQuery queryWithClassName:@"Class"];
-
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (error == nil){
-            self.classes = objects;
-        }
+            self.departments = [self getDepartments:objects];
+
+            [self createTagsView];
+        } 
     }];
-    
-    self.departments = [[NSMutableArray alloc] init];
-    for (ClassObject *class in self.classes) {
-        if (![self.departments containsObject:class.department]) {
-            [self.departments addObject:class.department];
+}
+
+- (NSMutableArray *)getDepartments:(NSArray *)classes {
+    NSMutableArray *depts = [[NSMutableArray alloc] init];
+    for (ClassObject *class in classes) {
+        if (![depts containsObject:class.department]) {
+            [depts addObject:class.department];
         }
     }
+    return depts;
 }
 
 - (void)createTagsView {
-    self.tagCollectionView = [[TTGTextTagCollectionView alloc] initWithFrame:CGRectMake(20, 20, 200, 200)];
+    self.tagCollectionView = [[TTGTextTagCollectionView alloc] initWithFrame:CGRectMake(20, 20, 400, 1200)];
     [self.view addSubview:self.tagCollectionView];
     
     NSArray *tagsArray = [self createInterestTagsArray:self.departments];
