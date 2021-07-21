@@ -31,10 +31,11 @@
 + (void)classesWithQueries:(NSMutableArray *)allClasses handler:(void(^)(NSMutableArray *classes, NSError *error))completion {
     NSMutableSet *newClasses = [NSMutableSet set];
 
-    PFQuery *query1 = [PFQuery queryWithClassName:@"Class"];
-    [query1 selectKeys:@[@"classCode"]];
+    PFQuery *query = [PFQuery queryWithClassName:@"Class"];
+    [query selectKeys:@[@"classCode"]];
+    query.limit = 10000;
     
-    [query1 findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (error == nil) {
             // get class codes from database
             NSMutableSet *classCodesFromParse = [NSMutableSet set];
