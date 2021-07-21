@@ -11,10 +11,11 @@
 #import "Parse/Parse.h"
 #import "ClassObject.h"
 
-@interface TagsViewController ()
+@interface TagsViewController () <TTGTextTagCollectionViewDelegate>
 
 @property (nonatomic, strong) TTGTextTagCollectionView *tagCollectionView;
 @property (nonatomic, strong) NSMutableArray *departments;
+@property (nonatomic, strong) NSMutableArray *selectedTags;
 
 @end
 
@@ -22,6 +23,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.tagCollectionView.delegate = self;
     
     [self fetchDepartments];
 }
@@ -50,7 +53,10 @@
 }
 
 - (void)createTagsView {
-    self.tagCollectionView = [[TTGTextTagCollectionView alloc] initWithFrame:CGRectMake(20, 20, 400, 1200)];
+    self.tagCollectionView = [[TTGTextTagCollectionView alloc] initWithFrame:CGRectMake(20, 20, 400, 1000)];
+    self.tagCollectionView.enableTagSelection = YES;
+    self.tagCollectionView.manualCalculateHeight = YES;
+    
     [self.view addSubview:self.tagCollectionView];
     
     NSArray *tagsArray = [self createInterestTagsArray:self.departments];
@@ -62,19 +68,16 @@
     NSMutableArray *tagsArray = [[NSMutableArray alloc] init];
     for (NSString *department in self.departments){
         TTGTextTag *textTag = [TTGTextTag tagWithContent:[TTGTextTagStringContent contentWithText:department] style:[TTGTextTagStyle new]];
+        textTag.style.backgroundColor = [UIColor colorWithRed:0 green:0.5294 blue:0.8196 alpha:1];
+        textTag.style.extraSpace = CGSizeMake(20.5, 20.5);
         [tagsArray addObject:textTag];
     }
     return tagsArray;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)textTagCollectionView:(TTGTextTagCollectionView *)textTagCollectionView didTapTag:(TTGTextTag *)tag atIndex:(NSUInteger)index {
+    tag.selected = YES;
+    [self.selectedTags addObject:tag];
 }
-*/
 
 @end
