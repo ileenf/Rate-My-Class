@@ -16,6 +16,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (nonatomic, strong) NSMutableDictionary *deptToClasses;
 
 @end
 
@@ -30,6 +31,7 @@
     self.tableView.rowHeight = 70;
 
     self.classes = [[NSMutableArray alloc] init];
+    self.deptToClasses = [[NSMutableDictionary alloc] init];
     
     [self enableRefreshing];
     [self fetchClasses];
@@ -43,6 +45,18 @@
     [self.tableView insertSubview:self.refreshControl atIndex:0];
 }
 
+- (void)createDeptToClassesMapping {
+    for (ClassObject *class in self.classes) {
+        NSMutableArray *classesArray = [self.deptToClasses objectForKey:class.department];
+        if (classesArray == nil) {
+            NSMutableArray *initialClassArray = [NSMutableArray arrayWithObject:class];
+            [self.deptToClasses setObject:initialClassArray forKey:class.department];
+        } else {
+            [classesArray addObject:class];
+        }
+    }
+}
+
 - (void)fetchClasses {
     ClassAPIManager *manager = [ClassAPIManager new];
     [manager fetchCurrentClasses:^(NSArray *classes, NSError *error) {
@@ -51,6 +65,8 @@
                 if (error == nil) {
                     self.classes = classes;
                     [self.tableView reloadData];
+                    
+                    [self createDeptToClassesMapping];
                     
                     UINavigationController *nav = (UINavigationController*) [[self.tabBarController viewControllers] objectAtIndex:1];
                     SearchViewController *searchVC = (SearchViewController *)nav.topViewController;

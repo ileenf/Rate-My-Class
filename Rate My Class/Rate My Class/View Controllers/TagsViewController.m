@@ -75,9 +75,4 @@
     return tagsArray;
 }
 
-- (void)textTagCollectionView:(TTGTextTagCollectionView *)textTagCollectionView didTapTag:(TTGTextTag *)tag atIndex:(NSUInteger)index {
-    tag.selected = YES;
-    [self.selectedTags addObject:tag];
-}
-
 @end
