@@ -15,7 +15,6 @@
 
     self.className.text = currClass.classCode;
     self.overallRating.text = currClass.overallRating;
-            
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
 }

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) ClassObject *classObj;
 @property (nonatomic) NSString *code;
-@property (nonatomic) BOOL fromHome;
+@property (nonatomic) BOOL sendingClassObject;
 
 @end
 

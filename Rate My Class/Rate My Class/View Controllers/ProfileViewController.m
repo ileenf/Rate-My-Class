@@ -96,7 +96,7 @@
         
         DetailsViewController *detailsViewController = [segue destinationViewController];
         detailsViewController.code = review.code;
-        detailsViewController.fromHome = NO;
+        detailsViewController.sendingClassObject = NO;
     }
 }
 

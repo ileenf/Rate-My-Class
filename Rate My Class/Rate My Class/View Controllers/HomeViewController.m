@@ -55,7 +55,6 @@
         }
         [self.refreshControl endRefreshing];
     }];
-    
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -74,14 +73,14 @@
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"DetailSegue"]) {
+    if ([[segue identifier] isEqualToString:@"DetailSegueFromHome"]) {
         UITableViewCell *tappedCell = sender;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
         ClassObject *class = self.classes[indexPath.row];
         
         DetailsViewController *detailsViewController = [segue destinationViewController];
         detailsViewController.classObj = class;
-        detailsViewController.fromHome = YES;
+        detailsViewController.sendingClassObject = YES;
     }
 }
 

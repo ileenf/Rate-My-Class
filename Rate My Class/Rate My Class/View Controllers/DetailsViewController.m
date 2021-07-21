@@ -38,7 +38,7 @@
     
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
-    if (self.fromHome){
+    if (self.sendingClassObject){
         self.classCode.text = self.classObj.classCode;
     } else {
         self.classCode.text = self.code;
@@ -87,7 +87,6 @@
 
 - (void)loadReviews {
     PFQuery *query = [PFQuery queryWithClassName:@"Review"];
-    NSLog(@"%@", self.classCode.text);
     [query whereKey:@"code" equalTo:self.classCode.text];
     [query orderByDescending:@"createdAt"];
     [query includeKey:@"author"];

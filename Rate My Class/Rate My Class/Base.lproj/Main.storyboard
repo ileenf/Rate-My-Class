@@ -232,7 +232,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Select Interests"/>
                                 <connections>
-                                    <segue destination="Aue-9G-OhS" kind="show" id="hBO-a2-DGa"/>
+                                    <segue destination="eTB-2h-qHl" kind="show" id="HyN-ih-W3O"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="My Reviews" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BUI-VX-jxs">
@@ -347,7 +347,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y27-qz-v1M" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3561" y="2391"/>
+            <point key="canvasLocation" x="2768" y="2391"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="vh7-a0-x7R">
@@ -782,28 +782,9 @@
             </objects>
             <point key="canvasLocation" x="1539.1304347826087" y="1641.9642857142856"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="5cl-xx-4sy">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Aue-9G-OhS" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="Fb4-Fu-uBy"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="CeW-FC-j8K">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="eTB-2h-qHl" kind="relationship" relationship="rootViewController" id="8pB-YB-w0x"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="B5s-eC-H96" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2574" y="2391"/>
-        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="nMr-Kr-5Dc"/>
+        <segue reference="oCO-aL-jc9"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="favor-icon" width="30" height="30"/>
