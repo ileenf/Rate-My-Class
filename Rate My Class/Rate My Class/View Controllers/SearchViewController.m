@@ -69,13 +69,14 @@
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"DetailsViewSegue"]) {
+    if ([[segue identifier] isEqualToString:@"DetailSegueFromSearch"]) {
         UITableViewCell *tappedCell = sender;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
         ClassObject *class = self.classesToShow[indexPath.row];
         
         DetailsViewController *detailsViewController = [segue destinationViewController];
         detailsViewController.classObj = class;
+        detailsViewController.fromHome = YES;
     }
 }
 

@@ -32,12 +32,10 @@
     NSMutableSet *newClasses = [NSMutableSet set];
 
     PFQuery *query = [PFQuery queryWithClassName:@"Class"];
-    [query selectKeys:@[@"classCode"]];
     query.limit = 10000;
     
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (error == nil) {
-            // get class codes from database
             NSMutableSet *classCodesFromParse = [NSMutableSet set];
             for (ClassObject *object in objects) {
                 [classCodesFromParse addObject:object.classCode];
@@ -56,7 +54,7 @@
             }
             [PFObject saveAllInBackground:(NSArray *)newClasses block:^(BOOL succeeded, NSError * _Nullable error) {
                 if (error == nil) {
-                    completion(allClasses, nil);
+                    completion(objects, nil);
                 }
             }];
         }

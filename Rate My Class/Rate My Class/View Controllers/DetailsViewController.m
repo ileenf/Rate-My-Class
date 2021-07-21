@@ -87,6 +87,7 @@
 
 - (void)loadReviews {
     PFQuery *query = [PFQuery queryWithClassName:@"Review"];
+    NSLog(@"%@", self.classCode.text);
     [query whereKey:@"code" equalTo:self.classCode.text];
     [query orderByDescending:@"createdAt"];
     [query includeKey:@"author"];

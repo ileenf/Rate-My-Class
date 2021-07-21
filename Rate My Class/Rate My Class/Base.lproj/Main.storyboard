@@ -167,7 +167,7 @@
                                         <connections>
                                             <outlet property="classNameLabel" destination="nKp-mf-3AC" id="ZOz-hx-6zi"/>
                                             <outlet property="ratingLabel" destination="9kC-Gs-OoH" id="2YL-Lm-WRj"/>
-                                            <segue destination="SUZ-lu-31x" kind="show" identifier="DetailsViewSegue" id="nMr-Kr-5Dc"/>
+                                            <segue destination="SUZ-lu-31x" kind="show" identifier="DetailSegueFromSearch" id="nMr-Kr-5Dc"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -417,7 +417,7 @@
                                         <connections>
                                             <outlet property="className" destination="5Wr-Nc-fOb" id="Fcf-n7-guy"/>
                                             <outlet property="overallRating" destination="Wrc-aa-aEv" id="Gim-1O-3Rw"/>
-                                            <segue destination="SUZ-lu-31x" kind="show" identifier="DetailSegue" id="oCO-aL-jc9"/>
+                                            <segue destination="SUZ-lu-31x" kind="show" identifier="DetailSegueFromHome" id="oCO-aL-jc9"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -803,7 +803,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="gwd-Ie-wwR"/>
+        <segue reference="nMr-Kr-5Dc"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="favor-icon" width="30" height="30"/>
