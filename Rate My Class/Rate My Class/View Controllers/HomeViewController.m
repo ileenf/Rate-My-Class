@@ -51,6 +51,10 @@
                 if (error == nil) {
                     self.classes = classes;
                     [self.tableView reloadData];
+                    
+                    UINavigationController *nav = (UINavigationController*) [[self.tabBarController viewControllers] objectAtIndex:1];
+                    SearchViewController *searchVC = (SearchViewController *)nav.topViewController;
+                    searchVC.allClasses = self.classes;
                 }
             }];
         }
