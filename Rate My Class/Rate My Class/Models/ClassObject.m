@@ -7,6 +7,7 @@
 
 #import "ClassObject.h"
 #import <Parse/Parse.h>
+#import "ClassAPIManager.h"
 
 @implementation ClassObject
 
@@ -23,26 +24,42 @@
     newClass.classCode = classCode;
     newClass.department = department;
     newClass.overallRating = overallRating;
-    
+        
     return newClass;
 }
 
-+ (NSMutableArray *)classesWithQueries:(NSMutableArray *)dictionaries {
-    NSMutableArray *classes = [NSMutableArray array];
-    for (NSDictionary *dictionary in dictionaries){
-        ClassObject *class = [ClassObject createClass:@"N/A"
-                                       withDifficulty:@"N/A"
-                                             withCode:[NSString stringWithFormat:@"%@ %@", dictionary[@"department"], dictionary[@"number"]]
-                                       withDepartment:dictionary[@"department_name"] withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
-        }];
-        
-        [classes addObject:class];
-    }
++ (void)classesWithQueries:(NSMutableArray *)allClasses handler:(void(^)(NSMutableArray *classes, NSError *error))completion {
+    NSMutableSet *newClasses = [NSMutableSet set];
+
+    PFQuery *query1 = [PFQuery queryWithClassName:@"Class"];
+    [query1 selectKeys:@[@"classCode"]];
     
-//    [PFObject saveAllInBackground:classes block:^(BOOL succeeded, NSError * _Nullable error) {
-//    }];
-
-    return classes;
+    [query1 findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (error == nil) {
+            // get class codes from database
+            NSMutableSet *classCodesFromParse = [NSMutableSet set];
+            for (ClassObject *object in objects) {
+                [classCodesFromParse addObject:object.classCode];
+            }
+                        
+            for (NSDictionary *class in allClasses){
+                NSString *code = [NSString stringWithFormat:@"%@ %@", class[@"department"], class[@"number"]];
+                if (![classCodesFromParse containsObject:code]){
+                    ClassObject *classObj = [ClassObject createClass:@"N/A"
+                                                   withDifficulty:@"N/A"
+                                                         withCode:[NSString stringWithFormat:@"%@ %@", class[@"department"], class[@"number"]]
+                                                   withDepartment:class[@"department_name"] withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+                    }];
+                    [newClasses addObject:classObj];
+                }
+            }
+            [PFObject saveAllInBackground:(NSArray *)newClasses block:^(BOOL succeeded, NSError * _Nullable error) {
+                if (error == nil) {
+                    completion(allClasses, nil);
+                }
+            }];
+        }
+    }];
 }
-
+  
 @end

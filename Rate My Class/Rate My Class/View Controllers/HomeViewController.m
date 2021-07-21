@@ -45,15 +45,17 @@
 - (void)fetchClasses {
     ClassAPIManager *manager = [ClassAPIManager new];
     [manager fetchCurrentClasses:^(NSArray *classes, NSError *error) {
-
-        if (error){
-        } else {
-            self.classes = [ClassObject classesWithQueries:classes];
-            
-            [self.tableView reloadData];
+        if (error == nil) {
+            [ClassObject classesWithQueries:classes handler:^(NSMutableArray * _Nonnull classes, NSError * _Nonnull error) {
+                if (error == nil) {
+                    self.classes = classes;
+                    [self.tableView reloadData];
+                }
+            }];
         }
         [self.refreshControl endRefreshing];
     }];
+    
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {

@@ -28,6 +28,7 @@
 
 - (void)fetchDepartments {
     PFQuery *query = [PFQuery queryWithClassName:@"Class"];
+    // only gets 100 elements 
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (error == nil){
             self.departments = [self getDepartments:objects];
