@@ -14,7 +14,6 @@
 @interface SearchViewController () <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSArray *classesToShow;
-@property (nonatomic, strong) NSArray *allClasses;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
@@ -30,12 +29,6 @@
     self.tableView.dataSource = self;
     
     self.tableView.rowHeight = 70;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    UINavigationController *nav = (UINavigationController*) [[self.tabBarController viewControllers] objectAtIndex:0];
-    HomeViewController *homeVC = (HomeViewController *)nav.topViewController;
-    self.allClasses = homeVC.classes;
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {

@@ -28,35 +28,39 @@
     return newClass;
 }
 
-+ (void)classesWithQueries:(NSMutableArray *)allClasses handler:(void(^)(NSMutableArray *classes, NSError *error))completion {
-    NSMutableSet *newClasses = [NSMutableSet set];
++ (void)classesWithQueries:(NSMutableArray *)ClassesFromAPI handler:(void(^)(NSMutableArray *classes, NSError *error))completion {
+    NSMutableArray *newClassesNotInParse = [NSMutableArray array];
 
     PFQuery *query = [PFQuery queryWithClassName:@"Class"];
     query.limit = 10000;
     
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable classesFromDatabase, NSError * _Nullable error) {
         if (error == nil) {
             NSMutableSet *classCodesFromParse = [NSMutableSet set];
-            for (ClassObject *object in objects) {
-                [classCodesFromParse addObject:object.classCode];
+            for (ClassObject *classObj in classesFromDatabase) {
+                [classCodesFromParse addObject:classObj.classCode];
             }
                         
-            for (NSDictionary *class in allClasses){
-                NSString *code = [NSString stringWithFormat:@"%@ %@", class[@"department"], class[@"number"]];
-                if (![classCodesFromParse containsObject:code]){
+            for (NSDictionary *classDictionary in ClassesFromAPI){
+                NSString *classCode = [NSString stringWithFormat:@"%@ %@", classDictionary[@"department"], classDictionary[@"number"]];
+                if (![classCodesFromParse containsObject:classCode]){
                     ClassObject *classObj = [ClassObject createClass:@"N/A"
-                                                   withDifficulty:@"N/A"
-                                                         withCode:[NSString stringWithFormat:@"%@ %@", class[@"department"], class[@"number"]]
-                                                   withDepartment:class[@"department_name"] withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
-                    }];
-                    [newClasses addObject:classObj];
+                                                      withDifficulty:@"N/A"
+                                                            withCode:classCode
+                                                      withDepartment:classDictionary[@"department_name"]
+                                                      withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+                        }];
+                    [newClassesNotInParse addObject:classObj];
                 }
             }
-            [PFObject saveAllInBackground:(NSArray *)newClasses block:^(BOOL succeeded, NSError * _Nullable error) {
+            [PFObject saveAllInBackground:(NSArray *)newClassesNotInParse block:^(BOOL succeeded, NSError * _Nullable error) {
                 if (error == nil) {
-                    completion(objects, nil);
+                    NSMutableArray *allClasses = [classesFromDatabase arrayByAddingObjectsFromArray:newClassesNotInParse];
+                    completion(allClasses, nil);
                 }
             }];
+        } else {
+            NSLog(@"error fetching classes%@", error);
         }
     }];
 }

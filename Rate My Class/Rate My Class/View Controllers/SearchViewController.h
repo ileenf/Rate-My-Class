@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SearchViewController : UIViewController
 
+@property (nonatomic, strong) NSArray *allClasses;
+
 @end
 
 NS_ASSUME_NONNULL_END

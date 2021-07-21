@@ -6,6 +6,7 @@
 //
 
 #import "HomeViewController.h"
+#import "SearchViewController.h"
 #import "DetailsViewController.h"
 #import "ClassAPIManager.h"
 #import "ClassCell.h"
