@@ -127,6 +127,7 @@
     self.overallRatingLabel.text = [NSString stringWithFormat:@"%@", self.averageRating];
     self.overallDifficultyLabel.text = [NSString stringWithFormat:@"%@", self.averageDifficulty];
     
+    
     return cell;
 }
 

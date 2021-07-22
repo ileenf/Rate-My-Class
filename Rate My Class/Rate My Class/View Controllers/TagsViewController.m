@@ -24,7 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.tagCollectionView.delegate = self;
+    self.selectedTags = [NSMutableArray array];
     
     [self fetchDepartments];
 }
@@ -38,6 +38,7 @@
             self.departments = [self getDepartments:objects];
 
             [self createTagsView];
+            self.tagCollectionView.delegate = self;
         } 
     }];
 }
@@ -73,6 +74,26 @@
         [tagsArray addObject:textTag];
     }
     return tagsArray;
+}
+
+- (BOOL)textTagCollectionView:(TTGTextTagCollectionView *)textTagCollectionView canTapTag:(TTGTextTag *)tag atIndex:(NSUInteger)index {
+    if ([self.selectedTags containsObject:tag]) {
+        tag.style.backgroundColor = [UIColor colorWithRed:0 green:0.5294 blue:0.8196 alpha:1];
+    } else {
+        tag.style.backgroundColor = [UIColor colorWithRed:0 green:0.3412 blue:0.7098 alpha:1];
+    }
+    return YES;
+}
+
+- (void)textTagCollectionView:(TTGTextTagCollectionView *)textTagCollectionView didTapTag:(TTGTextTag *)tag atIndex:(NSUInteger)index {
+    TTGTextTagStringContent *content = tag.content;
+    NSString *tagText = content.text;
+    
+    if ([self.selectedTags containsObject:tag]) {
+        [self.selectedTags removeObject:tag];
+    } else {
+        [self.selectedTags addObject:tag];
+    }
 }
 
 @end
