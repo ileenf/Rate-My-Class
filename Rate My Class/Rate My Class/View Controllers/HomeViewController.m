@@ -13,12 +13,14 @@
 #import "ClassObject.h"
 #import "TTGTagCollectionView.h"
 #import "TTGTagCollectionView/TTGTextTagCollectionView.h"
+#import "ProfileViewController.h"
 
 @interface HomeViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSMutableDictionary *deptToClasses;
+@property (nonatomic, strong) NSArray *departmentsArray;
 @property (nonatomic, strong) PFUser *user;
 
 @end
@@ -59,8 +61,9 @@
         } else {
             [classesArray addObject:class];
         }
-        //create department list
     }
+    self.departmentsArray = self.deptToClasses.allKeys;
+    [self sendDepartmentsArrayToTagsView];
 }
 //
 //- (void)getUserSelectedTags {
@@ -70,6 +73,12 @@
 //        
 //    
 //}
+
+-(void)sendDepartmentsArrayToTagsView {
+    UINavigationController *nav = (UINavigationController*) [[self.tabBarController viewControllers] objectAtIndex:2];
+    ProfileViewController *profileVC = (ProfileViewController *)nav.topViewController;
+    profileVC.departmentsArray = self.departmentsArray;
+}
 
 -(void)sendClassesArrayToSearchView {
     UINavigationController *nav = (UINavigationController*) [[self.tabBarController viewControllers] objectAtIndex:1];

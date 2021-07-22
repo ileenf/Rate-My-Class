@@ -14,8 +14,8 @@
 @interface TagsViewController () <TTGTextTagCollectionViewDelegate>
 
 @property (nonatomic, strong) TTGTextTagCollectionView *tagCollectionView;
-@property (nonatomic, strong) NSMutableArray *departments;
 @property (nonatomic, strong) NSMutableArray *selectedTagsText;
+@property (nonatomic, strong) NSMutableArray *departments;
 @property (nonatomic, strong) PFUser *user;
 
 @end
@@ -24,6 +24,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    NSLog(@"thise are dpet: %@", self.departmentsArray);
     
     self.user = [PFUser currentUser];
     self.selectedTagsText = [[NSMutableArray alloc] initWithArray:self.user[@"selectedTagsText"] copyItems:YES];

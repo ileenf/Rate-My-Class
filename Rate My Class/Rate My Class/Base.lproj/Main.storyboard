@@ -301,10 +301,10 @@
             </objects>
             <point key="canvasLocation" x="2449.275362318841" y="1641.9642857142856"/>
         </scene>
-        <!--Tags-->
+        <!--Tags View Controller-->
         <scene sceneID="zDT-NX-WCA">
             <objects>
-                <viewController title="Tags" id="eTB-2h-qHl" customClass="TagsViewController" sceneMemberID="viewController">
+                <viewController id="eTB-2h-qHl" customClass="TagsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qyB-SY-xhT">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -11,6 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TagsViewController : UIViewController
 
+@property (nonatomic, strong) NSArray *departmentsArray;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -7,6 +7,7 @@
 
 #import "ProfileViewController.h"
 #import "DetailsViewController.h"
+#import "TagsViewController.h"
 #import "LoginViewController.h"
 #import "SceneDelegate.h"
 #import "Parse/Parse.h"
@@ -97,6 +98,10 @@
         DetailsViewController *detailsViewController = [segue destinationViewController];
         detailsViewController.code = review.code;
         detailsViewController.sendingClassObject = NO;
+    } else if ([[segue identifier] isEqualToString:@"TagsViewSegue"]) {
+        TagsViewController *tagsViewController = [segue destinationViewController];
+        tagsViewController.departmentsArray = self.departmentsArray;
+        NSLog(@"in tagsview segue");
     }
 }
 
