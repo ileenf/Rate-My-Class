@@ -17,13 +17,13 @@
         self.review.likeCount = [NSNumber numberWithInt:value - 1];
         
         [self.likeIcon setSelected: NO];
-        [self.review removeObjectsInArray:self.review.usersLiked forKey:[PFUser currentUser].username];
+        [self.review removeObject:[PFUser currentUser].username forKey:@"usersLiked"];
     } else {
         int value = [self.review.likeCount intValue];
         self.review.likeCount = [NSNumber numberWithInt:value + 1];
         
         [self.likeIcon setSelected: YES];
-        [self.review addObjectsFromArray:self.review.usersLiked forKey:[PFUser currentUser].username];
+        [self.review addObject:[PFUser currentUser].username forKey:@"usersLiked"];
     }
     self.likeCountLabel.text = [NSString stringWithFormat:@"%@", self.review.likeCount];
     [self.review saveInBackground];

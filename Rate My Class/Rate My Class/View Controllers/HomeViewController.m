@@ -11,12 +11,15 @@
 #import "ClassAPIManager.h"
 #import "ClassCell.h"
 #import "ClassObject.h"
+#import "TTGTagCollectionView.h"
+#import "TTGTagCollectionView/TTGTextTagCollectionView.h"
 
 @interface HomeViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSMutableDictionary *deptToClasses;
+@property (nonatomic, strong) PFUser *user;
 
 @end
 
@@ -32,6 +35,8 @@
 
     self.classes = [[NSMutableArray alloc] init];
     self.deptToClasses = [[NSMutableDictionary alloc] init];
+    
+    self.user = [PFUser currentUser];
     
     [self enableRefreshing];
     [self fetchClasses];
@@ -54,8 +59,17 @@
         } else {
             [classesArray addObject:class];
         }
+        //create department list
     }
 }
+//
+//- (void)getUserSelectedTags {
+//    //could also store tag text and no need to iterate to get tag names
+//    for (NSNumber *numberIdx in self.user[@"selectedTags"]) {
+//        NSUInteger integerIdx = [numberIdx integerValue];
+//        
+//    
+//}
 
 -(void)sendClassesArrayToSearchView {
     UINavigationController *nav = (UINavigationController*) [[self.tabBarController viewControllers] objectAtIndex:1];

@@ -26,7 +26,8 @@
     [super viewDidLoad];
     
     self.user = [PFUser currentUser];
-    self.selectedTagIndexes = [[NSMutableArray alloc] initWithArray:self.user[@"selectedTags"] copyItems:YES];
+    self.selectedTagIndexes = [NSMutableArray array];
+//    self.selectedTagIndexes = [[NSMutableArray alloc] initWithArray:self.user[@"selectedTags"] copyItems:YES];
     
     [self fetchDepartments];
 }
@@ -78,9 +79,9 @@
     NSMutableArray *tagsArray = [[NSMutableArray alloc] init];
     for (NSString *department in self.departments){
         TTGTextTag *textTag = [TTGTextTag tagWithContent:[TTGTextTagStringContent contentWithText:department] style:[TTGTextTagStyle new]];
+        textTag.style.extraSpace = CGSizeMake(20.5, 20.5);
         //light blue - default
         textTag.style.backgroundColor = [UIColor colorWithRed:0 green:0.5294 blue:0.8196 alpha:1];
-        textTag.style.extraSpace = CGSizeMake(20.5, 20.5);
         //dark blue - selected
         textTag.selectedStyle.backgroundColor = [UIColor colorWithRed:0 green:0.3412 blue:0.7098 alpha:1];
         
@@ -94,17 +95,22 @@
 }
 
 - (void)textTagCollectionView:(TTGTextTagCollectionView *)textTagCollectionView didTapTag:(TTGTextTag *)tag atIndex:(NSUInteger)index {
+    TTGTextTagStringContent *content = tag.content;
+    NSString *tagText = content.text;
     NSNumber *tagIdx = [NSNumber numberWithInteger:index];
+    
+    NSDictionary *idxToTextPair = [[NSDictionary alloc] initWithObjectsAndKeys:tagText, tagIdx, nil];
 
-    if ([self.selectedTagIndexes containsObject:tagIdx]) {
-        [self.selectedTagIndexes removeObject:tagIdx];
+    if ([self.selectedTagIndexes containsObject:idxToTextPair]) {
+        [self.selectedTagIndexes removeObject:idxToTextPair];
     } else {
-        [self.selectedTagIndexes addObject:tagIdx];
+        [self.selectedTagIndexes addObject:idxToTextPair];
     }
 }
 
 - (IBAction)handleSave:(id)sender {
-    self.user[@"selectedTags"] = self.selectedTagIndexes;
+    self.user[@"selectedTagsIndexes"] = self.selectedTagIndexes;
+//    self.user[@"textOfSelectedTags"] = 
     [self.user saveInBackground];
 }
 

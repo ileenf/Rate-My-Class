@@ -70,7 +70,7 @@
             
             cell.likeCountLabel.text = [NSString stringWithFormat:@"%@", cell.review.likeCount];
             
-            [cell.review.usersLiked addObject:[PFUser currentUser].username];
+            [cell.review addObject:[PFUser currentUser].username forKey:@"usersLiked"];
             [cell.likeIcon setSelected: YES];
             [cell.review saveInBackground];
         }
