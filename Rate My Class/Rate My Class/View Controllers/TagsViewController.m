@@ -15,7 +15,7 @@
 
 @property (nonatomic, strong) TTGTextTagCollectionView *tagCollectionView;
 @property (nonatomic, strong) NSMutableArray *departments;
-@property (nonatomic, strong) NSMutableArray *selectedTagIndexes;
+@property (nonatomic, strong) NSMutableArray *selectedTagsText;
 @property (nonatomic, strong) PFUser *user;
 
 @end
@@ -26,16 +26,24 @@
     [super viewDidLoad];
     
     self.user = [PFUser currentUser];
-    self.selectedTagIndexes = [NSMutableArray array];
-//    self.selectedTagIndexes = [[NSMutableArray alloc] initWithArray:self.user[@"selectedTags"] copyItems:YES];
+    self.selectedTagsText = [[NSMutableArray alloc] initWithArray:self.user[@"selectedTagsText"] copyItems:YES];
     
     [self fetchDepartments];
 }
 
 - (void)setTagsFromParseAsSelected {
-    for (NSNumber *numberIdx in self.user[@"selectedTags"]) {
-        NSUInteger integerIdx = [numberIdx integerValue];
-        [self.tagCollectionView updateTagAtIndex:integerIdx selected:YES];
+    NSArray *tagsTextArray = self.user[@"selectedTagsText"];
+    NSArray *allTagObjects = [self.tagCollectionView allTags];
+    
+    int idx = 0;
+    for (TTGTextTag *tagObj in allTagObjects) {
+        TTGTextTagStringContent *content = tagObj.content;
+        NSString *tagText = content.text;
+        
+        if ([tagsTextArray containsObject:(NSString *)tagText]) {
+            [self.tagCollectionView updateTagAtIndex:idx selected:YES];
+        }
+        idx += 1;
     }
 }
 
@@ -97,20 +105,16 @@
 - (void)textTagCollectionView:(TTGTextTagCollectionView *)textTagCollectionView didTapTag:(TTGTextTag *)tag atIndex:(NSUInteger)index {
     TTGTextTagStringContent *content = tag.content;
     NSString *tagText = content.text;
-    NSNumber *tagIdx = [NSNumber numberWithInteger:index];
-    
-    NSDictionary *idxToTextPair = [[NSDictionary alloc] initWithObjectsAndKeys:tagText, tagIdx, nil];
 
-    if ([self.selectedTagIndexes containsObject:idxToTextPair]) {
-        [self.selectedTagIndexes removeObject:idxToTextPair];
+    if ([self.selectedTagsText containsObject:tagText]) {
+        [self.selectedTagsText removeObject:tagText];
     } else {
-        [self.selectedTagIndexes addObject:idxToTextPair];
+        [self.selectedTagsText addObject:tagText];
     }
 }
 
 - (IBAction)handleSave:(id)sender {
-    self.user[@"selectedTagsIndexes"] = self.selectedTagIndexes;
-//    self.user[@"textOfSelectedTags"] = 
+    self.user[@"selectedTagsText"] = self.selectedTagsText;
     [self.user saveInBackground];
 }
 
