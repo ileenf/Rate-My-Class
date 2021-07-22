@@ -57,6 +57,12 @@
     }
 }
 
+-(void)sendClassesArrayToSearchView {
+    UINavigationController *nav = (UINavigationController*) [[self.tabBarController viewControllers] objectAtIndex:1];
+    SearchViewController *searchVC = (SearchViewController *)nav.topViewController;
+    searchVC.allClasses = self.classes;
+}
+
 - (void)fetchClasses {
     ClassAPIManager *manager = [ClassAPIManager new];
     [manager fetchCurrentClasses:^(NSArray *classes, NSError *error) {
@@ -67,10 +73,7 @@
                     [self.tableView reloadData];
                     
                     [self createDeptToClassesMapping];
-                    
-                    UINavigationController *nav = (UINavigationController*) [[self.tabBarController viewControllers] objectAtIndex:1];
-                    SearchViewController *searchVC = (SearchViewController *)nav.topViewController;
-                    searchVC.allClasses = self.classes;
+                    [self sendClassesArrayToSearchView];
                 }
             }];
         }
