@@ -22,6 +22,7 @@
 @property (nonatomic, strong) NSMutableDictionary *deptToClasses;
 @property (nonatomic, strong) NSArray *departmentsArray;
 @property (nonatomic, strong) PFUser *user;
+@property (nonatomic, strong) NSArray *userSelectedTags;
 
 @end
 
@@ -40,6 +41,7 @@
     
     self.user = [PFUser currentUser];
     
+    [self getUserSelectedTags];
     [self enableRefreshing];
     [self fetchClasses];
 }
@@ -65,14 +67,10 @@
     self.departmentsArray = self.deptToClasses.allKeys;
     [self sendDepartmentsArrayToTagsView];
 }
-//
-//- (void)getUserSelectedTags {
-//    //could also store tag text and no need to iterate to get tag names
-//    for (NSNumber *numberIdx in self.user[@"selectedTags"]) {
-//        NSUInteger integerIdx = [numberIdx integerValue];
-//        
-//    
-//}
+
+- (void)getUserSelectedTags {
+    self.userSelectedTags = self.user[@"selectedTagsText"];
+}
 
 -(void)sendDepartmentsArrayToTagsView {
     UINavigationController *nav = (UINavigationController*) [[self.tabBarController viewControllers] objectAtIndex:2];
