@@ -15,7 +15,8 @@
 
 @property (nonatomic, strong) TTGTextTagCollectionView *tagCollectionView;
 @property (nonatomic, strong) NSMutableArray *departments;
-@property (nonatomic, strong) NSMutableArray *selectedTags;
+@property (nonatomic, strong) NSMutableArray *selectedTagIndexes;
+@property (nonatomic, strong) PFUser *user;
 
 @end
 
@@ -24,9 +25,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.selectedTags = [NSMutableArray array];
+    self.user = [PFUser currentUser];
+    self.selectedTagIndexes = [[NSMutableArray alloc] initWithArray:self.user[@"selectedTags"] copyItems:YES];
     
     [self fetchDepartments];
+}
+
+- (void)setTagsFromParseAsSelected {
+    for (NSNumber *numberIdx in self.user[@"selectedTags"]) {
+        NSUInteger integerIdx = [numberIdx integerValue];
+        [self.tagCollectionView updateTagAtIndex:integerIdx selected:YES];
+    }
 }
 
 - (void)fetchDepartments {
@@ -39,7 +48,8 @@
 
             [self createTagsView];
             self.tagCollectionView.delegate = self;
-        } 
+            [self setTagsFromParseAsSelected];
+        }
     }];
 }
 
@@ -61,7 +71,6 @@
     [self.view addSubview:self.tagCollectionView];
     
     NSArray *tagsArray = [self createInterestTagsArray:self.departments];
-
     [self.tagCollectionView addTags:tagsArray];
 }
 
@@ -69,31 +78,34 @@
     NSMutableArray *tagsArray = [[NSMutableArray alloc] init];
     for (NSString *department in self.departments){
         TTGTextTag *textTag = [TTGTextTag tagWithContent:[TTGTextTagStringContent contentWithText:department] style:[TTGTextTagStyle new]];
+        //light blue - default
         textTag.style.backgroundColor = [UIColor colorWithRed:0 green:0.5294 blue:0.8196 alpha:1];
         textTag.style.extraSpace = CGSizeMake(20.5, 20.5);
+        //dark blue - selected
+        textTag.selectedStyle.backgroundColor = [UIColor colorWithRed:0 green:0.3412 blue:0.7098 alpha:1];
+        
         [tagsArray addObject:textTag];
     }
     return tagsArray;
 }
 
 - (BOOL)textTagCollectionView:(TTGTextTagCollectionView *)textTagCollectionView canTapTag:(TTGTextTag *)tag atIndex:(NSUInteger)index {
-    if ([self.selectedTags containsObject:tag]) {
-        tag.style.backgroundColor = [UIColor colorWithRed:0 green:0.5294 blue:0.8196 alpha:1];
-    } else {
-        tag.style.backgroundColor = [UIColor colorWithRed:0 green:0.3412 blue:0.7098 alpha:1];
-    }
     return YES;
 }
 
 - (void)textTagCollectionView:(TTGTextTagCollectionView *)textTagCollectionView didTapTag:(TTGTextTag *)tag atIndex:(NSUInteger)index {
-    TTGTextTagStringContent *content = tag.content;
-    NSString *tagText = content.text;
-    
-    if ([self.selectedTags containsObject:tag]) {
-        [self.selectedTags removeObject:tag];
+    NSNumber *tagIdx = [NSNumber numberWithInteger:index];
+
+    if ([self.selectedTagIndexes containsObject:tagIdx]) {
+        [self.selectedTagIndexes removeObject:tagIdx];
     } else {
-        [self.selectedTags addObject:tag];
+        [self.selectedTagIndexes addObject:tagIdx];
     }
+}
+
+- (IBAction)handleSave:(id)sender {
+    self.user[@"selectedTags"] = self.selectedTagIndexes;
+    [self.user saveInBackground];
 }
 
 @end
