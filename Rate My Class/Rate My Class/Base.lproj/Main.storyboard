@@ -400,7 +400,18 @@
                         <viewLayoutGuide key="safeArea" id="3ih-dP-S3p"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="MvL-r5-wJH"/>
+                    <navigationItem key="navigationItem" id="MvL-r5-wJH">
+                        <barButtonItem key="leftBarButtonItem" title="All Classes" id="BbK-pR-8qk">
+                            <connections>
+                                <action selector="allClassesFilter:" destination="u4E-GT-8wo" id="7Gm-3k-88v"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Recommended" id="kRr-c3-an5">
+                            <connections>
+                                <action selector="recommendedClassesFilter:" destination="u4E-GT-8wo" id="6oJ-LV-0Yw"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="uc2-pf-pG5" id="HhZ-ON-5qR"/>
                     </connections>
@@ -758,7 +769,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="r1i-KO-sds"/>
+        <segue reference="oCO-aL-jc9"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="favor-icon" width="30" height="30"/>

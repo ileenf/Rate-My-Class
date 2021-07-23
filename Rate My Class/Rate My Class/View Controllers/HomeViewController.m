@@ -36,26 +36,26 @@
     
     self.tableView.rowHeight = 70;
 
-    self.classes = [[NSMutableArray alloc] init];
     self.deptToClasses = [[NSMutableDictionary alloc] init];
     
     self.user = [PFUser currentUser];
     
     [self getUserSelectedTags];
     [self enableRefreshing];
-    [self fetchClasses];
+    [self fetchAllClasses];
 }
 
 - (void)enableRefreshing {
     self.refreshControl = [[UIRefreshControl alloc] init];
     
-    [self.refreshControl addTarget:self action:@selector(fetchClasses) forControlEvents:UIControlEventValueChanged];
+    //if all classes selected, refresh all classes. if recom selected, refresh recomm classes.
+    [self.refreshControl addTarget:self action:@selector(fetchAllClasses) forControlEvents:UIControlEventValueChanged];
     
     [self.tableView insertSubview:self.refreshControl atIndex:0];
 }
 
 - (void)createDeptToClassesMapping {
-    for (ClassObject *class in self.classes) {
+    for (ClassObject *class in self.allClasses) {
         NSMutableArray *classesArray = [self.deptToClasses objectForKey:class.department];
         if (classesArray == nil) {
             NSMutableArray *initialClassArray = [NSMutableArray arrayWithObject:class];
@@ -65,31 +65,32 @@
         }
     }
     self.departmentsArray = self.deptToClasses.allKeys;
-    [self sendDepartmentsArrayToTagsView];
 }
 
 - (void)getUserSelectedTags {
     self.userSelectedTags = self.user[@"selectedTagsText"];
 }
 
--(void)sendDepartmentsArrayToTagsView {
+-(void)sendDepartmentsAndClassToProfileView:(ClassObject *)classObj {
     UINavigationController *nav = (UINavigationController*) [[self.tabBarController viewControllers] objectAtIndex:2];
     ProfileViewController *profileVC = (ProfileViewController *)nav.topViewController;
     profileVC.departmentsArray = self.departmentsArray;
+    profileVC.classObj = classObj;
 }
 
 -(void)sendClassesArrayToSearchView {
     UINavigationController *nav = (UINavigationController*) [[self.tabBarController viewControllers] objectAtIndex:1];
     SearchViewController *searchVC = (SearchViewController *)nav.topViewController;
-    searchVC.allClasses = self.classes;
+    searchVC.allClasses = self.allClasses;
 }
 
-- (void)fetchClasses {
+- (void)fetchAllClasses {
     ClassAPIManager *manager = [ClassAPIManager new];
     [manager fetchCurrentClasses:^(NSArray *classes, NSError *error) {
         if (error == nil) {
             [ClassObject classesWithQueries:classes handler:^(NSMutableArray * _Nonnull classes, NSError * _Nonnull error) {
                 if (error == nil) {
+                    self.allClasses = classes;
                     self.classes = classes;
                     [self.tableView reloadData];
                     
@@ -100,6 +101,16 @@
         }
         [self.refreshControl endRefreshing];
     }];
+}
+
+- (IBAction)allClassesFilter:(id)sender {
+    self.classes = self.allClasses;
+    [self.tableView reloadData];
+}
+- (IBAction)recommendedClassesFilter:(id)sender {
+//    [self getRecommendedClassesFromTags];
+    self.classes = [NSArray arrayWithObject:self.allClasses[0]];
+    [self.tableView reloadData];
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -125,7 +136,8 @@
         
         DetailsViewController *detailsViewController = [segue destinationViewController];
         detailsViewController.classObj = class;
-        detailsViewController.sendingClassObject = YES;
+        
+        [self sendDepartmentsAndClassToProfileView:class];
     }
 }
 

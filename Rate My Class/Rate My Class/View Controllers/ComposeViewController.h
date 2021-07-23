@@ -6,12 +6,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ClassObject.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ComposeViewController : UIViewController
 
-@property (nonatomic, strong) NSString *classCode;
+@property (nonatomic, strong) ClassObject *classObj;
 
 @end
 

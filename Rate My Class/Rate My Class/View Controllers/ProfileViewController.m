@@ -53,6 +53,7 @@
     PFQuery * query = [PFQuery queryWithClassName:@"Review"];
     [query orderByDescending:@"createdAt"];
     [query whereKey:@"author" equalTo:[PFUser currentUser]];
+    [query includeKey:@"classObject"];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (error == nil){
             self.profileReviewsArray = objects;
@@ -67,7 +68,7 @@
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     ProfileCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProfileCell" forIndexPath: indexPath];
     ReviewModel *review = self.profileReviewsArray[indexPath.row];
-    
+    NSLog(@"%@", review);
     cell.review = review;
     
     return cell;
@@ -78,7 +79,6 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     [self performSegueWithIdentifier:@"ProfileDetailsSegue" sender:[tableView cellForRowAtIndexPath:indexPath]];
 }
 
@@ -101,8 +101,7 @@
         ReviewModel *review = self.profileReviewsArray[indexPath.row];
         
         DetailsViewController *detailsViewController = [segue destinationViewController];
-        detailsViewController.code = review.code;
-        detailsViewController.sendingClassObject = NO;
+        detailsViewController.classObj = review.classObject;
     } else if ([[segue identifier] isEqualToString:@"TagsViewSegue"]) {
         TagsViewController *tagsViewController = [segue destinationViewController];
         tagsViewController.departmentsArray = self.departmentsArray;

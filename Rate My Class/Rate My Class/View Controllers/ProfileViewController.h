@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Parse/Parse.h"
+#import "ClassObject.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) PFUser *user;
 @property (nonatomic, strong) NSArray *departmentsArray;
+@property (nonatomic, strong) ClassObject *classObj;
 
 @end
 

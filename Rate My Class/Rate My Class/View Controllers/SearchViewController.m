@@ -69,7 +69,6 @@
         
         DetailsViewController *detailsViewController = [segue destinationViewController];
         detailsViewController.classObj = class;
-        detailsViewController.sendingClassObject = YES;
     }
 }
 

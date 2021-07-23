@@ -38,11 +38,7 @@
     
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
-    if (self.sendingClassObject){
-        self.classCode.text = self.classObj.classCode;
-    } else {
-        self.classCode.text = self.code;
-    }
+    self.classCode.text = self.classObj.classCode;
         
     self.ratingTotal = [[NSDecimalNumber alloc] initWithDouble:0.0];
     self.numberOfReviews = [[NSDecimalNumber alloc] initWithDouble:0.0];
@@ -87,7 +83,7 @@
 
 - (void)loadReviews {
     PFQuery *query = [PFQuery queryWithClassName:@"Review"];
-    [query whereKey:@"code" equalTo:self.classCode.text];
+    [query whereKey:@"classObject" equalTo:self.classObj];
     [query orderByDescending:@"createdAt"];
     [query includeKey:@"author"];
     [query includeKey:@"createdAt"];
@@ -127,6 +123,8 @@
     self.overallRatingLabel.text = [NSString stringWithFormat:@"%@", self.averageRating];
     self.overallDifficultyLabel.text = [NSString stringWithFormat:@"%@", self.averageDifficulty];
     
+    self.classObj.overallRating = self.overallRatingLabel.text;
+    [self.classObj saveInBackground];
     
     return cell;
 }
@@ -164,7 +162,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"ComposeSegue"]) {
         ComposeViewController *composeViewController = [segue destinationViewController];
-        composeViewController.classCode = self.classCode.text;
+        composeViewController.classObj = self.classObj;
     }
 }
 

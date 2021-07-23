@@ -13,7 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSArray *departmentsArray;
 
-
 @end
 
 NS_ASSUME_NONNULL_END

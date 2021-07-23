@@ -33,7 +33,7 @@
 }
 
 - (IBAction)submitReview:(id)sender {
-    [ReviewModel postReview:self.ratingField.text withDifficulty:self.difficultyField.text withCode: self.classCode withComment:self.commentView.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+    [ReviewModel postReview:self.ratingField.text withDifficulty:self.difficultyField.text withClassObj:self.classObj withComment:self.commentView.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             self.commentView.text = @"";
             [self dismissViewControllerAnimated:true completion:nil];

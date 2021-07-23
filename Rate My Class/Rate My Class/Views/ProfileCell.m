@@ -7,13 +7,13 @@
 
 #import "ProfileCell.h"
 #import "ReviewModel.h"
+#import "ClassObject.h"
 
 @implementation ProfileCell
 
 - (void)setReview:(ReviewModel *)review {
     _review = review;
-    
-    self.classNameLabel.text = review.code;
+    self.classNameLabel.text = review[@"classObject"][@"classCode"];
     self.ratingLabel.text = review.rating;
     self.difficultyLabel.text = review.difficulty;
     self.selectionStyle = UITableViewCellSelectionStyleNone;

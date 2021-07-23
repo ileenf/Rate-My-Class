@@ -11,7 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HomeViewController : UIViewController
 
-@property (nonatomic, strong) NSMutableArray *classes;
+@property (nonatomic, strong) NSArray *classes;
+@property (nonatomic, strong) NSArray *allClasses;
+@property (nonatomic, strong) NSArray *recommendedClasses;
 
 @end
 
