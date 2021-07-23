@@ -262,7 +262,6 @@
                                             <outlet property="classNameLabel" destination="YQi-GX-MpT" id="Onn-j0-npf"/>
                                             <outlet property="difficultyLabel" destination="KTm-4r-pRY" id="3jQ-xE-mzp"/>
                                             <outlet property="ratingLabel" destination="3xW-Rw-3IK" id="gOK-wN-9gS"/>
-                                            <segue destination="SUZ-lu-31x" kind="show" identifier="ProfileDetailsSegue" id="gwd-Ie-wwR"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -279,7 +278,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Select Interests"/>
                                 <connections>
-                                    <segue destination="eTB-2h-qHl" kind="show" id="HyN-ih-W3O"/>
+                                    <segue destination="eTB-2h-qHl" kind="show" identifier="TagsViewSegue" id="HyN-ih-W3O"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -296,6 +295,7 @@
                     <connections>
                         <outlet property="tableView" destination="fLO-yd-rh7" id="q4S-r5-jKB"/>
                         <outlet property="usernameLabel" destination="FOA-Vf-AYI" id="ahC-lo-D2I"/>
+                        <segue destination="SUZ-lu-31x" kind="show" identifier="ProfileDetailsSegue" id="r1i-KO-sds"/>
                     </connections>
                 </viewController>
             </objects>
@@ -758,7 +758,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="gwd-Ie-wwR"/>
+        <segue reference="r1i-KO-sds"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="favor-icon" width="30" height="30"/>

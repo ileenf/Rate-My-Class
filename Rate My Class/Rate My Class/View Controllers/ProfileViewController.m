@@ -77,6 +77,11 @@
     return self.profileReviewsArray.count;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [self performSegueWithIdentifier:@"ProfileDetailsSegue" sender:[tableView cellForRowAtIndexPath:indexPath]];
+}
+
 - (IBAction)handleLogout:(id)sender {
     [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
     }];
@@ -101,7 +106,6 @@
     } else if ([[segue identifier] isEqualToString:@"TagsViewSegue"]) {
         TagsViewController *tagsViewController = [segue destinationViewController];
         tagsViewController.departmentsArray = self.departmentsArray;
-        NSLog(@"in tagsview segue");
     }
 }
 

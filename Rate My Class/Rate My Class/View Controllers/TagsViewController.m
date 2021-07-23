@@ -15,7 +15,6 @@
 
 @property (nonatomic, strong) TTGTextTagCollectionView *tagCollectionView;
 @property (nonatomic, strong) NSMutableArray *selectedTagsText;
-@property (nonatomic, strong) NSMutableArray *departments;
 @property (nonatomic, strong) PFUser *user;
 
 @end
@@ -24,13 +23,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    NSLog(@"thise are dpet: %@", self.departmentsArray);
-    
+        
     self.user = [PFUser currentUser];
     self.selectedTagsText = [[NSMutableArray alloc] initWithArray:self.user[@"selectedTagsText"] copyItems:YES];
     
-    [self fetchDepartments];
+    [self createTagsView];
+    self.tagCollectionView.delegate = self;
+    [self setTagsFromParseAsSelected];
 }
 
 - (void)setTagsFromParseAsSelected {
@@ -49,31 +48,6 @@
     }
 }
 
-- (void)fetchDepartments {
-    PFQuery *query = [PFQuery queryWithClassName:@"Class"];
-    query.limit = 10000;
-    
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        if (error == nil){
-            self.departments = [self getDepartments:objects];
-
-            [self createTagsView];
-            self.tagCollectionView.delegate = self;
-            [self setTagsFromParseAsSelected];
-        }
-    }];
-}
-
-- (NSMutableArray *)getDepartments:(NSArray *)classes {
-    NSMutableArray *depts = [[NSMutableArray alloc] init];
-    for (ClassObject *class in classes) {
-        if (![depts containsObject:class.department]) {
-            [depts addObject:class.department];
-        }
-    }
-    return depts;
-}
-
 - (void)createTagsView {
     self.tagCollectionView = [[TTGTextTagCollectionView alloc] initWithFrame:CGRectMake(20, 20, 400, 1000)];
     self.tagCollectionView.enableTagSelection = YES;
@@ -81,13 +55,13 @@
     
     [self.view addSubview:self.tagCollectionView];
     
-    NSArray *tagsArray = [self createInterestTagsArray:self.departments];
+    NSArray *tagsArray = [self createInterestTagsArray:self.departmentsArray];
     [self.tagCollectionView addTags:tagsArray];
 }
 
-- (NSArray *)createInterestTagsArray:(NSMutableArray *)departmentsArray {
+- (NSArray *)createInterestTagsArray:(NSArray *)departmentsArray {
     NSMutableArray *tagsArray = [[NSMutableArray alloc] init];
-    for (NSString *department in self.departments){
+    for (NSString *department in departmentsArray){
         TTGTextTag *textTag = [TTGTextTag tagWithContent:[TTGTextTagStringContent contentWithText:department] style:[TTGTextTagStyle new]];
         textTag.style.extraSpace = CGSizeMake(20.5, 20.5);
         //light blue - default
