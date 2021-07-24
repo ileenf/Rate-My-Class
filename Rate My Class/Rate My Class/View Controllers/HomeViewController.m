@@ -62,7 +62,7 @@
     self.userSelectedTags = self.user[@"selectedTagsText"];
 }
 
--(void)sendDepartmentsAndClassToProfileView:(ClassObject *)classObj {
+-(void)sendDepartmentsToProfileView {
     UINavigationController *nav = (UINavigationController*) [[self.tabBarController viewControllers] objectAtIndex:2];
     ProfileViewController *profileVC = (ProfileViewController *)nav.topViewController;
     profileVC.departmentsArray = self.departmentsArray;
@@ -86,6 +86,7 @@
                     
                     [self createDeptToClassesMapping];
                     [self sendClassesArrayToSearchView];
+                    [self sendDepartmentsToProfileView];
                 }
             }];
         }
@@ -150,8 +151,6 @@
         
         DetailsViewController *detailsViewController = [segue destinationViewController];
         detailsViewController.classObj = class;
-        
-        [self sendDepartmentsAndClassToProfileView:class];
     }
 }
 
