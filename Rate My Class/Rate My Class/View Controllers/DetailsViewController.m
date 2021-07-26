@@ -114,7 +114,7 @@
         
     self.numberOfReviews = [self.numberOfReviews decimalNumberByAdding:[[NSDecimalNumber alloc] initWithFloat:1]];
     
-    [self calculateAverageRating: review.rating];
+    [self calculateAverageRating:review.rating];
     [self calculateAverageDifficulty:review.difficulty];
     
     self.averageRating = [self roundDecimal:self.averageRating];

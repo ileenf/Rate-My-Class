@@ -18,13 +18,13 @@
 @interface HomeViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) UIRefreshControl *allClassesRefreshControl;
-@property (nonatomic, strong) UIRefreshControl *recommendedRefreshControl;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) NSMutableDictionary *deptToClasses;
 @property (nonatomic, strong) NSArray *departmentsArray;
 @property (nonatomic, strong) PFUser *user;
 @property (nonatomic, strong) NSArray *userSelectedTags;
 @property (nonatomic, strong) NSString *unratedClassesRating;
+@property BOOL allClassesSelected;
 
 @end
 
@@ -40,9 +40,24 @@
     self.deptToClasses = [[NSMutableDictionary alloc] init];
     self.user = [PFUser currentUser];
     self.unratedClassesRating = @"2.5";
+    self.allClassesSelected = YES;
     
-    [self getUserSelectedTags];
+    [self enableRefreshing];
     [self fetchAllClasses];
+}
+
+- (void)enableRefreshing {
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshCurrClasses) forControlEvents:UIControlEventValueChanged];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
+}
+
+- (void)refreshCurrClasses {
+    if (self.allClassesSelected == NO) {
+        self.classes = [self getRecommendedClassesFromTags];
+    }
+    [self.tableView reloadData];
+    [self.refreshControl endRefreshing];
 }
 
 - (void)createDeptToClassesMapping {
@@ -56,10 +71,6 @@
         }
     }
     self.departmentsArray = self.deptToClasses.allKeys;
-}
-
-- (void)getUserSelectedTags {
-    self.userSelectedTags = self.user[@"selectedTagsText"];
 }
 
 -(void)sendDepartmentsToProfileView {
@@ -90,18 +101,18 @@
                 }
             }];
         }
-        [self.allClassesRefreshControl endRefreshing];
+        [self.refreshControl endRefreshing];
     }];
 }
 
 - (NSArray *)getRecommendedClassesFromTags {
     NSMutableArray *classesFromTags = [NSMutableArray array];
-    for (NSString *tagText in self.userSelectedTags) {
+    for (NSString *tagText in self.user[@"selectedTagsText"]) {
         NSArray *classesFromDept = [self.deptToClasses objectForKey:tagText];
 
         NSArray *sortedByRating = [classesFromDept sortedArrayUsingComparator:^NSComparisonResult(ClassObject *class1, ClassObject *class2) {
-            NSString *rating1 = (NSString *)class1.overallRating;
-            NSString *rating2 = (NSString *)class2.overallRating;
+            NSString *rating1 = class1.overallRating;
+            NSString *rating2 = class2.overallRating;
             
             if ([rating1 isEqualToString:@"N/A"]) {
                 rating1 = self.unratedClassesRating;
@@ -116,16 +127,19 @@
         NSArray *topTenRated = [sortedByRating subarrayWithRange:NSMakeRange(0, 10)];
         [classesFromTags addObjectsFromArray:topTenRated];
     }
+    
     return classesFromTags;
 }
 
 - (IBAction)allClassesFilter:(id)sender {
     self.classes = self.allClasses;
     [self.tableView reloadData];
+    self.allClassesSelected = YES;
 }
 - (IBAction)recommendedClassesFilter:(id)sender {
     self.classes = [self getRecommendedClassesFromTags];
     [self.tableView reloadData];
+    self.allClassesSelected = NO;
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
