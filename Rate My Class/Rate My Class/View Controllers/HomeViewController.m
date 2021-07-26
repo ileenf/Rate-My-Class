@@ -15,6 +15,8 @@
 #import "TTGTagCollectionView/TTGTextTagCollectionView.h"
 #import "ProfileViewController.h"
 
+static NSString *unratedClassesRating = @"2.5";
+
 @interface HomeViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -23,7 +25,6 @@
 @property (nonatomic, strong) NSArray *departmentsArray;
 @property (nonatomic, strong) PFUser *user;
 @property (nonatomic, strong) NSArray *userSelectedTags;
-@property (nonatomic, strong) NSString *unratedClassesRating;
 @property BOOL allClassesSelected;
 
 @end
@@ -39,7 +40,6 @@
     self.tableView.rowHeight = 70;
     self.deptToClasses = [[NSMutableDictionary alloc] init];
     self.user = [PFUser currentUser];
-    self.unratedClassesRating = @"2.5";
     self.allClassesSelected = YES;
     
     [self enableRefreshing];
@@ -115,10 +115,10 @@
             NSString *rating2 = class2.overallRating;
             
             if ([rating1 isEqualToString:@"N/A"]) {
-                rating1 = self.unratedClassesRating;
+                rating1 = unratedClassesRating;
             }
             if ([rating2 isEqualToString:@"N/A"]) {
-                rating2 = self.unratedClassesRating;
+                rating2 = unratedClassesRating;
             }
             
             return [rating2 compare:rating1];
