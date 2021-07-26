@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ComposeViewController : UIViewController
 
 @property (nonatomic, strong) ClassObject *classObj;
+@property (nonatomic, strong) NSArray *reviewsFromDetails;
 
 @end
 

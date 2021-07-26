@@ -68,7 +68,6 @@
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     ProfileCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProfileCell" forIndexPath: indexPath];
     ReviewModel *review = self.profileReviewsArray[indexPath.row];
-    NSLog(@"%@", review);
     cell.review = review;
     
     return cell;

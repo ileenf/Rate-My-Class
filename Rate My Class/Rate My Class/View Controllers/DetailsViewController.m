@@ -111,20 +111,9 @@
     if ([review.usersLiked containsObject:[PFUser currentUser].username]) {
         [cell.likeIcon setSelected: YES];
     }
-        
-    self.numberOfReviews = [self.numberOfReviews decimalNumberByAdding:[[NSDecimalNumber alloc] initWithFloat:1]];
     
-    [self calculateAverageRating:review.rating];
-    [self calculateAverageDifficulty:review.difficulty];
-    
-    self.averageRating = [self roundDecimal:self.averageRating];
-    self.averageDifficulty = [self roundDecimal:self.averageDifficulty];
-    
-    self.overallRatingLabel.text = [NSString stringWithFormat:@"%@", self.averageRating];
-    self.overallDifficultyLabel.text = [NSString stringWithFormat:@"%@", self.averageDifficulty];
-    
-    self.classObj.overallRating = self.overallRatingLabel.text;
-    [self.classObj saveInBackground];
+    self.overallRatingLabel.text = [NSString stringWithFormat:@"%@", self.classObj.overallRating];
+    self.overallDifficultyLabel.text = [NSString stringWithFormat:@"%@", self.classObj.overallDifficulty];
     
     return cell;
 }
@@ -133,36 +122,13 @@
     return self.reviews.count;
 }
 
-- (void)calculateAverageRating:(NSString *)reviewRating {
-    NSDecimalNumber *rating = [NSDecimalNumber decimalNumberWithString:reviewRating];
-    self.ratingTotal = [self.ratingTotal decimalNumberByAdding: rating];
-    self.averageRating = [self.ratingTotal decimalNumberByDividingBy:(NSDecimalNumber *) self.numberOfReviews];
-}
-
-- (void)calculateAverageDifficulty:(NSString *)difficultyRating {
-    NSDecimalNumber *rating = [NSDecimalNumber decimalNumberWithString:difficultyRating];
-    self.difficultyTotal = [self.difficultyTotal decimalNumberByAdding: rating];
-    self.averageDifficulty = [self.difficultyTotal decimalNumberByDividingBy:(NSDecimalNumber *) self.numberOfReviews];
-}
-
-- (NSDecimalNumber *)roundDecimal:(NSDecimalNumber *)amount {
-    NSDecimalNumberHandler *behavior = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain
-                                                                                              scale:2
-                                                                                   raiseOnExactness:NO
-                                                                                    raiseOnOverflow:NO
-                                                                                   raiseOnUnderflow:NO
-                                                                                raiseOnDivideByZero:NO];
-    
-    NSDecimalNumber *roundedNumber = [amount decimalNumberByRoundingAccordingToBehavior:behavior];
-    return roundedNumber;
-}
-
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"ComposeSegue"]) {
         ComposeViewController *composeViewController = [segue destinationViewController];
         composeViewController.classObj = self.classObj;
+        composeViewController.reviewsFromDetails = self.reviews;
     }
 }
 

@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *classCode;
 @property (nonatomic, strong) NSString *department;
 @property (nonatomic, strong) NSString *overallRating;
+@property (nonatomic, strong) NSString *overallDifficulty;
 
 + (void)classesWithQueries:(NSMutableArray *)allClasses handler:(void(^)(NSMutableArray *classes, NSError *error))completion;
 
