@@ -38,11 +38,10 @@
     
     self.user = [PFUser currentUser];
     self.usernameLabel.text = [NSString stringWithFormat:@"%@", self.user.username];
+    self.majorLabel.text = self.user[@"major"];
     
     [self enableRefreshing];
     [self loadProfileReviews];
-    [self loadUserMajor];
-    
 }
 
 - (void)enableRefreshing {
@@ -66,18 +65,6 @@
             NSLog(@"error");
         }
         [self.refreshControl endRefreshing];
-    }];
-}
-
--(void)loadUserMajor {
-    PFQuery *query = [PFUser query];
-    [query whereKey:@"username" equalTo:self.user.username];
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable currUserObj, NSError * _Nullable error) {
-        if (error == nil) {
-            self.majorLabel.text = currUserObj[0][@"major"];
-        } else {
-            NSLog(@"error");
-        }
     }];
 }
 

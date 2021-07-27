@@ -74,30 +74,31 @@ static NSString *unratedClassesRating = @"2.5";
     self.departmentsArray = self.deptToClasses.allKeys;
 }
 
--(void)sendDepartmentsToProfileView {
+- (void)sendDepartmentsToProfileView {
     UINavigationController *nav = (UINavigationController*) [[self.tabBarController viewControllers] objectAtIndex:2];
     ProfileViewController *profileVC = (ProfileViewController *)nav.topViewController;
     profileVC.departmentsArray = self.departmentsArray;
 }
 
--(void)sendClassesArrayToSearchView {
+- (void)sendClassesArrayToSearchView {
     UINavigationController *nav = (UINavigationController*) [[self.tabBarController viewControllers] objectAtIndex:1];
     SearchViewController *searchVC = (SearchViewController *)nav.topViewController;
     searchVC.allClasses = self.allClasses;
 }
 
--(void)fetchMajorRelatedTagsForCurrMajor {
+- (void)fetchMajorRelatedTagsForCurrMajor {
     PFQuery *query = [PFUser query];
     [query includeKey:@"major"];
+    // check if major exists
     [query whereKey:@"major" equalTo:self.user[@"major"]];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        NSMutableArray *sameMajorSelectedTags = [self getselectedTagsOfSameMajor:objects];
+        NSMutableArray *sameMajorSelectedTags = [self getSelectedTagsOfSameMajor:objects];
         NSMutableDictionary *selectedTagsToOccurences = [self createTagsToOccurencesMapping:sameMajorSelectedTags];
-        [self getMajorRelatedTopTags:selectedTagsToOccurences];
+        [self setMajorRelatedTopTags:selectedTagsToOccurences];
     }];
 }
 
--(NSMutableArray *)getselectedTagsOfSameMajor:(NSArray *)userObjects {
+- (NSMutableArray *)getSelectedTagsOfSameMajor:(NSArray *)userObjects {
     NSMutableArray *selectedTags = [NSMutableArray array];
     for (PFUser *user in userObjects) {
         [selectedTags addObjectsFromArray:user[@"selectedTagsText"]];
@@ -105,14 +106,13 @@ static NSString *unratedClassesRating = @"2.5";
     return selectedTags;
 }
 
--(NSMutableDictionary *)createTagsToOccurencesMapping:(NSMutableArray *)majorSelectedTags {
+- (NSMutableDictionary *)createTagsToOccurencesMapping:(NSMutableArray *)majorSelectedTags {
     NSMutableDictionary *selectedTagsToOccurences = [NSMutableDictionary dictionary];
     for (NSString *tagText in majorSelectedTags) {
         if ([selectedTagsToOccurences objectForKey:tagText]) {
             NSDecimalNumber *count = [selectedTagsToOccurences objectForKey:tagText];
             count = [count decimalNumberByAdding:[NSDecimalNumber one]];
             [selectedTagsToOccurences setObject:count forKey:tagText];
-            
         } else {
             [selectedTagsToOccurences setObject:[NSDecimalNumber one] forKey:tagText];
         }
@@ -120,7 +120,7 @@ static NSString *unratedClassesRating = @"2.5";
     return selectedTagsToOccurences;
 }
 
--(void)getMajorRelatedTopTags:(NSMutableDictionary *)selectedTagsToOccurences {
+- (void)setMajorRelatedTopTags:(NSMutableDictionary *)selectedTagsToOccurences {
     NSArray *sortedTags = [selectedTagsToOccurences keysSortedByValueUsingComparator:^NSComparisonResult(id  _Nonnull tag1, id  _Nonnull tag2) {
         return [tag2 compare:tag1];
     }];
