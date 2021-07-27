@@ -93,29 +93,22 @@ static NSString *unratedClassesRating = @"2.5";
     [query includeKey:@"major"];
     [query whereKey:@"major" equalTo:self.user[@"major"]];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        NSMutableArray *sameMajorSelectedTags = [self getSelectedTagsOfSameMajor:objects];
-        NSMutableDictionary *selectedTagsToOccurences = [self createTagsToOccurencesMapping:sameMajorSelectedTags];
+        NSMutableDictionary *selectedTagsToOccurences = [self createTagsToOccurencesMapping:objects];
         [self setMajorRelatedTopTags:selectedTagsToOccurences];
     }];
 }
 
-- (NSMutableArray *)getSelectedTagsOfSameMajor:(NSArray *)userObjects {
-    NSMutableArray *selectedTags = [NSMutableArray array];
-    for (PFUser *user in userObjects) {
-        [selectedTags addObjectsFromArray:user[@"selectedTagsText"]];
-    }
-    return selectedTags;
-}
-
-- (NSMutableDictionary *)createTagsToOccurencesMapping:(NSMutableArray *)majorSelectedTags {
+- (NSMutableDictionary *)createTagsToOccurencesMapping:(NSArray *)userObjects {
     NSMutableDictionary *selectedTagsToOccurences = [NSMutableDictionary dictionary];
-    for (NSString *tagText in majorSelectedTags) {
-        if ([selectedTagsToOccurences objectForKey:tagText]) {
-            NSDecimalNumber *count = [selectedTagsToOccurences objectForKey:tagText];
-            count = [count decimalNumberByAdding:[NSDecimalNumber one]];
-            [selectedTagsToOccurences setObject:count forKey:tagText];
-        } else {
-            [selectedTagsToOccurences setObject:[NSDecimalNumber one] forKey:tagText];
+    for (PFUser *user in userObjects) {
+        for (NSString *tagText in user[@"selectedTagsText"]) {
+            if ([selectedTagsToOccurences objectForKey:tagText]) {
+                NSDecimalNumber *count = [selectedTagsToOccurences objectForKey:tagText];
+                count = [count decimalNumberByAdding:[NSDecimalNumber one]];
+                [selectedTagsToOccurences setObject:count forKey:tagText];
+            } else {
+                [selectedTagsToOccurences setObject:[NSDecimalNumber one] forKey:tagText];
+            }
         }
     }
     return selectedTagsToOccurences;
