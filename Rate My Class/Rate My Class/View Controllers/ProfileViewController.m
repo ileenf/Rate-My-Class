@@ -14,13 +14,16 @@
 #import "ProfileCell.h"
 #import "ReviewModel.h"
 #import "ClassObject.h"
+#import "MajorModel.h"
 
 @interface ProfileViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *profileReviewsArray;
+@property (nonatomic, strong) NSArray *profileReviewsArray;
+@property (nonatomic, strong) NSMutableDictionary *majorsToObjs;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (weak, nonatomic) IBOutlet UITextField *majorLabel;
 
 @end
 
@@ -50,7 +53,7 @@
 }
 
 - (void)loadProfileReviews {
-    PFQuery * query = [PFQuery queryWithClassName:@"Review"];
+    PFQuery *query = [PFQuery queryWithClassName:@"Review"];
     [query orderByDescending:@"createdAt"];
     [query whereKey:@"author" equalTo:[PFUser currentUser]];
     [query includeKey:@"classObject"];
@@ -89,6 +92,13 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     LoginViewController *loginviewcontroller = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
     myDelegate.window.rootViewController = loginviewcontroller;
+}
+
+- (IBAction)handleSavingMajor:(id)sender {
+    NSString *major = [self.majorLabel.text lowercaseString];
+    
+    self.user[@"major"] = major;
+    [self.user saveInBackground];
 }
 
 #pragma mark - Navigation

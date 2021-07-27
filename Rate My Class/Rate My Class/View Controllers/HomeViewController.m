@@ -24,7 +24,7 @@ static NSString *unratedClassesRating = @"2.5";
 @property (nonatomic, strong) NSMutableDictionary *deptToClasses;
 @property (nonatomic, strong) NSArray *departmentsArray;
 @property (nonatomic, strong) PFUser *user;
-@property (nonatomic, strong) NSArray *userSelectedTags;
+@property (nonatomic, strong) NSMutableDictionary *selectedTagsToOccurences;
 @property BOOL allClassesSelected;
 
 @end
@@ -44,6 +44,7 @@ static NSString *unratedClassesRating = @"2.5";
     
     [self enableRefreshing];
     [self fetchAllClasses];
+    [self fetchMajorRelatedTagsForCurrMajor];
 }
 
 - (void)enableRefreshing {
@@ -83,6 +84,40 @@ static NSString *unratedClassesRating = @"2.5";
     UINavigationController *nav = (UINavigationController*) [[self.tabBarController viewControllers] objectAtIndex:1];
     SearchViewController *searchVC = (SearchViewController *)nav.topViewController;
     searchVC.allClasses = self.allClasses;
+}
+
+-(void)fetchMajorRelatedTagsForCurrMajor {
+    PFQuery *query = [PFUser query];
+    [query includeKey:@"major"];
+    [query whereKey:@"major" equalTo:self.user[@"major"]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        NSMutableArray *sameMajorSelectedTags = [self getselectedTagsOfSameMajor:objects];
+        NSMutableDictionary *selectedTagsToOccurences = [self createTagsToOccurencesMapping:sameMajorSelectedTags];
+    }];
+}
+
+-(NSMutableArray *)getselectedTagsOfSameMajor:(NSArray *)userObjects {
+    NSMutableArray *selectedTags = [NSMutableArray array];
+    for (PFUser *user in userObjects) {
+        [selectedTags addObjectsFromArray:user[@"selectedTagsText"]];
+    }
+    return selectedTags;
+}
+
+-(NSMutableDictionary *)createTagsToOccurencesMapping:(NSMutableArray *)majorSelectedTags {
+    self.selectedTagsToOccurences = [NSMutableDictionary dictionary];
+    for (NSString *tagText in majorSelectedTags) {
+        if ([self.selectedTagsToOccurences objectForKey:tagText]) {
+            NSDecimalNumber *count = [self.selectedTagsToOccurences objectForKey:tagText];
+            count = [count decimalNumberByAdding:[NSDecimalNumber one]];
+            [self.selectedTagsToOccurences setObject:count forKey:tagText];
+            
+        } else {
+            [self.selectedTagsToOccurences setObject:[NSDecimalNumber one] forKey:tagText];
+        }
+    }
+    NSLog(@"%@", self.selectedTagsToOccurences);
+    return self.selectedTagsToOccurences;
 }
 
 - (void)fetchAllClasses {

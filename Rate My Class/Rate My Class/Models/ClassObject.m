@@ -20,7 +20,7 @@
     return @"Class";
 }
 
-+ (ClassObject *) createClass: (NSString * _Nullable)overallRating withDifficulty: (NSString * _Nullable)overallDifficulty withCode: (NSString * _Nullable)classCode withDepartment: (NSString * _Nullable)department withCompletion: (PFBooleanResultBlock  _Nullable)completion {
++ (ClassObject *)createClass:(NSString * _Nullable)overallRating withDifficulty:(NSString * _Nullable)overallDifficulty withCode:(NSString * _Nullable)classCode withDepartment:(NSString * _Nullable)department withCompletion:(PFBooleanResultBlock  _Nullable)completion {
     ClassObject *newClass = [ClassObject new];
     newClass.classCode = classCode;
     newClass.department = department;
@@ -62,7 +62,8 @@
                 }
             }];
         } else {
-            NSLog(@"error fetching classes%@", error);
+            completion(nil, error);
+            NSLog(@"error fetching classes %@", error.localizedDescription);
         }
     }];
 }

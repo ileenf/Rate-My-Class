@@ -21,7 +21,7 @@
     return @"Review";
 }
 
-+ (void) postReview: (NSString * _Nullable)rating withDifficulty: (NSString * _Nullable)difficulty withClassObj: (ClassObject * _Nullable)classObj withComment: (NSString * _Nullable)comment withCompletion: (PFBooleanResultBlock  _Nullable)completion {
++ (void)postReview:(NSString * _Nullable)rating withDifficulty:(NSString * _Nullable)difficulty withClassObj:(ClassObject * _Nullable)classObj withComment:(NSString * _Nullable)comment withCompletion:(PFBooleanResultBlock  _Nullable)completion {
     ReviewModel *newReview = [ReviewModel new];
     newReview.author = [PFUser currentUser];
     newReview.comment = comment;

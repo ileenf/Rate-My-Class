@@ -189,7 +189,6 @@
         <!--Profile View Controller-->
         <scene sceneID="Hdi-ui-90t">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zoM-jy-F5s" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController id="4NZ-eg-em6" customClass="ProfileViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="88E-b4-aLT">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -274,11 +273,32 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pDg-Os-Drn">
-                                <rect key="frame" x="140" y="160" width="135" height="30"/>
+                                <rect key="frame" x="140" y="264" width="135" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Select Interests"/>
                                 <connections>
                                     <segue destination="eTB-2h-qHl" kind="show" identifier="TagsViewSegue" id="HyN-ih-W3O"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Major:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aC2-Kb-KZ6">
+                                <rect key="frame" x="27" y="166" width="95" height="23"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HAh-AS-TxH">
+                                <rect key="frame" x="101" y="160" width="228" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bLU-fU-Zvl">
+                                <rect key="frame" x="190" y="202" width="34" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Save"/>
+                                <connections>
+                                    <action selector="handleSavingMajor:" destination="4NZ-eg-em6" eventType="touchUpInside" id="qiF-rV-krk"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -293,11 +313,13 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="majorLabel" destination="HAh-AS-TxH" id="hCP-9B-5Cs"/>
                         <outlet property="tableView" destination="fLO-yd-rh7" id="q4S-r5-jKB"/>
                         <outlet property="usernameLabel" destination="FOA-Vf-AYI" id="ahC-lo-D2I"/>
                         <segue destination="SUZ-lu-31x" kind="show" identifier="ProfileDetailsSegue" id="r1i-KO-sds"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zoM-jy-F5s" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2449.275362318841" y="1641.9642857142856"/>
         </scene>
@@ -769,7 +791,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="oCO-aL-jc9"/>
+        <segue reference="r1i-KO-sds"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="favor-icon" width="30" height="30"/>
