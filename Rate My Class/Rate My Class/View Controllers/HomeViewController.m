@@ -156,7 +156,12 @@ static NSString *unratedClassesRating = @"2.5";
 
 - (NSArray *)getRecommendedClassesFromTags {
     NSMutableArray *classesFromTags = [NSMutableArray array];
-    for (NSString *tagText in self.user[@"selectedTagsText"]) {
+    NSMutableArray *userTagsAndMajorTags = [NSMutableArray array];
+    [userTagsAndMajorTags addObjectsFromArray:self.topMajorTagsByOccurence];
+    [userTagsAndMajorTags addObjectsFromArray:self.user[@"selectedTagsText"]];
+    NSArray *uniqueTags = (NSArray *)[[NSSet setWithArray:userTagsAndMajorTags] allObjects];
+    
+    for (NSString *tagText in uniqueTags) {
         NSArray *classesFromDept = [self.deptToClasses objectForKey:tagText];
 
         NSArray *sortedByRating = [classesFromDept sortedArrayUsingComparator:^NSComparisonResult(ClassObject *class1, ClassObject *class2) {
@@ -169,9 +174,9 @@ static NSString *unratedClassesRating = @"2.5";
             if ([rating2 isEqualToString:@"N/A"]) {
                 rating2 = unratedClassesRating;
             }
-            
             return [rating2 compare:rating1];
         }];
+        
         NSInteger sortedTagsCount = sortedByRating.count;
         NSArray *topTenRated;
         if (sortedTagsCount < 10) {
@@ -181,7 +186,6 @@ static NSString *unratedClassesRating = @"2.5";
         }
         [classesFromTags addObjectsFromArray:topTenRated];
     }
-    
     return classesFromTags;
 }
 
