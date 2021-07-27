@@ -24,7 +24,7 @@ static NSString *unratedClassesRating = @"2.5";
 @property (nonatomic, strong) NSMutableDictionary *deptToClasses;
 @property (nonatomic, strong) NSArray *departmentsArray;
 @property (nonatomic, strong) PFUser *user;
-@property (nonatomic, strong) NSMutableDictionary *selectedTagsToOccurences;
+@property (nonatomic, strong) NSArray *topMajorTagsByOccurence;
 @property BOOL allClassesSelected;
 
 @end
@@ -93,6 +93,9 @@ static NSString *unratedClassesRating = @"2.5";
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         NSMutableArray *sameMajorSelectedTags = [self getselectedTagsOfSameMajor:objects];
         NSMutableDictionary *selectedTagsToOccurences = [self createTagsToOccurencesMapping:sameMajorSelectedTags];
+        NSLog(@"mapping : %@", selectedTagsToOccurences);
+        [self getMajorRelatedTopTags:selectedTagsToOccurences];
+        NSLog(@"the sorted : %@", self.topMajorTagsByOccurence);
     }];
 }
 
@@ -105,19 +108,30 @@ static NSString *unratedClassesRating = @"2.5";
 }
 
 -(NSMutableDictionary *)createTagsToOccurencesMapping:(NSMutableArray *)majorSelectedTags {
-    self.selectedTagsToOccurences = [NSMutableDictionary dictionary];
+    NSMutableDictionary *selectedTagsToOccurences = [NSMutableDictionary dictionary];
     for (NSString *tagText in majorSelectedTags) {
-        if ([self.selectedTagsToOccurences objectForKey:tagText]) {
-            NSDecimalNumber *count = [self.selectedTagsToOccurences objectForKey:tagText];
+        if ([selectedTagsToOccurences objectForKey:tagText]) {
+            NSDecimalNumber *count = [selectedTagsToOccurences objectForKey:tagText];
             count = [count decimalNumberByAdding:[NSDecimalNumber one]];
-            [self.selectedTagsToOccurences setObject:count forKey:tagText];
+            [selectedTagsToOccurences setObject:count forKey:tagText];
             
         } else {
-            [self.selectedTagsToOccurences setObject:[NSDecimalNumber one] forKey:tagText];
+            [selectedTagsToOccurences setObject:[NSDecimalNumber one] forKey:tagText];
         }
     }
-    NSLog(@"%@", self.selectedTagsToOccurences);
-    return self.selectedTagsToOccurences;
+    return selectedTagsToOccurences;
+}
+
+-(void)getMajorRelatedTopTags:(NSMutableDictionary *)selectedTagsToOccurences {
+    NSArray *sortedTags = [selectedTagsToOccurences keysSortedByValueUsingComparator:^NSComparisonResult(id  _Nonnull tag1, id  _Nonnull tag2) {
+        return [tag2 compare:tag1];
+    }];
+    NSInteger sortedTagsCount = sortedTags.count;
+    if (sortedTagsCount < 5) {
+        self.topMajorTagsByOccurence = [sortedTags subarrayWithRange:NSMakeRange(0, sortedTagsCount)];
+    } else {
+        self.topMajorTagsByOccurence = [sortedTags subarrayWithRange:NSMakeRange(0, 5)];
+    }
 }
 
 - (void)fetchAllClasses {
@@ -158,8 +172,13 @@ static NSString *unratedClassesRating = @"2.5";
             
             return [rating2 compare:rating1];
         }];
-        
-        NSArray *topTenRated = [sortedByRating subarrayWithRange:NSMakeRange(0, 10)];
+        NSInteger sortedTagsCount = sortedByRating.count;
+        NSArray *topTenRated;
+        if (sortedTagsCount < 10) {
+            topTenRated = [sortedByRating subarrayWithRange:NSMakeRange(0, sortedTagsCount)];
+        } else {
+            topTenRated = [sortedByRating subarrayWithRange:NSMakeRange(0, 10)];
+        }
         [classesFromTags addObjectsFromArray:topTenRated];
     }
     
