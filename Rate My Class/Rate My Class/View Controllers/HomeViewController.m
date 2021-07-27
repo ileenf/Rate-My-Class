@@ -44,7 +44,9 @@ static NSString *unratedClassesRating = @"2.5";
     
     [self enableRefreshing];
     [self fetchAllClasses];
-    [self fetchMajorRelatedTagsForCurrMajor];
+    if (self.user[@"major"]) {
+        [self fetchMajorRelatedTagsForCurrMajor];
+    }
 }
 
 - (void)enableRefreshing {
@@ -89,7 +91,6 @@ static NSString *unratedClassesRating = @"2.5";
 - (void)fetchMajorRelatedTagsForCurrMajor {
     PFQuery *query = [PFUser query];
     [query includeKey:@"major"];
-    // check if major exists
     [query whereKey:@"major" equalTo:self.user[@"major"]];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         NSMutableArray *sameMajorSelectedTags = [self getSelectedTagsOfSameMajor:objects];
