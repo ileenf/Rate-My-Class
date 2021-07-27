@@ -14,7 +14,6 @@
 #import "ProfileCell.h"
 #import "ReviewModel.h"
 #import "ClassObject.h"
-#import "MajorModel.h"
 
 @interface ProfileViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -42,6 +41,8 @@
     
     [self enableRefreshing];
     [self loadProfileReviews];
+    [self loadUserMajor];
+    
 }
 
 - (void)enableRefreshing {
@@ -55,7 +56,7 @@
 - (void)loadProfileReviews {
     PFQuery *query = [PFQuery queryWithClassName:@"Review"];
     [query orderByDescending:@"createdAt"];
-    [query whereKey:@"author" equalTo:[PFUser currentUser]];
+    [query whereKey:@"author" equalTo:self.user];
     [query includeKey:@"classObject"];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (error == nil){
@@ -65,6 +66,18 @@
             NSLog(@"error");
         }
         [self.refreshControl endRefreshing];
+    }];
+}
+
+-(void)loadUserMajor {
+    PFQuery *query = [PFUser query];
+    [query whereKey:@"username" equalTo:self.user.username];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable currUserObj, NSError * _Nullable error) {
+        if (error == nil) {
+            self.majorLabel.text = currUserObj[0][@"major"];
+        } else {
+            NSLog(@"error");
+        }
     }];
 }
 

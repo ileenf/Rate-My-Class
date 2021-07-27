@@ -93,9 +93,7 @@ static NSString *unratedClassesRating = @"2.5";
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         NSMutableArray *sameMajorSelectedTags = [self getselectedTagsOfSameMajor:objects];
         NSMutableDictionary *selectedTagsToOccurences = [self createTagsToOccurencesMapping:sameMajorSelectedTags];
-        NSLog(@"mapping : %@", selectedTagsToOccurences);
         [self getMajorRelatedTopTags:selectedTagsToOccurences];
-        NSLog(@"the sorted : %@", self.topMajorTagsByOccurence);
     }];
 }
 
@@ -134,26 +132,6 @@ static NSString *unratedClassesRating = @"2.5";
     }
 }
 
-- (void)fetchAllClasses {
-    ClassAPIManager *manager = [ClassAPIManager new];
-    [manager fetchCurrentClasses:^(NSArray *classes, NSError *error) {
-        if (error == nil) {
-            [ClassObject classesWithQueries:classes handler:^(NSMutableArray * _Nonnull classes, NSError * _Nonnull error) {
-                if (error == nil) {
-                    self.allClasses = classes;
-                    self.classes = classes;
-                    [self.tableView reloadData];
-                    
-                    [self createDeptToClassesMapping];
-                    [self sendClassesArrayToSearchView];
-                    [self sendDepartmentsToProfileView];
-                }
-            }];
-        }
-        [self.refreshControl endRefreshing];
-    }];
-}
-
 - (NSArray *)getRecommendedClassesFromTags {
     NSMutableArray *classesFromTags = [NSMutableArray array];
     NSMutableArray *userTagsAndMajorTags = [NSMutableArray array];
@@ -187,6 +165,26 @@ static NSString *unratedClassesRating = @"2.5";
         [classesFromTags addObjectsFromArray:topTenRated];
     }
     return classesFromTags;
+}
+
+- (void)fetchAllClasses {
+    ClassAPIManager *manager = [ClassAPIManager new];
+    [manager fetchCurrentClasses:^(NSArray *classes, NSError *error) {
+        if (error == nil) {
+            [ClassObject classesWithQueries:classes handler:^(NSMutableArray * _Nonnull classes, NSError * _Nonnull error) {
+                if (error == nil) {
+                    self.allClasses = classes;
+                    self.classes = classes;
+                    [self.tableView reloadData];
+                    
+                    [self createDeptToClassesMapping];
+                    [self sendClassesArrayToSearchView];
+                    [self sendDepartmentsToProfileView];
+                }
+            }];
+        }
+        [self.refreshControl endRefreshing];
+    }];
 }
 
 - (IBAction)allClassesFilter:(id)sender {
