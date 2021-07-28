@@ -59,6 +59,7 @@
     if (self.hasSubmittedReview) {
         [self createConfettiParticles];
     }
+    self.hasSubmittedReview = NO;
 }
 
 - (void)handleDoubleTap:(UITapGestureRecognizer *)sender {
