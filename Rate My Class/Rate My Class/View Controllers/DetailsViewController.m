@@ -39,6 +39,7 @@
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
     self.classCode.text = self.classObj.classCode;
+    self.hasSubmittedReview = NO;
         
     self.ratingTotal = [[NSDecimalNumber alloc] initWithDouble:0.0];
     self.numberOfReviews = [[NSDecimalNumber alloc] initWithDouble:0.0];
@@ -52,6 +53,12 @@
 
     [self enableRefreshing];
     [self loadReviews];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    if (self.hasSubmittedReview) {
+        [self createConfettiParticles];
+    }
 }
 
 - (void)handleDoubleTap:(UITapGestureRecognizer *)sender {
@@ -122,6 +129,44 @@
     return self.reviews.count;
 }
 
+- (void)createConfettiParticles {
+    CAEmitterLayer *confettiEmitter = [CAEmitterLayer layer];
+    [confettiEmitter setFrame:CGRectMake(20, 20, 400, 1000)];
+    [confettiEmitter setEmitterPosition:CGPointMake(self.view.center.x, -50)];
+    [confettiEmitter setEmitterShape:kCAEmitterLayerLine];
+    [confettiEmitter setEmitterSize:CGSizeMake(self.view.frame.size.width, 1)];
+    
+    CAEmitterCell *confetti1 = [self makeConfettiEmitterCell:@"confetti1"];
+    CAEmitterCell *confetti2 = [self makeConfettiEmitterCell:@"confetti2"];
+    CAEmitterCell *confetti3 = [self makeConfettiEmitterCell:@"confetti3"];
+    CAEmitterCell *confetti4 = [self makeConfettiEmitterCell:@"confetti4"];
+    
+    NSArray *confettiArray = [NSArray arrayWithObjects:confetti1, confetti2, confetti3, confetti4, nil];
+    [confettiEmitter setEmitterCells:confettiArray];
+    [self.view.layer addSublayer:confettiEmitter];
+    
+    [self performSelector:@selector(endConfettiEmitting:) withObject:confettiEmitter afterDelay:0.5];
+}
+
+- (CAEmitterCell *)makeConfettiEmitterCell:(NSString *)imageName {
+    UIImage *confettiImage = [UIImage imageNamed:imageName];
+    CAEmitterCell *confettiCell = [CAEmitterCell emitterCell];
+    [confettiCell setContentsScale:8];
+    [confettiCell setBirthRate:3];
+    [confettiCell setLifetime:10];
+    [confettiCell setVelocity:30];
+    [confettiCell setEmissionLongitude:(CGFloat)M_PI];
+    [confettiCell setEmissionRange:(CGFloat)M_PI/2];
+    
+    [confettiCell setContents:(id)confettiImage.CGImage];
+    
+    return confettiCell;
+}
+
+- (void)endConfettiEmitting:(CAEmitterLayer *)emitterLayer {
+    [emitterLayer setBirthRate:0];
+}
+
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -129,6 +174,7 @@
         ComposeViewController *composeViewController = [segue destinationViewController];
         composeViewController.classObj = self.classObj;
         composeViewController.reviewsFromDetails = self.reviews;
+        composeViewController.detailsVC = self;
     }
 }
 

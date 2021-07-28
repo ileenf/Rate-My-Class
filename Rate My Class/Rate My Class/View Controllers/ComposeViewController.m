@@ -6,6 +6,7 @@
 //
 
 #import "ComposeViewController.h"
+#import "DetailsViewController.h"
 #import "ReviewModel.h"
 #import "Parse/Parse.h"
 
@@ -61,6 +62,8 @@
             self.classObj.overallDifficulty = [NSString stringWithFormat:@"%@", averageDifficulty];
             [self.classObj saveInBackground];
             
+            self.detailsVC.hasSubmittedReview = YES;
+            
             [self dismissViewControllerAnimated:true completion:nil];
         }
     }];
@@ -101,15 +104,5 @@
     NSDecimalNumber *roundedNumber = [amount decimalNumberByRoundingAccordingToBehavior:behavior];
     return roundedNumber;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

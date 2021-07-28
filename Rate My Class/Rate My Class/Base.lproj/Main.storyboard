@@ -704,6 +704,7 @@
                                 <state key="normal" title="Submit"/>
                                 <connections>
                                     <action selector="submitReview:" destination="W1K-Vq-BEU" eventType="touchUpInside" id="isU-L1-IKc"/>
+                                    <action selector="submitReviewShowConfetti:" destination="e23-8y-vF0" eventType="touchUpInside" id="Xap-Ta-aG8"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -729,8 +730,9 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uqA-Zd-OqR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="e23-8y-vF0" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="5860.8695652173919" y="1695.5357142857142"/>
+            <point key="canvasLocation" x="5393" y="1696"/>
         </scene>
         <!--Classes-->
         <scene sceneID="nVQ-E6-55Y">
@@ -791,7 +793,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="r1i-KO-sds"/>
+        <segue reference="nMr-Kr-5Dc"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="favor-icon" width="30" height="30"/>
