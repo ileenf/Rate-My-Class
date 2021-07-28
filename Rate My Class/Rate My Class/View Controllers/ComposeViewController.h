@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ClassObject.h"
+#import "DetailsViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) ClassObject *classObj;
 @property (nonatomic, strong) NSArray *reviewsFromDetails;
+@property (nonatomic, strong) DetailsViewController *detailsVC;
 
 @end
 
