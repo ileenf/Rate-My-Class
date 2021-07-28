@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSNumber *likeCount;
 @property (nonatomic, strong) NSMutableArray *usersLiked;
 
-+ (void) postReview: (NSString * _Nullable)rating withDifficulty: (NSString * _Nullable)difficulty withClassObj: (ClassObject * _Nullable)classObj withComment: (NSString * _Nullable)comment withCompletion: (PFBooleanResultBlock  _Nullable)completion;
++ (ReviewModel *)postReview:(NSString * _Nullable)rating withDifficulty:(NSString * _Nullable)difficulty withClassObj:(ClassObject * _Nullable)classObj withComment:(NSString * _Nullable)comment withCompletion:(PFBooleanResultBlock  _Nullable)completion;
 
 @end
 

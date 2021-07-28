@@ -13,7 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DetailsViewController : UIViewController
 
 @property (nonatomic, strong) ClassObject *classObj;
-@property BOOL hasSubmittedReview;
 
 @end
 

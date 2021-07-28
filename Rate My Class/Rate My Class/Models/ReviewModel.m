@@ -21,7 +21,7 @@
     return @"Review";
 }
 
-+ (void)postReview:(NSString * _Nullable)rating withDifficulty:(NSString * _Nullable)difficulty withClassObj:(ClassObject * _Nullable)classObj withComment:(NSString * _Nullable)comment withCompletion:(PFBooleanResultBlock  _Nullable)completion {
++ (ReviewModel *)postReview:(NSString * _Nullable)rating withDifficulty:(NSString * _Nullable)difficulty withClassObj:(ClassObject * _Nullable)classObj withComment:(NSString * _Nullable)comment withCompletion:(PFBooleanResultBlock  _Nullable)completion {
     ReviewModel *newReview = [ReviewModel new];
     newReview.author = [PFUser currentUser];
     newReview.comment = comment;
@@ -32,6 +32,8 @@
     newReview.usersLiked = [[NSMutableArray alloc] init];
  
     [newReview saveInBackgroundWithBlock: completion];
+    
+    return newReview;
 }
 
 @end

@@ -17,7 +17,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *difficultyField;
 @property NSDecimalNumber *numberOfReviews;
 
-
 @end
 
 @implementation ComposeViewController
@@ -51,7 +50,7 @@
 }
 
 - (IBAction)submitReview:(id)sender {
-    [ReviewModel postReview:self.ratingField.text withDifficulty:self.difficultyField.text withClassObj:self.classObj withComment:self.commentView.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+    ReviewModel *newReview = [ReviewModel postReview:self.ratingField.text withDifficulty:self.difficultyField.text withClassObj:self.classObj withComment:self.commentView.text withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             self.commentView.text = @"";
             
@@ -61,12 +60,12 @@
             self.classObj.overallRating = [NSString stringWithFormat:@"%@", averageRating];
             self.classObj.overallDifficulty = [NSString stringWithFormat:@"%@", averageDifficulty];
             [self.classObj saveInBackground];
-            
-            self.detailsVC.hasSubmittedReview = YES;
-            
+                        
             [self dismissViewControllerAnimated:true completion:nil];
         }
     }];
+    
+    [self.delegate didSubmitReview:newReview];
 }
 
 - (NSDecimalNumber *)calculateAverageRating:(NSString *)newRating {

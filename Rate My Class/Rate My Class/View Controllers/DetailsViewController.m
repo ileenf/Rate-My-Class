@@ -11,8 +11,7 @@
 #import "ReviewCell.h"
 #import "Parse/Parse.h"
 
-
-@interface DetailsViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface DetailsViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *classCode;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -39,7 +38,6 @@
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
     self.classCode.text = self.classObj.classCode;
-    self.hasSubmittedReview = NO;
         
     self.ratingTotal = [[NSDecimalNumber alloc] initWithDouble:0.0];
     self.numberOfReviews = [[NSDecimalNumber alloc] initWithDouble:0.0];
@@ -55,11 +53,11 @@
     [self loadReviews];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    if (self.hasSubmittedReview) {
-        [self createConfettiParticles];
-    }
-    self.hasSubmittedReview = NO;
+- (void)didSubmitReview:(ReviewModel *)newReview {
+    [self.reviews insertObject:newReview atIndex:0];
+    [self.tableView reloadData];
+    
+    [self createConfettiParticles];
 }
 
 - (void)handleDoubleTap:(UITapGestureRecognizer *)sender {
@@ -175,7 +173,7 @@
         ComposeViewController *composeViewController = [segue destinationViewController];
         composeViewController.classObj = self.classObj;
         composeViewController.reviewsFromDetails = self.reviews;
-        composeViewController.detailsVC = self;
+        composeViewController.delegate = self;
     }
 }
 

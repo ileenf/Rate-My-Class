@@ -184,7 +184,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WvX-F7-bYe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="698.55072463768124" y="2390.625"/>
+            <point key="canvasLocation" x="642" y="2123"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="Hdi-ui-90t">
@@ -770,7 +770,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Khf-N3-FUe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-280" y="2314"/>
+            <point key="canvasLocation" x="-310" y="1729"/>
         </scene>
         <!--Profile-->
         <scene sceneID="Dro-b8-gAh">
@@ -793,7 +793,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="oCO-aL-jc9"/>
+        <segue reference="nMr-Kr-5Dc"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="favor-icon" width="30" height="30"/>

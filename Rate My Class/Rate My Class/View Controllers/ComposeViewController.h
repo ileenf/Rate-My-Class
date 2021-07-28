@@ -8,14 +8,19 @@
 #import <UIKit/UIKit.h>
 #import "ClassObject.h"
 #import "DetailsViewController.h"
+#import "ReviewModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol ComposeViewControllerDelegate
+- (void)didSubmitReview:(ReviewModel *)newReview;
+@end
+
 @interface ComposeViewController : UIViewController
 
+@property (nonatomic, weak) id<ComposeViewControllerDelegate> delegate;
 @property (nonatomic, strong) ClassObject *classObj;
 @property (nonatomic, strong) NSArray *reviewsFromDetails;
-@property (nonatomic, strong) DetailsViewController *detailsVC;
 
 @end
 
