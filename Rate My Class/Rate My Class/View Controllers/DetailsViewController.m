@@ -107,11 +107,9 @@
         [cell.likeIcon setSelected: YES];
     }
     
-    if ([self.overallRatingLabel.text isEqualToString:@"N/A"] && [self.overallDifficultyLabel.text isEqualToString:@"N/A"]) {
-        self.overallRatingLabel.text = [NSString stringWithFormat:@"%@", self.classObj.overallRating];
-        self.overallDifficultyLabel.text = [NSString stringWithFormat:@"%@", self.classObj.overallDifficulty];
-    }
-    
+    self.overallRatingLabel.text = [NSString stringWithFormat:@"%@", self.classObj.overallRating];
+    self.overallDifficultyLabel.text = [NSString stringWithFormat:@"%@", self.classObj.overallDifficulty];
+
     return cell;
 }
 
@@ -157,13 +155,21 @@
     [emitterLayer setBirthRate:0];
 }
 
+- (NSArray *)createCopyOfReviewsArray:(NSMutableArray *)reviewsArray {
+    NSMutableArray *copyofReviews = [[NSMutableArray alloc] initWithCapacity:reviewsArray.count];
+    for (ReviewModel *review in reviewsArray) {
+        [copyofReviews addObject:review];
+    }
+    return copyofReviews;
+}
+
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"ComposeSegue"]) {
         ComposeViewController *composeViewController = [segue destinationViewController];
         composeViewController.classObj = self.classObj;
-        composeViewController.reviewsFromDetails = self.reviews;
+        composeViewController.reviewsFromDetails = [self createCopyOfReviewsArray:self.reviews];
         composeViewController.delegate = self;
     }
 }
