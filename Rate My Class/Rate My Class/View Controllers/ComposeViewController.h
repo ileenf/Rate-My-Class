@@ -20,7 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id<ComposeViewControllerDelegate> delegate;
 @property (nonatomic, strong) ClassObject *classObj;
-@property (nonatomic, strong) NSArray *reviewsFromDetails;
 
 @end
 

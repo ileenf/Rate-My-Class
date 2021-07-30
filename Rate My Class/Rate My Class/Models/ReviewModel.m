@@ -30,9 +30,7 @@
     newReview.classObject = classObj;
     newReview.likeCount = @(0);
     newReview.usersLiked = [[NSMutableArray alloc] init];
- 
-    [newReview saveInBackgroundWithBlock: completion];
-    
+     
     return newReview;
 }
 

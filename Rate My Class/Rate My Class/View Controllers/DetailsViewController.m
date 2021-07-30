@@ -47,6 +47,53 @@
     [self.tableView reloadData];
     
     [self createConfettiParticles];
+    
+    NSDecimalNumber *averageRating =  [self calculateAverageRating];
+    NSDecimalNumber *averageDifficulty = [self calculateAverageDifficulty];
+    
+    self.classObj.overallRating = [NSString stringWithFormat:@"%@", averageRating];
+    self.classObj.overallDifficulty = [NSString stringWithFormat:@"%@", averageDifficulty];
+    [self.classObj saveInBackground];
+}
+
+- (NSDecimalNumber *)calculateAverageRating {
+    NSDecimalNumber *numberOfReviews = (NSDecimalNumber *)[NSDecimalNumber numberWithInteger:self.reviews.count];
+    NSDecimalNumber *totalRating = [NSDecimalNumber zero];
+    
+    for (ReviewModel *review in self.reviews) {
+        NSDecimalNumber *reviewRating = [NSDecimalNumber decimalNumberWithString:review.rating];
+        totalRating = [totalRating decimalNumberByAdding:reviewRating];
+    }
+    NSDecimalNumber *averageRating = [totalRating decimalNumberByDividingBy:numberOfReviews];
+    NSDecimalNumber *averageRatingRounded = [self roundDecimal:averageRating];
+    
+    return averageRatingRounded;
+}
+
+- (NSDecimalNumber *)calculateAverageDifficulty {
+    NSDecimalNumber *numberOfReviews = (NSDecimalNumber *)[NSDecimalNumber numberWithInteger:self.reviews.count];
+    NSDecimalNumber *totalDifficulty = [NSDecimalNumber zero];
+    
+    for (ReviewModel *review in self.reviews) {
+        NSDecimalNumber *reviewDifficulty = [NSDecimalNumber decimalNumberWithString:review.difficulty];
+        totalDifficulty = [totalDifficulty decimalNumberByAdding:reviewDifficulty];
+    }
+    NSDecimalNumber *averageDifficulty = [totalDifficulty decimalNumberByDividingBy:numberOfReviews];
+    NSDecimalNumber *averageDifficultyRounded = [self roundDecimal:averageDifficulty];
+    
+    return averageDifficultyRounded;
+}
+
+- (NSDecimalNumber *)roundDecimal:(NSDecimalNumber *)amount {
+    NSDecimalNumberHandler *behavior = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain
+                                                                                              scale:2
+                                                                                   raiseOnExactness:NO
+                                                                                    raiseOnOverflow:NO
+                                                                                   raiseOnUnderflow:NO
+                                                                                raiseOnDivideByZero:NO];
+    
+    NSDecimalNumber *roundedNumber = [amount decimalNumberByRoundingAccordingToBehavior:behavior];
+    return roundedNumber;
 }
 
 - (void)handleDoubleTap:(UITapGestureRecognizer *)sender {
@@ -85,7 +132,7 @@
     query.limit = 20;
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (error == nil){
-            self.reviews = objects;
+            self.reviews = (NSMutableArray *)objects;
             [self.tableView reloadData];
         }
         [self.refreshControl endRefreshing];
@@ -109,8 +156,12 @@
 }
 
 - (void)createConfettiParticles {
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    CGFloat screenHeight = screenRect.size.height;
+    
     CAEmitterLayer *confettiEmitter = [CAEmitterLayer layer];
-    [confettiEmitter setFrame:CGRectMake(20, 20, 400, 1000)];
+    [confettiEmitter setFrame:CGRectMake(20, 20, screenWidth, screenHeight)];
     [confettiEmitter setEmitterPosition:CGPointMake(self.view.center.x, -50)];
     [confettiEmitter setEmitterShape:kCAEmitterLayerLine];
     [confettiEmitter setEmitterSize:CGSizeMake(self.view.frame.size.width, 1)];
@@ -146,21 +197,12 @@
     [emitterLayer setBirthRate:0];
 }
 
-- (NSArray *)createCopyOfReviewsArray:(NSMutableArray *)reviewsArray {
-    NSMutableArray *copyofReviews = [[NSMutableArray alloc] initWithCapacity:reviewsArray.count];
-    for (ReviewModel *review in reviewsArray) {
-        [copyofReviews addObject:review];
-    }
-    return copyofReviews;
-}
-
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"ComposeSegue"]) {
         ComposeViewController *composeViewController = [segue destinationViewController];
         composeViewController.classObj = self.classObj;
-        composeViewController.reviewsFromDetails = [self createCopyOfReviewsArray:self.reviews];
         composeViewController.delegate = self;
     }
 }
