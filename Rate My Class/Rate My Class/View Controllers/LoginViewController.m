@@ -37,7 +37,8 @@
         }];
         [alert addAction:TryAgainAction];
         
-        [self presentViewController:alert animated:YES completion:^{}];
+        [self presentViewController:alert animated:YES completion:^{
+        }];
     }
         
     [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser * user, NSError *  error) {

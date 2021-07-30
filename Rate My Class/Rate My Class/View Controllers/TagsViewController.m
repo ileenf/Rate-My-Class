@@ -96,6 +96,19 @@
 - (IBAction)handleSave:(id)sender {
     self.user[@"selectedTagsText"] = self.selectedTagsText;
     [self.user saveInBackground];
+    
+    UIAlertController *saveSuccessfulAlert = [UIAlertController alertControllerWithTitle:@"Saved"
+                                                                   message:@"Successfully saved interests"
+                                                            preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"OK"
+                                                             style:UIAlertActionStyleCancel
+                                                           handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [saveSuccessfulAlert addAction:OKAction];
+    
+    [self presentViewController:saveSuccessfulAlert animated:YES completion:^{
+    }];
 }
 
 @end

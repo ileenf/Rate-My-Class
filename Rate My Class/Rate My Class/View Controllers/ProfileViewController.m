@@ -99,6 +99,19 @@
     
     self.user[@"major"] = major;
     [self.user saveInBackground];
+    
+    UIAlertController *saveSuccessfulAlert = [UIAlertController alertControllerWithTitle:@"Saved"
+                                                                   message:@"Successfully saved major"
+                                                            preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"OK"
+                                                             style:UIAlertActionStyleCancel
+                                                           handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [saveSuccessfulAlert addAction:OKAction];
+    
+    [self presentViewController:saveSuccessfulAlert animated:YES completion:^{
+    }];
 }
 
 #pragma mark - Navigation
