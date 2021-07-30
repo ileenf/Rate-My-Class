@@ -95,17 +95,8 @@
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     ReviewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ReviewCell"];
     ReviewModel *review = self.reviews[indexPath.row];
-    cell.ratingLabel.text = review.rating;
-    cell.difficultyLabel.text = review.difficulty;
-    cell.commentsLabel.text = review.comment;
-    cell.likeCountLabel.text = [NSString stringWithFormat:@"%@", review.likeCount];
+
     cell.review = review;
-
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-    if ([review.usersLiked containsObject:[PFUser currentUser].username]) {
-        [cell.likeIcon setSelected: YES];
-    }
     
     self.overallRatingLabel.text = [NSString stringWithFormat:@"%@", self.classObj.overallRating];
     self.overallDifficultyLabel.text = [NSString stringWithFormat:@"%@", self.classObj.overallDifficulty];

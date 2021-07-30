@@ -29,4 +29,18 @@
     [self.review saveInBackground];
 }
 
+- (void)setReview:(ReviewModel *)review {
+    _review = review;
+
+    self.ratingLabel.text = review.rating;
+    self.difficultyLabel.text = review.difficulty;
+    self.commentsLabel.text = review.comment;
+    self.likeCountLabel.text = [NSString stringWithFormat:@"%@", review.likeCount];
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    if ([review.usersLiked containsObject:[PFUser currentUser].username]) {
+        [self.likeIcon setSelected: YES];
+    }
+}
+
 @end
