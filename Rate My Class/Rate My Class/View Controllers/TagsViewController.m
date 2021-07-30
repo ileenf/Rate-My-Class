@@ -38,7 +38,7 @@
     
     int idx = 0;
     for (TTGTextTag *tagObj in allTagObjects) {
-        TTGTextTagStringContent *content = tagObj.content;
+        TTGTextTagStringContent *content = (TTGTextTagStringContent *)tagObj.content;
         NSString *tagText = content.text;
         
         if ([tagsTextArray containsObject:(NSString *)tagText]) {
@@ -49,7 +49,11 @@
 }
 
 - (void)createTagsView {
-    self.tagCollectionView = [[TTGTextTagCollectionView alloc] initWithFrame:CGRectMake(20, 20, 400, 1000)];
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    CGFloat screenHeight = screenRect.size.height;
+    
+    self.tagCollectionView = [[TTGTextTagCollectionView alloc] initWithFrame:CGRectMake(5, 5, screenWidth, screenHeight)];
     self.tagCollectionView.enableTagSelection = YES;
     self.tagCollectionView.manualCalculateHeight = YES;
     
@@ -79,7 +83,7 @@
 }
 
 - (void)textTagCollectionView:(TTGTextTagCollectionView *)textTagCollectionView didTapTag:(TTGTextTag *)tag atIndex:(NSUInteger)index {
-    TTGTextTagStringContent *content = tag.content;
+    TTGTextTagStringContent *content = (TTGTextTagStringContent *)tag.content;
     NSString *tagText = content.text;
 
     if ([self.selectedTagsText containsObject:tagText]) {
