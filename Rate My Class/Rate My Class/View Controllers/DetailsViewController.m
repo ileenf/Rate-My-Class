@@ -17,11 +17,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *reviews;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
-@property (nonatomic, strong) NSDecimalNumber *ratingTotal;
-@property (nonatomic, strong) NSDecimalNumber *numberOfReviews;
-@property (nonatomic, strong) NSDecimalNumber *averageRating;
-@property (nonatomic, strong) NSDecimalNumber *difficultyTotal;
-@property (nonatomic, strong) NSDecimalNumber *averageDifficulty;
 @property (weak, nonatomic) IBOutlet UILabel *overallRatingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *overallDifficultyLabel;
 
@@ -38,13 +33,7 @@
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
     self.classCode.text = self.classObj.classCode;
-        
-    self.ratingTotal = [[NSDecimalNumber alloc] initWithDouble:0.0];
-    self.numberOfReviews = [[NSDecimalNumber alloc] initWithDouble:0.0];
-    self.averageRating = [[NSDecimalNumber alloc] initWithDouble:0.0];;
-    self.difficultyTotal = [[NSDecimalNumber alloc] initWithDouble:0.0];
-    self.averageDifficulty = [[NSDecimalNumber alloc] initWithDouble:0.0];
-    
+
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
     tapGesture.numberOfTapsRequired = 2;
     [self.view addGestureRecognizer:tapGesture];
@@ -118,8 +107,10 @@
         [cell.likeIcon setSelected: YES];
     }
     
-    self.overallRatingLabel.text = [NSString stringWithFormat:@"%@", self.classObj.overallRating];
-    self.overallDifficultyLabel.text = [NSString stringWithFormat:@"%@", self.classObj.overallDifficulty];
+    if ([self.overallRatingLabel.text isEqualToString:@"N/A"] && [self.overallDifficultyLabel.text isEqualToString:@"N/A"]) {
+        self.overallRatingLabel.text = [NSString stringWithFormat:@"%@", self.classObj.overallRating];
+        self.overallDifficultyLabel.text = [NSString stringWithFormat:@"%@", self.classObj.overallDifficulty];
+    }
     
     return cell;
 }

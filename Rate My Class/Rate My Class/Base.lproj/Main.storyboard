@@ -345,10 +345,10 @@
             </objects>
             <point key="canvasLocation" x="2768" y="2391"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Tab Bar View Controller-->
         <scene sceneID="vh7-a0-x7R">
             <objects>
-                <tabBarController storyboardIdentifier="tabBar" modalPresentationStyle="fullScreen" id="ffX-Fl-RAr" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="tabBar" modalPresentationStyle="fullScreen" id="ffX-Fl-RAr" customClass="TabBarViewController" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Euf-IO-pKj">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -793,7 +793,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="nMr-Kr-5Dc"/>
+        <segue reference="oCO-aL-jc9"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="favor-icon" width="30" height="30"/>

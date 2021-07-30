@@ -27,6 +27,7 @@
 		A19D889826A0D5C500F181F1 /* ProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D889726A0D5C500F181F1 /* ProfileCell.m */; };
 		A19D88C326A5EA0E00F181F1 /* ClassObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D88C226A5EA0E00F181F1 /* ClassObject.m */; };
 		A19D88C626A649EA00F181F1 /* TagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D88C526A649EA00F181F1 /* TagsViewController.m */; };
+		A19D88D226B337F300F181F1 /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D88D126B337F300F181F1 /* TabBarViewController.m */; };
 		FCD1B68A57E4B30DA538662E /* Pods_Rate_My_Class.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC31B60569A0FA2B310A6759 /* Pods_Rate_My_Class.framework */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +71,8 @@
 		A19D88C226A5EA0E00F181F1 /* ClassObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClassObject.m; sourceTree = "<group>"; };
 		A19D88C426A649EA00F181F1 /* TagsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TagsViewController.h; sourceTree = "<group>"; };
 		A19D88C526A649EA00F181F1 /* TagsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TagsViewController.m; sourceTree = "<group>"; };
+		A19D88D026B337F300F181F1 /* TabBarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
+		A19D88D126B337F300F181F1 /* TabBarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
 		AC31B60569A0FA2B310A6759 /* Pods_Rate_My_Class.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rate_My_Class.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCC875CB21DF3376DB9CCED9 /* Pods-Rate My Class.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rate My Class.debug.xcconfig"; path = "Target Support Files/Pods-Rate My Class/Pods-Rate My Class.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -149,6 +152,8 @@
 				A19D8891269FB0CF00F181F1 /* ProfileViewController.m */,
 				A19D88C426A649EA00F181F1 /* TagsViewController.h */,
 				A19D88C526A649EA00F181F1 /* TagsViewController.m */,
+				A19D88D026B337F300F181F1 /* TabBarViewController.h */,
+				A19D88D126B337F300F181F1 /* TabBarViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -327,6 +332,7 @@
 				A19D8880269DF56D00F181F1 /* DetailsViewController.m in Sources */,
 				A19D88C326A5EA0E00F181F1 /* ClassObject.m in Sources */,
 				A19D8886269E132100F181F1 /* ComposeViewController.m in Sources */,
+				A19D88D226B337F300F181F1 /* TabBarViewController.m in Sources */,
 				A19D886E269D028400F181F1 /* ClassAPIManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

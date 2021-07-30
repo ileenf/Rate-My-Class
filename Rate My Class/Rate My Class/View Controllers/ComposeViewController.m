@@ -57,6 +57,11 @@
             NSDecimalNumber *averageRating =  [self calculateAverageRating:self.ratingField.text];
             NSDecimalNumber *averageDifficulty = [self calculateAverageDifficulty:self.difficultyField.text];
             
+//            NSLog(@"new reveiw raitng: %@", self.ratingField.text);
+//            NSLog(@"new difficulty raitng: %@", self.difficultyField.text);
+//            NSLog(@"overall raitng: %@", averageRating);
+//            NSLog(@"overall difficulty: %@", averageDifficulty);;
+            
             self.classObj.overallRating = [NSString stringWithFormat:@"%@", averageRating];
             self.classObj.overallDifficulty = [NSString stringWithFormat:@"%@", averageDifficulty];
             [self.classObj saveInBackground];
@@ -66,6 +71,8 @@
     }];
     
     [self.delegate didSubmitReview:newReview];
+    NSLog(@"rating: %@", newReview.rating);
+    NSLog(@"diff: %@", newReview.difficulty);
 }
 
 - (NSDecimalNumber *)calculateAverageRating:(NSString *)newRating {

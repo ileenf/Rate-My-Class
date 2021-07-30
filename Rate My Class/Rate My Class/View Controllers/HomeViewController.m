@@ -8,7 +8,6 @@
 #import "HomeViewController.h"
 #import "SearchViewController.h"
 #import "DetailsViewController.h"
-#import "ClassAPIManager.h"
 #import "ClassCell.h"
 #import "ClassObject.h"
 #import "TTGTagCollectionView.h"
@@ -20,11 +19,9 @@ static NSString *unratedClassesRating = @"2.5";
 @interface HomeViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) UIRefreshControl *refreshControl;
-@property (nonatomic, strong) NSMutableDictionary *deptToClasses;
-@property (nonatomic, strong) NSArray *departmentsArray;
 @property (nonatomic, strong) PFUser *user;
 @property (nonatomic, strong) NSArray *topMajorTagsByOccurence;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property BOOL allClassesSelected;
 
 @end
@@ -38,15 +35,18 @@ static NSString *unratedClassesRating = @"2.5";
     self.tableView.delegate = self;
     
     self.tableView.rowHeight = 70;
-    self.deptToClasses = [[NSMutableDictionary alloc] init];
     self.user = [PFUser currentUser];
     self.allClassesSelected = YES;
     
-    [self enableRefreshing];
-    [self fetchAllClasses];
     if (self.user[@"major"]) {
         [self fetchMajorRelatedTagsForCurrMajor];
     }
+        
+    [self enableRefreshing];
+}
+
+- (void)reloadTableData {
+    [self.tableView reloadData];
 }
 
 - (void)enableRefreshing {
@@ -61,31 +61,6 @@ static NSString *unratedClassesRating = @"2.5";
     }
     [self.tableView reloadData];
     [self.refreshControl endRefreshing];
-}
-
-- (void)createDeptToClassesMapping {
-    for (ClassObject *class in self.allClasses) {
-        NSMutableArray *classesArray = [self.deptToClasses objectForKey:class.department];
-        if (classesArray == nil) {
-            NSMutableArray *initialClassArray = [NSMutableArray arrayWithObject:class];
-            [self.deptToClasses setObject:initialClassArray forKey:class.department];
-        } else {
-            [classesArray addObject:class];
-        }
-    }
-    self.departmentsArray = self.deptToClasses.allKeys;
-}
-
-- (void)sendDepartmentsToProfileView {
-    UINavigationController *nav = (UINavigationController*) [[self.tabBarController viewControllers] objectAtIndex:2];
-    ProfileViewController *profileVC = (ProfileViewController *)nav.topViewController;
-    profileVC.departmentsArray = self.departmentsArray;
-}
-
-- (void)sendClassesArrayToSearchView {
-    UINavigationController *nav = (UINavigationController*) [[self.tabBarController viewControllers] objectAtIndex:1];
-    SearchViewController *searchVC = (SearchViewController *)nav.topViewController;
-    searchVC.allClasses = self.allClasses;
 }
 
 - (void)fetchMajorRelatedTagsForCurrMajor {
@@ -159,26 +134,6 @@ static NSString *unratedClassesRating = @"2.5";
         [classesFromTags addObjectsFromArray:topTenRated];
     }
     return classesFromTags;
-}
-
-- (void)fetchAllClasses {
-    ClassAPIManager *manager = [ClassAPIManager new];
-    [manager fetchCurrentClasses:^(NSArray *classes, NSError *error) {
-        if (error == nil) {
-            [ClassObject classesWithQueries:classes handler:^(NSMutableArray * _Nonnull classes, NSError * _Nonnull error) {
-                if (error == nil) {
-                    self.allClasses = classes;
-                    self.classes = classes;
-                    [self.tableView reloadData];
-                    
-                    [self createDeptToClassesMapping];
-                    [self sendClassesArrayToSearchView];
-                    [self sendDepartmentsToProfileView];
-                }
-            }];
-        }
-        [self.refreshControl endRefreshing];
-    }];
 }
 
 - (IBAction)allClassesFilter:(id)sender {
