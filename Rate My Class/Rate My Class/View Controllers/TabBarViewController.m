@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSArray *allClassesArray;
 @property (nonatomic, strong) NSMutableDictionary *deptToClasses;
 @property (nonatomic, strong) NSArray *departmentsArray;
+@property (nonatomic, strong) UIActivityIndicatorView *APILoadingIndicator;
 
 @end
 
@@ -27,6 +28,8 @@
 
     self.delegate = self;
     self.deptToClasses = [[NSMutableDictionary alloc] init];
+    
+    [self enableAPILoadingIndicator];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -43,10 +46,14 @@
     
     if ([viewController isKindOfClass:[SearchViewController class]]) {
         SearchViewController *searchVC = (SearchViewController *)viewController;
-        searchVC.allClasses = self.allClassesArray;
+        if (searchVC.allClasses == nil) {
+            searchVC.allClasses = self.allClassesArray;
+        }
     } else if ([viewController isKindOfClass:[ProfileViewController class]]) {
         ProfileViewController *profileVC = (ProfileViewController *)viewController;
-        profileVC.departmentsArray = self.departmentsArray;
+        if (profileVC.departmentsArray == nil) {
+            profileVC.departmentsArray = self.departmentsArray;
+        }
     }
     return YES;
 }
@@ -64,6 +71,7 @@
                     self.allClassesArray = classes;
                     [self createDeptToClassesMapping];
                     homeVC.deptToClasses = self.deptToClasses;
+                    [self.APILoadingIndicator stopAnimating];
                 }
             }];
         }
@@ -81,6 +89,13 @@
         }
     }
     self.departmentsArray = self.deptToClasses.allKeys;
+}
+
+- (void)enableAPILoadingIndicator {
+    self.APILoadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];
+    [self.view addSubview:self.APILoadingIndicator];
+    self.APILoadingIndicator.center = self.view.center;
+    [self.APILoadingIndicator startAnimating];
 }
 
 @end
