@@ -34,7 +34,7 @@ static NSString *unratedClassesRating = @"2.5";
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
-    self.tableView.rowHeight = 70;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.user = [PFUser currentUser];
     self.allClassesSelected = YES;
     

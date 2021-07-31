@@ -34,7 +34,7 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
 
-    self.tableView.rowHeight = 80;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
     
     self.user = [PFUser currentUser];
     self.usernameLabel.text = [NSString stringWithFormat:@"%@", self.user.username];
