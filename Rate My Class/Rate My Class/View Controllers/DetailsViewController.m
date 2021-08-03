@@ -206,11 +206,9 @@
         NSDecimalNumber *reviewScore1 = [self calculateLengthQuality:review1];
         NSDecimalNumber *reviewScore2 = [self calculateLengthQuality:review2];
         
-        NSString *totalScore1 = [NSString stringWithFormat:@"%f", [reviewScore1 doubleValue]];
-        NSString *totalScore2 = [NSString stringWithFormat:@"%f", [reviewScore2 doubleValue]];
-        
-        return [totalScore2 compare:totalScore1];
+        return [reviewScore2 compare:reviewScore1];
     }];
+    
     return sortedByQuality;
 }
 
