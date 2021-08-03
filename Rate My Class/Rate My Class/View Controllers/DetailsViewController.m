@@ -10,12 +10,13 @@
 #import "ReviewModel.h"
 #import "ReviewCell.h"
 #import "Parse/Parse.h"
+#import "NaturalLanguage/NaturalLanguage.h"
 
 @interface DetailsViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *classCode;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *reviews;
+@property (nonatomic, strong) NSArray *reviews;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (weak, nonatomic) IBOutlet UILabel *overallRatingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *overallDifficultyLabel;
@@ -43,7 +44,10 @@
 }
 
 - (void)didSubmitReview:(ReviewModel *)newReview {
-    [self.reviews insertObject:newReview atIndex:0];
+    NSMutableArray *reviews = [NSMutableArray arrayWithArray:self.reviews];
+    [reviews insertObject:newReview atIndex:0];
+    self.reviews = reviews;
+    
     [self.tableView reloadData];
     
     [self createConfettiParticles];
@@ -130,9 +134,9 @@
     [query includeKey:@"author"];
     [query includeKey:@"createdAt"];
     query.limit = 20;
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable reviews, NSError * _Nullable error) {
         if (error == nil){
-            self.reviews = (NSMutableArray *)objects;
+            self.reviews = [self sortReviewsFromHighToLowQuality:reviews];
             [self.tableView reloadData];
         }
         [self.refreshControl endRefreshing];
@@ -195,6 +199,41 @@
 
 - (void)endConfettiEmitting:(CAEmitterLayer *)emitterLayer {
     [emitterLayer setBirthRate:0];
+}
+
+- (NSArray *)sortReviewsFromHighToLowQuality:(NSArray *)reviewsArray {
+    NSArray *sortedByQuality = [reviewsArray sortedArrayUsingComparator:^NSComparisonResult(ReviewModel *review1, ReviewModel *review2) {
+        NSDecimalNumber *reviewScore1 = [self calculateLengthQuality:review1];
+        NSDecimalNumber *reviewScore2 = [self calculateLengthQuality:review2];
+        
+        NSString *totalScore1 = [NSString stringWithFormat:@"%f", [reviewScore1 doubleValue]];
+        NSString *totalScore2 = [NSString stringWithFormat:@"%f", [reviewScore2 doubleValue]];
+        
+        return [totalScore2 compare:totalScore1];
+    }];
+    return sortedByQuality;
+}
+
+- (NSDecimalNumber *)calculateLengthQuality:(ReviewModel *)review {
+    NSDecimalNumber *score = [NSDecimalNumber zero];
+    NSInteger length = [review.comment length];
+    NSDecimalNumber *ten = (NSDecimalNumber *)[NSDecimalNumber numberWithInteger:10];
+    NSDecimalNumber *factorDecimal = (NSDecimalNumber *)[NSDecimalNumber numberWithInteger:25];
+    
+    // highest quality range 200 - 400 characters
+    if (length >= 200 && length <= 400) {
+        score = [score decimalNumberByAdding:ten];
+    } else if (length < 200) {
+        NSDecimalNumber *lengthDecimal = (NSDecimalNumber *)[NSDecimalNumber numberWithInteger:length];
+        NSDecimalNumber *value = [lengthDecimal decimalNumberByDividingBy:factorDecimal];
+        score = [score decimalNumberByAdding:value];
+    } else if (length <= 600) {
+        NSDecimalNumber *lengthDecimal2 = (NSDecimalNumber *)[NSDecimalNumber numberWithInteger:length-400];
+        NSDecimalNumber *value = [lengthDecimal2 decimalNumberByDividingBy:factorDecimal];
+        score = [score decimalNumberByAdding:value];
+    }
+    
+    return score;
 }
 
 #pragma mark - Navigation
