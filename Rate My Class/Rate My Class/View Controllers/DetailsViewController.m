@@ -13,6 +13,10 @@
 #import "NaturalLanguage/NaturalLanguage.h"
 #import "DateTools.h"
 
+static float lengthCalculationFactor = 25;
+static float lengthWeight = 0.2;
+static float qualityWeight = 0.4;
+
 @interface DetailsViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *classCode;
@@ -267,21 +271,25 @@
     */
     
     float score = 0;
-    float factor = 25;
     NSInteger length = [review.comment length];
     
     if (length >= 200 && length <= 400) {
         score += 10;
     } else if (length < 200) {
-        score += (length / factor);
+        score += (length / lengthCalculationFactor);
     } else if (length <= 600) {
-        score += (length - 400) / factor;
+        score += (length - 400) / lengthCalculationFactor;
     }
     
+    score = score * lengthWeight;
     return score;
 }
 
 - (float)calculateAverageQuality:(ReviewModel *)review withFirstReview:(ReviewModel *)firstReview withUserLikesMapping:(NSDictionary *)userLikesMapping{
+    /*
+    Calculates the review quality based on review like count, how long ago in minutes the review was posted, and the review author's like history.
+    */
+    
     float points = [review.likeCount floatValue] * 10.0;
     float totalAuthorLikes = [[userLikesMapping objectForKey:review.author.username] floatValue];
     float commentPositionValue = (points * totalAuthorLikes / 3) + (points / 10);
@@ -290,7 +298,7 @@
     float minAgoFirstReview = [self getTimeAgoReview:firstReview];
 
     float timingVar = ((minAgoFirstReview/10 + minAgoCurrReview)/3) * (fabsf(minAgoCurrReview - 3 * minAgoFirstReview));
-    float result = timingVar * (commentPositionValue / 4 + 1) * 0.4;
+    float result = timingVar * (commentPositionValue / 4 + 1) * qualityWeight;
     
     return result;
 }
