@@ -40,6 +40,8 @@
     
     if ([review.usersLiked containsObject:[PFUser currentUser].username]) {
         [self.likeIcon setSelected: YES];
+    } else {
+        [self.likeIcon setSelected: NO];
     }
 }
 

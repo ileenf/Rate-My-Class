@@ -11,6 +11,7 @@
 #import "ReviewCell.h"
 #import "Parse/Parse.h"
 #import "NaturalLanguage/NaturalLanguage.h"
+#import "DateTools.h"
 
 @interface DetailsViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -20,6 +21,7 @@
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (weak, nonatomic) IBOutlet UILabel *overallRatingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *overallDifficultyLabel;
+@property float result;
 
 @end
 
@@ -115,7 +117,7 @@
             [cell.review addObject:[PFUser currentUser].username forKey:@"usersLiked"];
             [cell.likeIcon setSelected: YES];
             [cell.review saveInBackground];
-        }
+        } 
     }
 }
 
@@ -129,18 +131,47 @@
 
 - (void)loadReviews {
     PFQuery *query = [PFQuery queryWithClassName:@"Review"];
-    [query whereKey:@"classObject" equalTo:self.classObj];
     [query orderByDescending:@"createdAt"];
     [query includeKey:@"author"];
     [query includeKey:@"createdAt"];
-    query.limit = 20;
+    [query includeKey:@"classObject"];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable reviews, NSError * _Nullable error) {
         if (error == nil){
-            self.reviews = [self sortReviewsFromHighToLowQuality:reviews];
+            NSArray *currClassReviews = [self getCurrentClassReviews:reviews];
+            NSDictionary *userToLikesMapping = [self createUserToLikesMapping:reviews];
+            
+            self.reviews = [self sortReviewsFromHighToLowQuality:currClassReviews withUserToLikesMapping:userToLikesMapping];
             [self.tableView reloadData];
         }
         [self.refreshControl endRefreshing];
     }];
+}
+    
+- (NSArray *)getCurrentClassReviews:(NSArray *)allReviews {
+    NSMutableArray *reviews = [NSMutableArray array];
+    
+    for (ReviewModel *review in allReviews) {
+        if ([review.classObject.classCode isEqualToString:self.classObj.classCode]) {
+            [reviews addObject:review];
+        }
+    }
+    return (NSArray *)reviews;
+}
+    
+- (NSDictionary *)createUserToLikesMapping:(NSArray *)allReviews {
+    NSMutableDictionary *userToLikesMapping = [NSMutableDictionary dictionary];
+    for (ReviewModel *review in allReviews) {
+        NSDecimalNumber *likeCount = (NSDecimalNumber *)review.likeCount;
+        
+        if ([userToLikesMapping objectForKey:review.author.username]) {
+            NSDecimalNumber *currLikes = [userToLikesMapping objectForKey:review.author.username];
+            currLikes = [currLikes decimalNumberByAdding:likeCount];
+            [userToLikesMapping setObject:likeCount forKey:review.author.username];
+        } else {
+            [userToLikesMapping setObject:likeCount forKey:review.author.username];
+        }
+    }
+    return (NSDictionary *)userToLikesMapping;
 }
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -148,7 +179,7 @@
     ReviewModel *review = self.reviews[indexPath.row];
 
     cell.review = review;
-    
+        
     self.overallRatingLabel.text = [NSString stringWithFormat:@"%@", self.classObj.overallRating];
     self.overallDifficultyLabel.text = [NSString stringWithFormat:@"%@", self.classObj.overallDifficulty];
 
@@ -201,10 +232,26 @@
     [emitterLayer setBirthRate:0];
 }
 
-- (NSArray *)sortReviewsFromHighToLowQuality:(NSArray *)reviewsArray {
+- (NSArray *)sortReviewsFromHighToLowQuality:(NSArray *)reviewsArray withUserToLikesMapping:(NSDictionary *)userToLikesMapping {
+    ReviewModel *firstReview = reviewsArray[reviewsArray.count - 1];
     NSArray *sortedByQuality = [reviewsArray sortedArrayUsingComparator:^NSComparisonResult(ReviewModel *review1, ReviewModel *review2) {
-        NSDecimalNumber *reviewScore1 = [self calculateLengthQuality:review1];
-        NSDecimalNumber *reviewScore2 = [self calculateLengthQuality:review2];
+        NSDecimalNumber *reviewScore1 = [NSDecimalNumber zero];
+        NSDecimalNumber *reviewScore2 = [NSDecimalNumber zero];
+        
+        NSDecimalNumber *lengthScore1 = (NSDecimalNumber *)[NSDecimalNumber numberWithFloat:[self calculateLengthQuality:review1]];
+        NSDecimalNumber *lengthScore2 = (NSDecimalNumber *)[NSDecimalNumber numberWithFloat:[self calculateLengthQuality:review2]];
+        
+        reviewScore1 = [reviewScore1 decimalNumberByAdding:lengthScore1];
+        reviewScore2 = [reviewScore2 decimalNumberByAdding:lengthScore2];
+        
+        [self calculateAverageQuality:review1 withFirstReview:firstReview withUserLikesMapping:userToLikesMapping];
+        NSDecimalNumber *qualityScore1 = (NSDecimalNumber *)[NSDecimalNumber numberWithFloat:self.result];
+        
+        [self calculateAverageQuality:review2 withFirstReview:firstReview withUserLikesMapping:userToLikesMapping];
+        NSDecimalNumber *qualityScore2 = (NSDecimalNumber *)[NSDecimalNumber numberWithFloat:self.result];
+
+        reviewScore1 = [reviewScore1 decimalNumberByAdding:qualityScore1];
+        reviewScore2 = [reviewScore2 decimalNumberByAdding:qualityScore2];
         
         return [reviewScore2 compare:reviewScore1];
     }];
@@ -212,26 +259,56 @@
     return sortedByQuality;
 }
 
-- (NSDecimalNumber *)calculateLengthQuality:(ReviewModel *)review {
-    NSDecimalNumber *score = [NSDecimalNumber zero];
-    NSInteger length = [review.comment length];
-    NSDecimalNumber *ten = (NSDecimalNumber *)[NSDecimalNumber numberWithInteger:10];
-    NSDecimalNumber *factorDecimal = (NSDecimalNumber *)[NSDecimalNumber numberWithInteger:25];
+- (float)calculateLengthQuality:(ReviewModel *)review {
+    /*
+    highest quality range is 200 - 400 characters.
+    The further the deviation from 200/400, the lower
+    quality it is.
+    */
     
-    // highest quality range 200 - 400 characters
+    float score = 0;
+    float factor = 25;
+    NSInteger length = [review.comment length];
+    
     if (length >= 200 && length <= 400) {
-        score = [score decimalNumberByAdding:ten];
+        score += 10;
     } else if (length < 200) {
-        NSDecimalNumber *lengthDecimal = (NSDecimalNumber *)[NSDecimalNumber numberWithInteger:length];
-        NSDecimalNumber *value = [lengthDecimal decimalNumberByDividingBy:factorDecimal];
-        score = [score decimalNumberByAdding:value];
+        score += (length / factor);
     } else if (length <= 600) {
-        NSDecimalNumber *lengthDecimal2 = (NSDecimalNumber *)[NSDecimalNumber numberWithInteger:length-400];
-        NSDecimalNumber *value = [lengthDecimal2 decimalNumberByDividingBy:factorDecimal];
-        score = [score decimalNumberByAdding:value];
+        score += (length - 400) / factor;
     }
     
     return score;
+}
+
+- (float)calculateAverageQuality:(ReviewModel *)review withFirstReview:(ReviewModel *)firstReview withUserLikesMapping:(NSDictionary *)userLikesMapping{
+    float points = [review.likeCount floatValue] * 10.0;
+    float totalAuthorLikes = [[userLikesMapping objectForKey:review.author.username] floatValue];
+    float commentPositionValue = (points * totalAuthorLikes / 3) + (points / 10);
+    
+    float minAgoCurrReview = [self getTimeAgoReview:review];
+    float minAgoFirstReview = [self getTimeAgoReview:firstReview];
+
+    float timingVar = ((minAgoFirstReview/10 + minAgoCurrReview)/3) * (fabsf(minAgoCurrReview - 3 * minAgoFirstReview));
+    float result = timingVar * (commentPositionValue / 4 + 1) * 0.4;
+    
+    return result;
+}
+
+- (float)getTimeAgoReview:(ReviewModel *)review {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"E MMM d HH:mm:ss Z y";
+    NSString *createdAtString = review[@"createdAt"];
+
+    NSDate *date = [formatter dateFromString:createdAtString];
+    formatter.dateStyle = NSDateFormatterShortStyle;
+    formatter.timeStyle = NSDateFormatterNoStyle;
+    
+    NSInteger minutesAgoInt = [date minutesAgo];
+    NSDecimalNumber *value = (NSDecimalNumber *)[NSDecimalNumber numberWithInteger:minutesAgoInt];
+    float minutesAgoFloat = [value floatValue];
+    
+    return minutesAgoFloat;
 }
 
 #pragma mark - Navigation
