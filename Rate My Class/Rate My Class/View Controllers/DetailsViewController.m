@@ -14,6 +14,7 @@
 #import "DateTools.h"
 
 static float lengthCalculationFactor = 25;
+static float maxLengthScore = 1000;
 static float lengthWeight = 0.2;
 static float qualityWeight = 0.4;
 
@@ -165,12 +166,13 @@ static float qualityWeight = 0.4;
 - (NSDictionary *)createUserToLikesMapping:(NSArray *)allReviews {
     NSMutableDictionary *userToLikesMapping = [NSMutableDictionary dictionary];
     for (ReviewModel *review in allReviews) {
-        NSDecimalNumber *likeCount = (NSDecimalNumber *)review.likeCount;
+        NSDecimalNumber *likeCount = [NSDecimalNumber decimalNumberWithDecimal:[review.likeCount decimalValue]];
         
         if ([userToLikesMapping objectForKey:review.author.username]) {
-            NSDecimalNumber *currLikes = [userToLikesMapping objectForKey:review.author.username];
-            currLikes = [currLikes decimalNumberByAdding:likeCount];
-            [userToLikesMapping setObject:likeCount forKey:review.author.username];
+            NSNumber *currLikes = [userToLikesMapping objectForKey:review.author.username];
+            NSDecimalNumber *currLikesDecimal = [NSDecimalNumber decimalNumberWithDecimal:[currLikes decimalValue]];
+            currLikesDecimal = [currLikesDecimal decimalNumberByAdding:likeCount];
+            [userToLikesMapping setObject:currLikesDecimal forKey:review.author.username];
         } else {
             [userToLikesMapping setObject:likeCount forKey:review.author.username];
         }
@@ -237,30 +239,34 @@ static float qualityWeight = 0.4;
 }
 
 - (NSArray *)sortReviewsFromHighToLowQuality:(NSArray *)reviewsArray withUserToLikesMapping:(NSDictionary *)userToLikesMapping {
-    ReviewModel *firstReview = reviewsArray[reviewsArray.count - 1];
-    NSArray *sortedByQuality = [reviewsArray sortedArrayUsingComparator:^NSComparisonResult(ReviewModel *review1, ReviewModel *review2) {
-        NSDecimalNumber *reviewScore1 = [NSDecimalNumber zero];
-        NSDecimalNumber *reviewScore2 = [NSDecimalNumber zero];
-        
-        NSDecimalNumber *lengthScore1 = (NSDecimalNumber *)[NSDecimalNumber numberWithFloat:[self calculateLengthQuality:review1]];
-        NSDecimalNumber *lengthScore2 = (NSDecimalNumber *)[NSDecimalNumber numberWithFloat:[self calculateLengthQuality:review2]];
-        
-        reviewScore1 = [reviewScore1 decimalNumberByAdding:lengthScore1];
-        reviewScore2 = [reviewScore2 decimalNumberByAdding:lengthScore2];
-        
-        [self calculateAverageQuality:review1 withFirstReview:firstReview withUserLikesMapping:userToLikesMapping];
-        NSDecimalNumber *qualityScore1 = (NSDecimalNumber *)[NSDecimalNumber numberWithFloat:self.result];
-        
-        [self calculateAverageQuality:review2 withFirstReview:firstReview withUserLikesMapping:userToLikesMapping];
-        NSDecimalNumber *qualityScore2 = (NSDecimalNumber *)[NSDecimalNumber numberWithFloat:self.result];
+    if (reviewsArray.count >= 1) {
+        ReviewModel *firstReview = reviewsArray[reviewsArray.count - 1];
+        NSArray *sortedByQuality = [reviewsArray sortedArrayUsingComparator:^NSComparisonResult(ReviewModel *review1, ReviewModel *review2) {
+            NSDecimalNumber *reviewScore1 = [NSDecimalNumber zero];
+            NSDecimalNumber *reviewScore2 = [NSDecimalNumber zero];
+            
+            NSDecimalNumber *lengthScore1 = (NSDecimalNumber *)[NSDecimalNumber numberWithFloat:[self calculateLengthQuality:review1]];
+            NSDecimalNumber *lengthScore2 = (NSDecimalNumber *)[NSDecimalNumber numberWithFloat:[self calculateLengthQuality:review2]];
+            
+            reviewScore1 = [reviewScore1 decimalNumberByAdding:lengthScore1];
+            reviewScore2 = [reviewScore2 decimalNumberByAdding:lengthScore2];
+            
+            float qualityScore1 = [self calculateAverageQuality:review1 withFirstReview:firstReview withUserLikesMapping:userToLikesMapping];
+            float qualityScore2 = [self calculateAverageQuality:review2 withFirstReview:firstReview withUserLikesMapping:userToLikesMapping];
+            
+            NSDecimalNumber *qualityScoreDecimal1 = (NSDecimalNumber *)[NSDecimalNumber numberWithFloat:qualityScore1];
+            NSDecimalNumber *qualityScoreDecimal2 = (NSDecimalNumber *)[NSDecimalNumber numberWithFloat:qualityScore2];
 
-        reviewScore1 = [reviewScore1 decimalNumberByAdding:qualityScore1];
-        reviewScore2 = [reviewScore2 decimalNumberByAdding:qualityScore2];
-        
-        return [reviewScore2 compare:reviewScore1];
-    }];
+            reviewScore1 = [reviewScore1 decimalNumberByAdding:qualityScoreDecimal1];
+            reviewScore2 = [reviewScore2 decimalNumberByAdding:qualityScoreDecimal2];
+            
+            return [reviewScore2 compare:reviewScore1];
+        }];
     
-    return sortedByQuality;
+        return sortedByQuality;
+    }
+    
+    return [NSArray array];
 }
 
 - (float)calculateLengthQuality:(ReviewModel *)review {
@@ -274,11 +280,13 @@ static float qualityWeight = 0.4;
     NSInteger length = [review.comment length];
     
     if (length >= 200 && length <= 400) {
-        score += 10;
+        score += maxLengthScore;
     } else if (length < 200) {
-        score += (length / lengthCalculationFactor);
+        float scaledLength = length * (maxLengthScore / 10);
+        score += (scaledLength / lengthCalculationFactor);
     } else if (length <= 600) {
-        score += (length - 400) / lengthCalculationFactor;
+        float scaledLength = (length - 400) * (maxLengthScore / 10);
+        score += scaledLength / lengthCalculationFactor;
     }
     
     score = score * lengthWeight;
@@ -289,8 +297,8 @@ static float qualityWeight = 0.4;
     /*
     Calculates the review quality based on review like count, how long ago in minutes the review was posted, and the review author's like history.
     */
-    
-    float points = [review.likeCount floatValue] * 10.0;
+
+    float points = [review.likeCount floatValue];
     float totalAuthorLikes = [[userLikesMapping objectForKey:review.author.username] floatValue];
     float commentPositionValue = (points * totalAuthorLikes / 3) + (points / 10);
     
@@ -304,19 +312,16 @@ static float qualityWeight = 0.4;
 }
 
 - (float)getTimeAgoReview:(ReviewModel *)review {
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    formatter.dateFormat = @"E MMM d HH:mm:ss Z y";
-    NSString *createdAtString = review[@"createdAt"];
-
-    NSDate *date = [formatter dateFromString:createdAtString];
-    formatter.dateStyle = NSDateFormatterShortStyle;
-    formatter.timeStyle = NSDateFormatterNoStyle;
+    /*
+    Getting the time ago review was created in hours.
+    */
     
-    NSInteger minutesAgoInt = [date minutesAgo];
-    NSDecimalNumber *value = (NSDecimalNumber *)[NSDecimalNumber numberWithInteger:minutesAgoInt];
-    float minutesAgoFloat = [value floatValue];
+    NSDate *date = review.createdAt;
+    NSInteger hoursAgoInt = [date hoursAgo];
+    NSDecimalNumber *value = (NSDecimalNumber *)[NSDecimalNumber numberWithInteger:hoursAgoInt];
+    float hoursAgoFloat = [value floatValue];
     
-    return minutesAgoFloat;
+    return hoursAgoFloat;
 }
 
 #pragma mark - Navigation
