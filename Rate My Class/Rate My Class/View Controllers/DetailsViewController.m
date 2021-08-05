@@ -294,7 +294,7 @@ static float toneWeight = 0.4;
         float scaledLength = length * (maxLengthScore / 10);
         score += (scaledLength / lengthCalculationFactor);
     } else if (length <= 600) {
-        float scaledLength = (length - 400) * (maxLengthScore / 10);
+        float scaledLength = (600 - length) * (maxLengthScore / 10);
         score += scaledLength / lengthCalculationFactor;
     }
     

@@ -94,6 +94,8 @@
                 
                 [self presentViewController:alert animated:YES completion:^{
                 }];
+            } else {
+                [self dismissViewControllerAnimated:true completion:nil];
             }
         }];
 }
