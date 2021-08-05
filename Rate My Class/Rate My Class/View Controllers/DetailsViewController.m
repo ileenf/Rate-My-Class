@@ -15,8 +15,10 @@
 
 static float lengthCalculationFactor = 25;
 static float maxLengthScore = 1000;
+static float maxToneScore = 2000;
 static float lengthWeight = 0.2;
 static float qualityWeight = 0.4;
+static float toneWeight = 0.4;
 
 @interface DetailsViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -48,6 +50,7 @@ static float qualityWeight = 0.4;
 
     [self enableRefreshing];
     [self loadReviews];
+    [self calculateContentQuality];
 }
 
 - (void)didSubmitReview:(ReviewModel *)newReview {
@@ -260,6 +263,12 @@ static float qualityWeight = 0.4;
             reviewScore1 = [reviewScore1 decimalNumberByAdding:qualityScoreDecimal1];
             reviewScore2 = [reviewScore2 decimalNumberByAdding:qualityScoreDecimal2];
             
+            float toneScore1 = [self calculateToneQuality:review1.comment];
+            float toneScore2 = [self calculateToneQuality:review2.comment];
+            
+            reviewScore1 = [reviewScore1 decimalNumberByAdding:(NSDecimalNumber *)[NSDecimalNumber numberWithFloat:toneScore1]];
+            reviewScore2 = [reviewScore2 decimalNumberByAdding:(NSDecimalNumber *)[NSDecimalNumber numberWithFloat:toneScore2]];
+            
             return [reviewScore2 compare:reviewScore1];
         }];
     
@@ -324,6 +333,41 @@ static float qualityWeight = 0.4;
     return hoursAgoFloat;
 }
 
+- (float)calculateToneQuality:(NSString *)reviewComment {
+    NLTagger *taggerObj = [NLTagger alloc];
+    NSArray *tagSchemes =[NSArray arrayWithObjects:NLTagSchemeTokenType, NLTagSchemeSentimentScore, nil];
+    NLTagger *tagger = [taggerObj initWithTagSchemes:tagSchemes];
+    [tagger setString:reviewComment];
+    
+    NSString *sentiment = [tagger tagAtIndex:0 unit:NLTokenUnitParagraph scheme:NLTagSchemeSentimentScore tokenRange:nil];
+    
+    float sentimentValue = [sentiment floatValue];
+    float toneScore = 0;
+    
+    if (sentimentValue >= -0.25 && sentimentValue <= 0.25) {
+        toneScore += maxToneScore;
+    } else if (sentimentValue < -0.25) {
+        float scaledScore = (1 - fabsf(sentimentValue)) * maxToneScore;
+        toneScore += scaledScore;
+    } else {
+        float scaledScore = (1 - sentimentValue) * maxToneScore;
+        toneScore += scaledScore;
+    }
+    return toneScore * toneWeight;
+}
+
+- (void)calculateContentQuality {
+    NSMutableArray *allKeywords = [NSMutableArray array];
+    NSArray *keywords = [NSArray arrayWithObjects:@"easy", @"grade", @"discussion", @"professor", @"quiz", @"participate", nil];
+    
+    for (NSString *word in keywords){
+        NLEmbedding *embedding = [NLEmbedding wordEmbeddingForLanguage:@"en"];
+
+        NSMutableArray *wordsArray = (NSMutableArray *)[embedding neighborsForString:word maximumCount:3 distanceType:NLDistanceTypeCosine];
+        [wordsArray addObject:word];
+        [allKeywords addObject:wordsArray];
+    }
+}
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
