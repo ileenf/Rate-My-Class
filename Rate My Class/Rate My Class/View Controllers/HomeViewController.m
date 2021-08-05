@@ -151,8 +151,8 @@ static NSString *unratedClassesRating = @"2.5";
     ClassCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ClassCell"];
     ClassObject *class = self.classes[indexPath.row];
 
-    cell.class = class;
-
+    [cell setClass:class withIndexPath:indexPath];
+    
     return cell;
 }
 

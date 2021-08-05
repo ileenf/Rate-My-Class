@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *classNameLabel;
 @property (strong, nonatomic) ClassObject *currClass;
 
-- (void)setClass:(ClassObject *)currClass;
+- (void)setClass:(ClassObject *)currClass withIndexPath:(NSIndexPath *)indexPath;
 
 @end
 

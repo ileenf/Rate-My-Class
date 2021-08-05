@@ -50,7 +50,7 @@
     SearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SearchCell"];
     ClassObject *class = self.classesToShow[indexPath.row];
     
-    cell.class = class;
+    [cell setClass:class withIndexPath:indexPath];
     
     return cell;
 }
