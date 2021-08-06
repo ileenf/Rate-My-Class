@@ -29,7 +29,7 @@
     [self.review saveInBackground];
 }
 
-- (void)setReview:(ReviewModel *)review {
+- (void)setReview:(ReviewModel *)review withIndexPath:(NSIndexPath *)indexPath {
     _review = review;
 
     self.ratingLabel.text = review.rating;
@@ -43,6 +43,14 @@
     } else {
         [self.likeIcon setSelected: NO];
     }
+    
+    [self.contentView.layer setMasksToBounds:YES];
+    [self.contentView.layer setCornerRadius:14];
+    [self.contentView.layer setBorderWidth:2];
+    [self.contentView.layer setShadowOffset:CGSizeMake(-1, -1)];
+
+    UIColor *color = [UIColor colorWithRed:0 green:0.2667 blue:0.8471 alpha:0.6];
+    [self.contentView.layer setBorderColor:color.CGColor];
 }
 
 @end

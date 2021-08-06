@@ -37,7 +37,7 @@
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
     self.user = [PFUser currentUser];
-    self.usernameLabel.text = [NSString stringWithFormat:@"%@", self.user.username];
+    self.usernameLabel.text = [NSString stringWithFormat:@"@%@", self.user.username];
     self.majorLabel.text = self.user[@"major"];
     
     [self enableRefreshing];
@@ -71,7 +71,8 @@
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     ProfileCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProfileCell" forIndexPath: indexPath];
     ReviewModel *review = self.profileReviewsArray[indexPath.row];
-    cell.review = review;
+    
+    [cell setReview:review withIndexPath:indexPath];
     
     return cell;
 }

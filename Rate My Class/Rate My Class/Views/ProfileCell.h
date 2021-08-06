@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *difficultyLabel;
 @property (strong, nonatomic) ReviewModel *review;
 
+- (void)setReview:(ReviewModel *)review withIndexPath:(NSIndexPath *)indexPath;
+
 @end
 
 NS_ASSUME_NONNULL_END

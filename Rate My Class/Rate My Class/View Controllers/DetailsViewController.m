@@ -189,7 +189,7 @@ static float maximumCountOfNeighboringWords = 3;
     ReviewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ReviewCell"];
     ReviewModel *review = self.reviews[indexPath.row];
 
-    cell.review = review;
+    [cell setReview:review withIndexPath:indexPath];
         
     self.overallRatingLabel.text = [NSString stringWithFormat:@"%@", self.classObj.overallRating];
     self.overallDifficultyLabel.text = [NSString stringWithFormat:@"%@", self.classObj.overallDifficulty];
@@ -250,9 +250,6 @@ static float maximumCountOfNeighboringWords = 3;
             NSDecimalNumber *reviewScore1 = [NSDecimalNumber zero];
             NSDecimalNumber *reviewScore2 = [NSDecimalNumber zero];
             
-            NSString *one = review1.comment;
-            NSString *two = review2.comment;
-            
             NSDecimalNumber *lengthScore1 = (NSDecimalNumber *)[NSDecimalNumber numberWithFloat:[self calculateLengthQuality:review1]];
             NSDecimalNumber *lengthScore2 = (NSDecimalNumber *)[NSDecimalNumber numberWithFloat:[self calculateLengthQuality:review2]];
             
@@ -280,7 +277,7 @@ static float maximumCountOfNeighboringWords = 3;
         return sortedByQuality;
     }
     
-    return [NSArray array];
+    return reviewsArray;
 }
 
 - (float)calculateLengthQuality:(ReviewModel *)review {
@@ -379,7 +376,7 @@ static float maximumCountOfNeighboringWords = 3;
 - (float)calculateContentQuality:(NSString *)reviewComment {
     
     NSArray *allKeywords = [self getArrayOfKeywords];
-    float numberOfKeywords = [self getNumberOfKeywrodsInReview:reviewComment withKeywordsArray:allKeywords];
+    float numberOfKeywords = [self getNumberOfKeywordsInReview:reviewComment withKeywordsArray:allKeywords];
     
     float ratio = 1 / (maximumCountOfNeighboringWords + 1);
     float scoreRatio = numberOfKeywords / allKeywords.count;
@@ -415,7 +412,7 @@ static float maximumCountOfNeighboringWords = 3;
     return (NSArray *)allKeywords;
 }
 
-- (float)getNumberOfKeywrodsInReview:(NSString *)reviewComment withKeywordsArray:(NSArray *)allKeywords {
+- (float)getNumberOfKeywordsInReview:(NSString *)reviewComment withKeywordsArray:(NSArray *)allKeywords {
     /*
      Lemmatization
      */

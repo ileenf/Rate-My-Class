@@ -381,11 +381,19 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pDg-Os-Drn">
-                                <rect key="frame" x="20" y="264" width="374" height="30"/>
+                                <rect key="frame" x="121" y="264" width="171" height="30"/>
+                                <color key="backgroundColor" red="0.1097588129" green="0.66649145509999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="X7B-hQ-89L"/>
                                 </constraints>
-                                <state key="normal" title="Select Interests"/>
+                                <state key="normal" title="Select Interests">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="eTB-2h-qHl" kind="show" identifier="TagsViewSegue" id="HyN-ih-W3O"/>
                                 </connections>
@@ -408,25 +416,34 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bLU-fU-Zvl">
-                                <rect key="frame" x="190" y="207" width="34" height="30"/>
+                                <rect key="frame" x="138" y="207" width="137" height="30"/>
+                                <color key="backgroundColor" red="0.1097588129" green="0.66649145509999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="34" id="NnG-t3-AhF"/>
+                                    <constraint firstAttribute="width" constant="137" id="NnG-t3-AhF"/>
                                     <constraint firstAttribute="height" constant="30" id="SZ5-6F-0XX"/>
                                 </constraints>
-                                <state key="normal" title="Save"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Save">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="handleSavingMajor:" destination="4NZ-eg-em6" eventType="touchUpInside" id="qiF-rV-krk"/>
                                 </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="gw4-MY-bio"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="gw4-MY-bio" firstAttribute="trailing" secondItem="BUI-VX-jxs" secondAttribute="trailing" constant="20" id="0tl-ZL-Eh9"/>
                             <constraint firstItem="aC2-Kb-KZ6" firstAttribute="top" secondItem="FOA-Vf-AYI" secondAttribute="bottom" constant="25" id="2rU-SA-aQ7"/>
                             <constraint firstItem="HAh-AS-TxH" firstAttribute="top" secondItem="FOA-Vf-AYI" secondAttribute="bottom" constant="19" id="57W-Yb-qf3"/>
                             <constraint firstItem="fLO-yd-rh7" firstAttribute="trailing" secondItem="gw4-MY-bio" secondAttribute="trailing" id="5Cb-8F-YO7"/>
-                            <constraint firstItem="pDg-Os-Drn" firstAttribute="leading" secondItem="gw4-MY-bio" secondAttribute="leading" constant="20" id="AdH-RX-SHL"/>
+                            <constraint firstItem="pDg-Os-Drn" firstAttribute="leading" secondItem="gw4-MY-bio" secondAttribute="leading" constant="121" id="AdH-RX-SHL"/>
                             <constraint firstItem="BUI-VX-jxs" firstAttribute="leading" secondItem="gw4-MY-bio" secondAttribute="leading" constant="20" id="BSZ-3j-Ho8"/>
                             <constraint firstItem="gw4-MY-bio" firstAttribute="trailing" secondItem="HAh-AS-TxH" secondAttribute="trailing" constant="73" id="EEO-pe-79w"/>
                             <constraint firstItem="fLO-yd-rh7" firstAttribute="leading" secondItem="gw4-MY-bio" secondAttribute="leading" id="HQB-Dq-ftA"/>
@@ -435,13 +452,13 @@
                             <constraint firstItem="BUI-VX-jxs" firstAttribute="top" secondItem="pDg-Os-Drn" secondAttribute="bottom" constant="27" id="T4b-vB-Odx"/>
                             <constraint firstItem="fLO-yd-rh7" firstAttribute="bottom" secondItem="gw4-MY-bio" secondAttribute="bottom" id="Ui7-dQ-Ybw"/>
                             <constraint firstItem="HAh-AS-TxH" firstAttribute="leading" secondItem="aC2-Kb-KZ6" secondAttribute="trailing" constant="20.5" id="WBA-i2-CDN"/>
-                            <constraint firstItem="gw4-MY-bio" firstAttribute="trailing" secondItem="pDg-Os-Drn" secondAttribute="trailing" constant="20" id="Z4h-iC-u9B"/>
+                            <constraint firstItem="gw4-MY-bio" firstAttribute="trailing" secondItem="pDg-Os-Drn" secondAttribute="trailing" constant="122" id="Z4h-iC-u9B"/>
                             <constraint firstItem="aC2-Kb-KZ6" firstAttribute="leading" secondItem="gw4-MY-bio" secondAttribute="leading" constant="20" id="ebm-OW-amn"/>
                             <constraint firstItem="FOA-Vf-AYI" firstAttribute="top" secondItem="gw4-MY-bio" secondAttribute="top" constant="13" id="kQ5-bF-HII"/>
                             <constraint firstItem="bLU-fU-Zvl" firstAttribute="top" secondItem="HAh-AS-TxH" secondAttribute="bottom" constant="13" id="kkW-Bl-dCn"/>
                             <constraint firstItem="fLO-yd-rh7" firstAttribute="top" secondItem="BUI-VX-jxs" secondAttribute="bottom" constant="24" id="obL-Ij-NEp"/>
                             <constraint firstItem="FOA-Vf-AYI" firstAttribute="leading" secondItem="gw4-MY-bio" secondAttribute="leading" constant="20" id="rUG-Qz-aqa"/>
-                            <constraint firstItem="bLU-fU-Zvl" firstAttribute="leading" secondItem="gw4-MY-bio" secondAttribute="leading" constant="190" id="xKX-6B-LHn"/>
+                            <constraint firstItem="bLU-fU-Zvl" firstAttribute="leading" secondItem="gw4-MY-bio" secondAttribute="leading" constant="138" id="xKX-6B-LHn"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="PyG-2G-XVe">
