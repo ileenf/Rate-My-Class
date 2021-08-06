@@ -14,11 +14,13 @@
 #import "DateTools.h"
 
 static float lengthCalculationFactor = 25;
-static float maxLengthScore = 1000;
+static float maxLengthScore = 2000;
 static float maxToneScore = 2000;
-static float lengthWeight = 0.2;
-static float qualityWeight = 0.4;
-static float toneWeight = 0.4;
+static float maxContentScore = 2000;
+static float lengthWeight = 0.3;
+static float qualityWeight = 0.3;
+static float toneAndContentWeight = 0.4;
+static float maximumCountOfNeighboringWords = 3;
 
 @interface DetailsViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -28,6 +30,7 @@ static float toneWeight = 0.4;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (weak, nonatomic) IBOutlet UILabel *overallRatingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *overallDifficultyLabel;
+@property (nonatomic, strong) NSDictionary *userToLikesMapping;
 @property float result;
 
 @end
@@ -50,13 +53,12 @@ static float toneWeight = 0.4;
 
     [self enableRefreshing];
     [self loadReviews];
-    [self calculateContentQuality];
 }
 
 - (void)didSubmitReview:(ReviewModel *)newReview {
     NSMutableArray *reviews = [NSMutableArray arrayWithArray:self.reviews];
     [reviews insertObject:newReview atIndex:0];
-    self.reviews = reviews;
+    self.reviews = [self sortReviewsFromHighToLowQuality:reviews withUserToLikesMapping:self.userToLikesMapping];
     
     [self.tableView reloadData];
     
@@ -146,9 +148,9 @@ static float toneWeight = 0.4;
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable reviews, NSError * _Nullable error) {
         if (error == nil){
             NSArray *currClassReviews = [self getCurrentClassReviews:reviews];
-            NSDictionary *userToLikesMapping = [self createUserToLikesMapping:reviews];
+            self.userToLikesMapping = [self createUserToLikesMapping:reviews];
             
-            self.reviews = [self sortReviewsFromHighToLowQuality:currClassReviews withUserToLikesMapping:userToLikesMapping];
+            self.reviews = [self sortReviewsFromHighToLowQuality:currClassReviews withUserToLikesMapping:self.userToLikesMapping];
             [self.tableView reloadData];
         }
         [self.refreshControl endRefreshing];
@@ -248,6 +250,9 @@ static float toneWeight = 0.4;
             NSDecimalNumber *reviewScore1 = [NSDecimalNumber zero];
             NSDecimalNumber *reviewScore2 = [NSDecimalNumber zero];
             
+            NSString *one = review1.comment;
+            NSString *two = review2.comment;
+            
             NSDecimalNumber *lengthScore1 = (NSDecimalNumber *)[NSDecimalNumber numberWithFloat:[self calculateLengthQuality:review1]];
             NSDecimalNumber *lengthScore2 = (NSDecimalNumber *)[NSDecimalNumber numberWithFloat:[self calculateLengthQuality:review2]];
             
@@ -263,11 +268,11 @@ static float toneWeight = 0.4;
             reviewScore1 = [reviewScore1 decimalNumberByAdding:qualityScoreDecimal1];
             reviewScore2 = [reviewScore2 decimalNumberByAdding:qualityScoreDecimal2];
             
-            float toneScore1 = [self calculateToneQuality:review1.comment];
-            float toneScore2 = [self calculateToneQuality:review2.comment];
+            float toneContentScore1 = [self calculateToneAndContentQuality:review1.comment];
+            float toneContentScore2 = [self calculateToneAndContentQuality:review2.comment];
             
-            reviewScore1 = [reviewScore1 decimalNumberByAdding:(NSDecimalNumber *)[NSDecimalNumber numberWithFloat:toneScore1]];
-            reviewScore2 = [reviewScore2 decimalNumberByAdding:(NSDecimalNumber *)[NSDecimalNumber numberWithFloat:toneScore2]];
+            reviewScore1 = [reviewScore1 decimalNumberByAdding:(NSDecimalNumber *)[NSDecimalNumber numberWithFloat:toneContentScore1]];
+            reviewScore2 = [reviewScore2 decimalNumberByAdding:(NSDecimalNumber *)[NSDecimalNumber numberWithFloat:toneContentScore2]];
             
             return [reviewScore2 compare:reviewScore1];
         }];
@@ -307,15 +312,16 @@ static float toneWeight = 0.4;
     Calculates the review quality based on review like count, how long ago in minutes the review was posted, and the review author's like history.
     */
 
-    float points = [review.likeCount floatValue];
+    float points = [review.likeCount floatValue] * 10;
     float totalAuthorLikes = [[userLikesMapping objectForKey:review.author.username] floatValue];
     float commentPositionValue = (points * totalAuthorLikes / 3) + (points / 10);
     
     float minAgoCurrReview = [self getTimeAgoReview:review];
     float minAgoFirstReview = [self getTimeAgoReview:firstReview];
 
-    float timingVar = ((minAgoFirstReview/10 + minAgoCurrReview)/3) * (fabsf(minAgoCurrReview - 3 * minAgoFirstReview));
-    float result = timingVar * (commentPositionValue / 4 + 1) * qualityWeight;
+    float timingVar = ((minAgoFirstReview/10 + minAgoCurrReview)/3) + (fabsf(minAgoCurrReview - minAgoFirstReview));
+    float result = timingVar * commentPositionValue * 1.5;
+    result = result * qualityWeight;
     
     return result;
 }
@@ -333,18 +339,31 @@ static float toneWeight = 0.4;
     return hoursAgoFloat;
 }
 
+- (float)calculateToneAndContentQuality:(NSString *)reviewComment {
+    float toneScore = [self calculateToneQuality:reviewComment];
+    float contentScore = [self calculateContentQuality:reviewComment];
+    
+    return (toneScore + 2 * contentScore) * toneAndContentWeight;
+}
+
 - (float)calculateToneQuality:(NSString *)reviewComment {
+    /*
+     Sentiment Analysis
+     */
     NLTagger *taggerObj = [NLTagger alloc];
     NSArray *tagSchemes =[NSArray arrayWithObjects:NLTagSchemeTokenType, NLTagSchemeSentimentScore, nil];
     NLTagger *tagger = [taggerObj initWithTagSchemes:tagSchemes];
     [tagger setString:reviewComment];
     
-    NSString *sentiment = [tagger tagAtIndex:0 unit:NLTokenUnitParagraph scheme:NLTagSchemeSentimentScore tokenRange:nil];
+    NSString *sentiment = [tagger tagAtIndex:0
+                                        unit:NLTokenUnitParagraph
+                                      scheme:NLTagSchemeSentimentScore
+                                  tokenRange:nil];
     
     float sentimentValue = [sentiment floatValue];
     float toneScore = 0;
     
-    if (sentimentValue >= -0.25 && sentimentValue <= 0.25) {
+    if (sentimentValue >= -0.25) {
         toneScore += maxToneScore;
     } else if (sentimentValue < -0.25) {
         float scaledScore = (1 - fabsf(sentimentValue)) * maxToneScore;
@@ -353,20 +372,79 @@ static float toneWeight = 0.4;
         float scaledScore = (1 - sentimentValue) * maxToneScore;
         toneScore += scaledScore;
     }
-    return toneScore * toneWeight;
+    
+    return toneScore;
 }
 
-- (void)calculateContentQuality {
+- (float)calculateContentQuality:(NSString *)reviewComment {
+    
+    NSArray *allKeywords = [self getArrayOfKeywords];
+    float numberOfKeywords = [self getNumberOfKeywrodsInReview:reviewComment withKeywordsArray:allKeywords];
+    
+    float ratio = 1 / (maximumCountOfNeighboringWords + 1);
+    float scoreRatio = numberOfKeywords / allKeywords.count;
+    float contentScore = 0;
+    
+    if (scoreRatio >= ratio) {
+        contentScore += maxContentScore;
+    } else {
+        float scaledScore = scoreRatio * maxContentScore;
+        contentScore += scaledScore;
+    }
+    
+    return contentScore;
+}
+
+- (NSArray *)getArrayOfKeywords {
+    /*
+     Word embedding
+     */
     NSMutableArray *allKeywords = [NSMutableArray array];
-    NSArray *keywords = [NSArray arrayWithObjects:@"easy", @"grade", @"discussion", @"professor", @"quiz", @"participate", nil];
+    NSArray *keywords = [NSArray arrayWithObjects:@"learn", @"grade", @"discussion", @"professor", @"quiz", @"participate", @"lesson", @"lecture", nil];
     
     for (NSString *word in keywords){
         NLEmbedding *embedding = [NLEmbedding wordEmbeddingForLanguage:@"en"];
 
-        NSMutableArray *wordsArray = (NSMutableArray *)[embedding neighborsForString:word maximumCount:3 distanceType:NLDistanceTypeCosine];
+        NSMutableArray *wordsArray = (NSMutableArray *)[embedding neighborsForString:word
+                                                                        maximumCount:maximumCountOfNeighboringWords
+                                                                        distanceType:NLDistanceTypeCosine];
         [wordsArray addObject:word];
-        [allKeywords addObject:wordsArray];
+        [allKeywords addObjectsFromArray:wordsArray];
     }
+    
+    return (NSArray *)allKeywords;
+}
+
+- (float)getNumberOfKeywrodsInReview:(NSString *)reviewComment withKeywordsArray:(NSArray *)allKeywords {
+    /*
+     Lemmatization
+     */
+    __block float numberOfKeywords = 0;
+    
+    NSRange range = NSMakeRange(0, [reviewComment length]);
+    
+    NLTagger *taggerObj = [NLTagger alloc];
+    NSArray *tagSchemes =[NSArray arrayWithObjects:NLTagSchemeLemma, nil];
+    NLTagger *tagger = [taggerObj initWithTagSchemes:tagSchemes];
+    [tagger setString:reviewComment];
+    
+    [tagger enumerateTagsInRange:range
+                            unit:NLTokenUnitWord
+                          scheme:NLTagSchemeLemma
+                         options:NLTaggerOmitWhitespace
+                      usingBlock:^(NLTag  _Nullable tag, NSRange tokenRange, BOOL * _Nonnull stop) {
+        if (tag == nil) {
+            tag = [reviewComment substringWithRange:tokenRange];
+        }
+        tag = [tag stringByTrimmingCharactersInSet:[NSCharacterSet punctuationCharacterSet]];
+        if (![tag isEqualToString:@""]) {
+            if ([allKeywords containsObject:tag]) {
+                numberOfKeywords += 1;
+            }
+        }
+    }];
+    
+    return numberOfKeywords;
 }
 #pragma mark - Navigation
 
