@@ -41,8 +41,16 @@ static NSString *unratedClassesRating = @"2.5";
     if (self.user[@"major"]) {
         [self fetchMajorRelatedTagsForCurrMajor];
     }
-        
+    
     [self enableRefreshing];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    if (self.user[@"major"]) {
+        [self fetchMajorRelatedTagsForCurrMajor];
+    } else {
+        self.topMajorTagsByOccurence = [NSArray array];
+    }
 }
 
 - (void)reloadTableData {
@@ -104,6 +112,7 @@ static NSString *unratedClassesRating = @"2.5";
 - (NSArray *)getRecommendedClassesFromTags {
     NSMutableArray *classesFromTags = [NSMutableArray array];
     NSMutableArray *userTagsAndMajorTags = [NSMutableArray array];
+   
     [userTagsAndMajorTags addObjectsFromArray:self.topMajorTagsByOccurence];
     [userTagsAndMajorTags addObjectsFromArray:self.user[@"selectedTagsText"]];
     NSArray *uniqueTags = (NSArray *)[[NSSet setWithArray:userTagsAndMajorTags] allObjects];
