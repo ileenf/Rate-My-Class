@@ -617,14 +617,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PQC-tu-Mfd">
-                                <rect key="frame" x="352" y="103" width="40" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Rate"/>
-                                <connections>
-                                    <segue destination="W1K-Vq-BEU" kind="presentation" identifier="ComposeSegue" modalPresentationStyle="fullScreen" id="Mc6-WW-4I0"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YQO-y5-jtL">
                                 <rect key="frame" x="0.0" y="144" width="414" height="1"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -800,6 +792,25 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PQC-tu-Mfd">
+                                <rect key="frame" x="276" y="100" width="118" height="36"/>
+                                <color key="backgroundColor" red="0.1097588129" green="0.66649145509999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="118" id="dqe-Sr-fTH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Rate">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <segue destination="W1K-Vq-BEU" kind="presentation" identifier="ComposeSegue" modalPresentationStyle="fullScreen" id="Mc6-WW-4I0"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Gq0-cH-Oq9"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -816,21 +827,21 @@
                             <constraint firstAttribute="trailing" secondItem="tnx-GQ-Ex1" secondAttribute="trailing" id="OLq-xY-l2y"/>
                             <constraint firstAttribute="trailing" secondItem="tnx-GQ-Ex1" secondAttribute="trailing" id="RpT-oG-4yg"/>
                             <constraint firstItem="mNF-Ad-YLA" firstAttribute="top" secondItem="YQO-y5-jtL" secondAttribute="bottom" constant="45" id="T4q-fV-ABr"/>
-                            <constraint firstItem="Gq0-cH-Oq9" firstAttribute="trailing" secondItem="PQC-tu-Mfd" secondAttribute="trailing" constant="22" id="URc-xe-KOD"/>
+                            <constraint firstItem="Gq0-cH-Oq9" firstAttribute="trailing" secondItem="PQC-tu-Mfd" secondAttribute="trailing" constant="20" id="URc-xe-KOD"/>
                             <constraint firstItem="ssM-bU-gJ7" firstAttribute="leading" secondItem="Gq0-cH-Oq9" secondAttribute="leading" constant="20" id="XB2-ME-03T"/>
                             <constraint firstItem="tnx-GQ-Ex1" firstAttribute="top" secondItem="aAF-a4-JqA" secondAttribute="bottom" constant="16" id="XZo-P5-NMU"/>
                             <constraint firstItem="gPb-VP-07J" firstAttribute="bottom" secondItem="Gq0-cH-Oq9" secondAttribute="bottom" id="XfF-29-Dzb"/>
                             <constraint firstItem="muB-3W-u1R" firstAttribute="top" secondItem="YQO-y5-jtL" secondAttribute="bottom" constant="16" id="YVA-UP-er0"/>
                             <constraint firstItem="YQO-y5-jtL" firstAttribute="leading" secondItem="d6Q-jB-sp3" secondAttribute="leading" id="Ybp-eb-e6v"/>
-                            <constraint firstItem="YQO-y5-jtL" firstAttribute="top" secondItem="PQC-tu-Mfd" secondAttribute="bottom" constant="5" id="aRw-6b-ras"/>
-                            <constraint firstItem="PQC-tu-Mfd" firstAttribute="top" secondItem="Gq0-cH-Oq9" secondAttribute="top" constant="15" id="cIU-kd-1ld"/>
+                            <constraint firstItem="PQC-tu-Mfd" firstAttribute="leading" relation="lessThanOrEqual" secondItem="XOE-zn-a5b" secondAttribute="trailing" constant="199" id="aNH-Bc-XhZ"/>
+                            <constraint firstItem="YQO-y5-jtL" firstAttribute="top" secondItem="PQC-tu-Mfd" secondAttribute="bottom" constant="8" id="aRw-6b-ras"/>
+                            <constraint firstItem="PQC-tu-Mfd" firstAttribute="top" secondItem="Gq0-cH-Oq9" secondAttribute="top" constant="12" id="cIU-kd-1ld"/>
                             <constraint firstAttribute="trailing" secondItem="YQO-y5-jtL" secondAttribute="trailing" id="dDk-D0-bPl"/>
-                            <constraint firstItem="PQC-tu-Mfd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="XOE-zn-a5b" secondAttribute="trailing" constant="35" id="fa1-uB-rbD"/>
                             <constraint firstItem="YQO-y5-jtL" firstAttribute="leading" secondItem="d6Q-jB-sp3" secondAttribute="leading" id="ga5-87-SeV"/>
                             <constraint firstAttribute="trailing" secondItem="YQO-y5-jtL" secondAttribute="trailing" id="hKW-4r-PIe"/>
                             <constraint firstItem="Gq0-cH-Oq9" firstAttribute="trailing" secondItem="mNF-Ad-YLA" secondAttribute="trailing" constant="94.5" id="i0f-2s-p5v"/>
                             <constraint firstItem="XOE-zn-a5b" firstAttribute="top" secondItem="Gq0-cH-Oq9" secondAttribute="top" constant="14" id="i2N-o3-NOF"/>
-                            <constraint firstItem="YQO-y5-jtL" firstAttribute="top" secondItem="PQC-tu-Mfd" secondAttribute="bottom" constant="5" id="kTG-V8-SWo"/>
+                            <constraint firstItem="YQO-y5-jtL" firstAttribute="top" secondItem="PQC-tu-Mfd" secondAttribute="bottom" constant="8" id="kTG-V8-SWo"/>
                             <constraint firstItem="Gq0-cH-Oq9" firstAttribute="trailing" secondItem="ssM-bU-gJ7" secondAttribute="trailing" constant="22" id="oL6-vC-g5b"/>
                             <constraint firstItem="aAF-a4-JqA" firstAttribute="leading" secondItem="Gq0-cH-Oq9" secondAttribute="leading" constant="62" id="oui-ut-zXQ"/>
                             <constraint firstItem="aAF-a4-JqA" firstAttribute="top" secondItem="muB-3W-u1R" secondAttribute="bottom" constant="8" id="s1u-Qf-TDD"/>
