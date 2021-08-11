@@ -66,9 +66,9 @@ Allows users to rate and write reviews on the classes they took. User can browse
 
 **Tab Navigation** (Tab to Screen)
 
-* [fill out your first tab]
-* [fill out your second tab]
-* [fill out your third tab]
+* Home tab
+* Search tab
+* Profile tab
 
 **Flow Navigation** (Screen to Screen)
 
@@ -83,10 +83,8 @@ Allows users to rate and write reviews on the classes they took. User can browse
 [Add picture of your hand sketched wireframes in this section]
 <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
 
-### [BONUS] Digital Wireframes & Mockups
+### Digital Wireframes & Mockups
 ![](https://i.imgur.com/AJaMZ7J.png)
-
-### [BONUS] Interactive Prototype
 
 ## Schema 
 ### Models
