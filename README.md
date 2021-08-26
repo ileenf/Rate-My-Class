@@ -80,7 +80,6 @@ Allows users to rate and write reviews on the classes they took. User can browse
 
 ### Digital Wireframes & Mockups
 ![](https://github.com/ileenf/Rate-My-Class/blob/main/wireframe.png?raw=true)
-![](https://i.imgur.com/AJaMZ7J.png)
 
 ## Schema 
 ### Models
