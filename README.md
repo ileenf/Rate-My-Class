@@ -11,7 +11,7 @@ Original App Design Project - FBU Engineering 2021
 
 ## Overview
 ### Description
-Allows users to rate and write reviews on the classes they took. User can browse through other people's reviews for classes. Users can find classes that fit their requirements and make better decisions when choosing which classes to take. 
+Allows users to rate and write reviews on the classes they took. User can browse through other people's reviews for classes. Users can find classes that fit their requirements and make better decisions when choosing which classes to take. Key features include class recommendations and sorted reviews based on quality.
 
 ### App Evaluation
 - **Category:** Education
@@ -34,7 +34,7 @@ Allows users to rate and write reviews on the classes they took. User can browse
 * User can write a review for a class
 * User can view the classes they reviewed in their profile
 * User can filter classes using tags (stored in database)
-* post picture of course material
+* User is recommended classes based on their interests and major
 
 **Optional Nice-to-have Stories**
 
@@ -43,10 +43,11 @@ Allows users to rate and write reviews on the classes they took. User can browse
 * Users can sort by rating, department, etc 
 * Date and username is displayed on the reviews
 * Ratings show up as star symbols
-* like, dislike, save reviews
-* recently searched, datetime posted
-* filter for search
-* filter review comments for curse words
+* Like, dislike, save reviews
+* Recently searched, datetime posted
+* Filter for search
+* Filter review comments for curse words
+* Reviews are sorted from higher to lower quality
 
 ### 2. Screen Archetypes
 
@@ -72,16 +73,10 @@ Allows users to rate and write reviews on the classes they took. User can browse
 
 **Flow Navigation** (Screen to Screen)
 
-* [list first screen here]
-   * [list screen navigation here]
-   * ...
-* [list second screen here]
-   * [list screen navigation here]
-   * ...
-
-## Wireframes
-[Add picture of your hand sketched wireframes in this section]
-<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+* Home -> Details
+* Search -> Details
+* Profile -> Details
+* Profile -> Tags
 
 ### Digital Wireframes & Mockups
 ![](https://i.imgur.com/AJaMZ7J.png)
@@ -91,10 +86,12 @@ Allows users to rate and write reviews on the classes they took. User can browse
 Review
 |  Property | Type | Description |
 | -------- | -------- | -------- |
-| className   | String     | The class being reviewed  |
 | comment    | String     | User's comments about class  |
 | rating | Number | User's rating of class overall out of 5 |
+| likeCount | Number | Number of likes |
 | difficulty | Number | User's rating of class difficulty out of 5 |
+| class | Pointer to another Parse Object | The class that is being reviewed|
+| author | Pointer to another Parse Object | The user who wrote the review|
 
 Class
 |  Property | Type | Description |
@@ -102,8 +99,14 @@ Class
 | courseCode   | String     | The course code of class  |
 | rating   | Number     | Overall class rating |
 | difficulty | Number | Overall class difficulty out of 5 |
-| Reviews | Pointer to another Parse Object | The reviews for the class |
+| department | String | Department class is apart of |
 
+User
+|  Property | Type | Description |
+| -------- | -------- | -------- |
+| username   | String     | Account username |
+| interestTags   | Array     | Array of tags user selects |
+| major | String | User's academic major |
 
 ### Networking
 List of network requests by screen
@@ -133,7 +136,7 @@ List of network requests by screen
     - (Read/GET) Query logged in user object
     - (Read/GET) User written reviews
 
-### [OPTIONAL:] Existing API Endpoints
+### Existing API Endpoints
 
 Peter Portal API (courses)
 - Base URL - https://api.peterportal.org/rest/v0/courses/
