@@ -111,30 +111,26 @@ User
 ### Networking
 List of network requests by screen
 - Home Feed Screen
-    - (Create/POST) Create a new comment on a post
-    - (Delete) Delete existing comment
-    - (Read/GET) Query all classes interesting to user
-    ```q
-    PFQuery * query = [PFQuery queryWithClassName:@"Post"];
-    [query whereKey:@"Department" equalTo:userDepartment;
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        if (error == nil){
-            self.posts = objects;
-            [self.tableView reloadData];
-        } else {
-            NSLog(@"error");
-        }
-        [self.refreshControl endRefreshing];
-    }];
+    - (Update/PUT) Update class overall rating
+    - (Read/GET) Query all classes 
+    - (Read/GET) Query recommended classes 
     
-
-- Create Post Screen
+- Details View Screen
+    - (Read/GET) Query all reviews for that class
+    - (Read/GET) Query class ratings
+    - (Update/PUT) Update reviews (after creating new review)
+    
+- Create Review Screen
     - (Create/POST) Create a review for a class
-    ```d
-    [Post postUserReview:self.commentLabel.text withRating:self.ratingLabel.text withCompletion:^(BOOL succeeded, NSError * _Nullable error){}
- - Profile Screen
-    - (Read/GET) Query logged in user object
+    
+- Profile Screen
+    - (Read/GET) User's major
     - (Read/GET) User written reviews
+    - (Update/PUT) If user changes major
+    
+- Tags Screen
+    - (Read/GET) All tags, which tags are selected/unselected
+    - (Update/PUT) When user changes selections of tags
 
 ### Existing API Endpoints
 
