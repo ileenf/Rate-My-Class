@@ -79,6 +79,7 @@ Allows users to rate and write reviews on the classes they took. User can browse
 * Profile -> Tags
 
 ### Digital Wireframes & Mockups
+![](https://github.com/ileenf/Rate-My-Class/blob/main/Rate My Class wirefram.png?raw=true)
 ![](https://i.imgur.com/AJaMZ7J.png)
 
 ## Schema 
