@@ -13,6 +13,10 @@ Original App Design Project - FBU Engineering 2021
 ### Description
 Allows users to rate and write reviews on the classes they took. User can browse through other people's reviews for classes. Users can find classes that fit their requirements and make better decisions when choosing which classes to take. Key features include class recommendations and sorted reviews based on quality.
 
+### Key Features
+- Sorting algorithm that utilizes Apple's [Natural Language Framework](https://developer.apple.com/documentation/naturallanguage) to sort reviews based on quality. It calculates three factors, the relevancy of the review (keywords), the length/time posted/number of likes, and the tone of the review. NLP features including tokenization, sentiment analysis, embedding, and lemmatization were used. Tokenization and lemmatization to get the keywords in the review, sentiment analysis to determine the tone of the review, word embedding to determine the relevancy of the given review depending on its content. 
+- Class ecommendation algorithm that recommends classes to the user based on their major and selected interests. The algorithm retreives tthe top 10 classes tagged to the user's interests, adding that to the top 10 classes tagged to the top 5 interests based on their major. 
+
 ### App Evaluation
 - **Category:** Education
 - **Mobile:** Mobile is essential for instant reviewing of classes. Users can easily write reviews and read reviews from their phone. 
